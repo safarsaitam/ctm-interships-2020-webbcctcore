@@ -1,0 +1,161 @@
+{% extends "bcctapp/base.html" %}
+{% block extra_style %}
+<style>
+.myImages {
+  /*border-radius: 5px;*/
+  cursor: pointer;
+  transition: 0.3s;
+  margin: 5px;
+  text-align: center;
+}
+
+.myImages:hover {
+  /*opacity: 0.7;*/
+  transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  padding-top: 100px;
+  /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.9);
+  /* Black w/ opacity */
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+#form01 {
+ margin-top: 5px;
+ display: block;
+ text-align: center;
+}
+
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+.modal-content,
+#caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {
+    transform: scale(0)
+  }
+  to {
+    transform: scale(1)
+  }
+}
+
+.close {
+  position: relative;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 700px) {
+  .modal-content {
+    width: 100%;
+  }
+}
+</style>
+{% endblock extra_style %}
+{% block content %}
+<h2 style="text-align: center;">{{ user }}'s Medical Images List</h2>
+{% endblock content %}
+{% block gallery %}
+    {% for image in medical_images %}
+    {% if user == image.doctor %}
+    <img class="myImages" id="{{ image.pk }}" src="{{ image.image.url }}" width="300" height="200">
+    <div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+    <form id="form01" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary" value=" " name="predict_image_keypoints">Predict Image Keypoints!</button>
+      <button type="submit" class="btn btn-danger" value=" " name="medical_image_to_delete">Delete!</button>
+      <button type="submit" class="btn btn-info" value=" " name="view_kpts">Plot Keypoints!</button>
+    </form>
+ 
+    </div>
+
+
+    {% endif %}
+    {% endfor %}
+{% endblock gallery %}
+{% block extra_js %}
+	<script type='text/javascript'>
+    // create references to the modal...
+    var modal = document.getElementById('myModal');
+    // to all images -- note I'm using a class!
+    var images = document.getElementsByClassName('myImages');
+    // the image in the modal
+    var modalImg = document.getElementById("img01");
+    // the form in the modal
+    var modalForm1 = document.getElementById("form01");
+    //var modalForm2 = document.getElementById("form02");
+    //var modalForm3 = document.getElementById("form03");
+
+// Go through all of the images with our custom class
+for (var i = 0; i < images.length; i++) {
+  var img = images[i];
+  // and attach our click listener for this image.
+  img.onclick = function(evt) {
+    console.log(evt);
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    modalForm1.getElementsByClassName("btn btn-primary")[0].value = this.id;
+    modalForm1.getElementsByClassName("btn btn-danger")[0].value = this.id;
+    modalForm1.getElementsByClassName("btn btn-info")[0].value = this.id;
+  }
+}
+
+var span = document.getElementsByClassName("close")[0];
+
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+
+	</script>
+{% endblock extra_js %}

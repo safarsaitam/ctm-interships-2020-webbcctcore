@@ -1,0 +1,10 @@
+{% extends "bcctapp/base.html" %}
+{% block content %}
+<div class="container">
+        <div class="row" style="display: inline;">
+              {% for elem in graph %}
+                {{elem|safe}}
+              {% endfor %}
+        </div>
+      </div>
+{% endblock content %}

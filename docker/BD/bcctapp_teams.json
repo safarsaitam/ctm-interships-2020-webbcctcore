@@ -1,0 +1,28 @@
+[{
+  "_id": {
+    "$oid": "5ebf072ae8cf04cc2a68f2de"
+  },
+  "id": 0,
+  "name": "Champalimaud",
+  "number": null,
+  "users": "16",
+  "patients": ""
+},{
+  "_id": {
+    "$oid": "5ebfe370bb026c947916f8f2"
+  },
+  "id": 1,
+  "name": "teste",
+  "number": null,
+  "users": "23 24 25",
+  "patients": " 598 599 601 602"
+},{
+  "_id": {
+    "$oid": "5ef35e129cd5d4a883672831"
+  },
+  "id": 2,
+  "name": "teste3",
+  "number": null,
+  "users": "28 30",
+  "patients": " 692"
+}]

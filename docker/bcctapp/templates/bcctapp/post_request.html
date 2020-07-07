@@ -1,0 +1,18 @@
+{% extends "bcctapp/base.html" %}
+{% block content %}
+   <h1>Cinderella Application Demo</h1>
+  <form id="form" method="POST">
+    {% csrf_token %}
+
+      <label for="image">image:</label><br>
+      <input type="file" id="image" name="image"  accept="image/*" multiple>
+      <input type="submit">
+
+      <label for="first_name">first_name (yr):</label><br>
+      <input type="text" id="first_name" name="first_name" value="1" min="1" max="150" required>
+
+
+  </form>
+
+
+{% endblock content %}

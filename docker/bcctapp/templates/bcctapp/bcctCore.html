@@ -1,0 +1,639 @@
+{% extends "bcctapp/base.html" %}
+{% load static %}
+{% block extra_style %}
+	<!-- CSS Styles -->
+	<link rel="stylesheet" type="text/css" href="{% static 'bcctapp/core_style.css' %}"/>
+	
+	<!-- jQuery & jQuery-UI's Selectable + Draggable -->
+	<script type="text/javascript" src="{% static 'bcctapp/jquery-3.4.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'bcctapp/jquery-ui-1.8.18.custom.min.js' %}"></script>
+	<script src="{% static 'bcctapp/Smooth-0.1.7.js' %}"></script>
+	<script src="{% static 'bcctapp/easeljs-NEXT.combined.js' %}"></script>
+{% endblock extra_style %}
+
+{% block content %}
+<body onload="init();" style="text-align: center;">
+	<!--Main Menu-->
+	<h3 style="text-align: justify;">BCCT Assessment Features</h3>
+	<ul id="assessmentMetrics">
+		<li><h5 style="text-align: justify;">BRA: <span id="BRA"></span></h5></li>
+	</ul>
+	<h3 style="text-align: justify;">Keypoint Manipulation Functions</h3>
+	<ul id="mainmenu" style="margin-bottom: 10px;">
+		<!--<li> <button id="button-openfile"><input type="file"/><span style="margin-top: -32px; display: block;">Open Local File</span></button></li>-->
+		<!--<li> <button onclick="logmarkers()">Log Markers</button></li>-->
+		<li> <button onclick="returnToInitialZoomState()">Return to Initial Zoom State</button> </li>
+		<li> <button onclick="zoom(2.0)">Zoom In</button> </li>
+		<li> <button onclick="zoom(0.5)">Zoom Out</button> </li>
+		<li> <button id="updateBra">Update BRA</button> </li>
+	</ul>
+
+<div style="margin-bottom: 10px;">
+	<canvas id="bcctCanvas"></canvas>
+</div>
+
+</body>
+{% endblock content %}
+
+{% block extra_js %}
+<script id="editable">
+//loging gmail facebook
+//server file browser
+//database read write
+//javascript opencv
+//obfuscate encript javascript code?
+
+	var canvas, stage;
+	var update = true;
+	var nMarkers = 38;
+	var leftNippleIdx=0, rightNippleIdx=1, markScaleIdx=2, incisuraJugularisIdx=3, leftContourIdxStart=4,leftContourIdxEnd=20,rightContourIdxStart=21,rightContourIdxEnd=37;
+	var markersVec = [];
+	var markersText = ["Left Nipple", "Right Nipple", "Scale Mark", "Incisura Jugularis"];
+	var featurePanel;
+	var contours;
+	var backgroundImg;	
+	var bitmap_bck;	
+	var loaded_img;
+	var container;
+	var BRA;
+	var txtBRA;
+	var image_pk = {{ image_pk }};
+	var zoomStatus = 0;
+	
+	function init() {
+		// create stage and point it to the canvas:
+		canvas = document.getElementById("bcctCanvas");
+		stage = new createjs.Stage(canvas);
+		// enable touch interactions if supported on the current device:
+		createjs.Touch.enable(stage);
+		// enabled mouse over / out events
+		stage.enableMouseOver(10);
+		stage.mouseMoveOutside = true; // keep tracking the mouse even when it leaves the canvas
+		loaded_img = false;
+		container = new createjs.Container();
+		for (var i = markersText.length; i< nMarkers; i++){
+			markersText.push("");
+		}
+		stage.addChild(container);		
+		// detect a change in a file input with an id of "button-openfile"
+		/*$("#button-openfile").change(function(e) {
+			var file = e.target.files[0],
+				self = this;
+			
+			if (!file.type.match('image.*')) 
+				return false;		
+			// will log a FileList object, view gifs below
+			console.log(file);
+			console.log("trying to open file");	
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				console.log("reader.onload");
+				backgroundImg = new Image();
+				backgroundImg.onload = handleImageLoad;
+				backgroundImg.src = e.target.result;	
+			};		
+			// when the file is read it triggers the onload event above.
+			reader.readAsDataURL(file);			
+		});*/
+
+		//var image = event.target;
+		//console.log("handleImageLoad");
+		container.removeAllChildren ();
+		
+		//bitmap_bck = new createjs.Bitmap(backgroundImg);
+		bitmap_bck = new createjs.Bitmap("{{ name }}")
+		container.addChild(bitmap_bck);
+		bitmap_bck.originalScale = 1.0;
+		bitmap_bck.scale = 1.0;	
+		//bitmap_bck.scale = 0.75;
+		//change canvas size to image size
+		//Original Scale
+		canvas.height = bitmap_bck.image.height*bitmap_bck.originalScale;
+		canvas.width = bitmap_bck.image.width*bitmap_bck.originalScale;
+		//scale
+		//canvas.height = bitmap_bck.image.height*bitmap_bck.scale;
+		//canvas.width = bitmap_bck.image.width*bitmap_bck.scale;
+		
+		//var mainmenu = document.getElementById("mainmenu"); // NOT WORKING -> fix me?
+		//mainmenu.width = canvas.width;
+		
+		featurePanel = new createjs.Container();
+		var featurePanelRect = new createjs.Shape();
+		var g = featurePanelRect.graphics;
+		g.beginStroke("red").beginFill("white").drawRect(0, 0, 200, 100).endFill();
+		featurePanelRect.alpha = 0.5;				
+		featurePanel.addChild(featurePanelRect);
+		//featurePanel.x=0.8*canvas.width;
+		//featurePanel.y=0.1*canvas.height;
+		featurePanel.x=canvas.width;
+		featurePanel.y=canvas.height;
+		//featurePanel.x=canvas.height;
+		//featurePanel.y=canvas.width;
+		txtBRA = new createjs.Text();
+		txtBRA.font = "bold 12px Arial";
+		txtBRA.color = "#000000";
+		txtBRA.textAlign = "left";
+		txtBRA.text =  "BRA";
+		txtBRA.x=4;
+		txtBRA.y=4;
+		featurePanel.addChild(txtBRA);		
+		container.addChild(featurePanel);
+		// using "on" binds the listener to the scope of the currentTarget by default
+		// in this case that means it executes in the scope of the button.
+		featurePanel.on("mousedown", function (evt) {
+			this.parent.addChild(this);
+			this.offset = {x: this.x - evt.stageX, y: this.y - evt.stageY};
+		});
+		// the pressmove event is dispatched when the mouse moves after a mousedown on the target until the mouse is released.
+		featurePanel.on("pressmove", function (evt) {
+			this.x = evt.stageX + this.offset.x;
+			this.y = evt.stageY + this.offset.y;
+			// indicate that the stage should be updated on the next tick:
+			update = true;
+		});
+		featurePanel.on("rollover", function (evt) {
+			update = true;
+		});
+		featurePanel.on("rollout", function (evt) {
+			update = true;
+		});
+			
+		// create and populate the screen with markers:
+		for (var i = 0; i < nMarkers; i++) {
+			//container = new createjs.Container();
+			//markersVec.push(new createjs.Shape());
+			markersVec.push(new createjs.Container());
+			var shapeMarker = new createjs.Shape();
+			var g = shapeMarker.graphics;
+			g.beginFill("#FF0000");		
+			shapeMarker.alpha = 0.25;				
+			if ( ((i>leftContourIdxStart) && (i<leftContourIdxEnd )) || (i>rightContourIdxStart) && (i<rightContourIdxEnd) )
+			{
+				g.beginFill("#DFDFDF");		
+				shapeMarker.alpha = 0.5;					
+			}
+			var radius = 15;
+			g.drawCircle(0,0,radius);
+			g.endFill();		
+		
+			markersVec[i].addChild(shapeMarker);
+			shapeMarker = new createjs.Shape();
+			g = shapeMarker.graphics;
+			g.beginFill("#000000");	
+			g.drawCircle(0,0,1);
+			g.endFill();			
+			markersVec[i].addChild(shapeMarker);
+			
+			container.addChild(markersVec[i]);
+			markersVec[i].scale = markersVec[i].originalScale = 1;//Math.random() * 0.4 + 0.6;
+			markersVec[i].name = "bmp_" + i;
+			markersVec[i].cursor = "pointer";
+			
+			var txt = new createjs.Text();
+			txt.font = "bold 18px Dorsa";
+			txt.color = "#000000";
+			txt.textAlign = "center";
+			txt.text =  markersText[i];
+			markersVec[i].addChild(txt);
+			
+			// using "on" binds the listener to the scope of the currentTarget by default
+			// in this case that means it executes in the scope of the button.
+			markersVec[i].on("mousedown", function (evt) {
+				this.parent.addChild(this);
+				this.offset = {x: this.x - evt.stageX, y: this.y - evt.stageY};
+			});
+			// the pressmove event is dispatched when the mouse moves after a mousedown on the target until the mouse is released.
+			markersVec[i].on("pressmove", function (evt) {
+				this.x = evt.stageX + this.offset.x;
+				this.y = evt.stageY + this.offset.y;
+				// indicate that the stage should be updated on the next tick:
+				update = true;
+			});
+			markersVec[i].on("rollover", function (evt) {
+				this.scale = this.originalScale * 1.2;
+				update = true;
+			});
+			markersVec[i].on("rollout", function (evt) {
+				this.scale = this.originalScale;
+				update = true;
+			});
+		}
+		//Mark Scale Coordinates
+		markersVec[markScaleIdx].x = 0.5*canvas.width; 
+		markersVec[markScaleIdx].y = 2.0*canvas.height/3;
+
+		//Incisura Jugularis Coordinates
+		//markersVec[incisuraJugularisIdx].x = 0.5*canvas.width;
+		//markersVec[incisuraJugularisIdx].y = 0.25*canvas.height;
+		markersVec[incisuraJugularisIdx].x = {{ incisura_jugularis_x }};
+		markersVec[incisuraJugularisIdx].y = {{ incisura_jugularis_y }};
+
+		//Left Nipple Coordinantes (In the Numpy Array Left and Right are Fliped)
+		//markersVec[leftNippleIdx].x = 0.66*canvas.width; 
+		//markersVec[leftNippleIdx].y = 0.5*canvas.height;
+		markersVec[leftNippleIdx].x = {{ right_nipple_x }};
+		markersVec[leftNippleIdx].y = {{ right_nipple_y }};
+
+		//Right Nipple Coordinantes (In the Numpy Array Left and Right are Fliped)
+		//markersVec[rightNippleIdx].x = 0.33*canvas.width; 
+		//markersVec[rightNippleIdx].y = 0.5*canvas.height;
+		markersVec[rightNippleIdx].x = {{ left_nipple_x }}; 
+		markersVec[rightNippleIdx].y = {{ left_nipple_y }};
+
+		//Left Midpoint Coordinates (In the Numpy Array Left and Right are Fliped)
+		//markersVec[leftContourIdxStart].x = 0.5*canvas.width; 
+		//markersVec[leftContourIdxStart].y = 0.33*canvas.height;
+		markersVec[leftContourIdxStart].x = {{ right_midpoint_x }}; 
+		markersVec[leftContourIdxStart].y = {{ right_midpoint_y }};
+
+		//Left Endpoint Coordinates (In the Numpy Array Left and Right are Fliped)
+		//markersVec[leftContourIdxEnd].x = 0.75*canvas.width; 
+		//markersVec[leftContourIdxEnd].y = 0.33*canvas.height;
+		markersVec[leftContourIdxEnd].x = {{ right_endpoint_x }}; 
+		markersVec[leftContourIdxEnd].y = {{ right_endpoint_y }};
+
+		//Right Endpoint Coordinates (In the Numpy Array Left and Right are Fliped)
+		//markersVec[rightContourIdxStart].x = 0.25*canvas.width; 
+		//markersVec[rightContourIdxStart].y = 0.33*canvas.height;
+		markersVec[rightContourIdxStart].x = {{ left_endpoint_x }}; 
+		markersVec[rightContourIdxStart].y = {{ left_endpoint_y }};
+
+		//Right Midpoint Coordinates (In the Numpy Array Left and Right are Fliped)
+		//markersVec[rightContourIdxEnd].x = 0.5*canvas.width; 
+		//markersVec[rightContourIdxEnd].y = 0.33*canvas.height;
+		markersVec[rightContourIdxEnd].x = {{ left_midpoint_x }}; 
+		markersVec[rightContourIdxEnd].y = {{ left_midpoint_y }};
+
+		//LeftBreast Contour Points Coordinates (In the Numpy Array Left and Right are Fliped)
+		markersVec[leftContourIdxStart+1].x = {{ r_breast_contour_1_x }}
+		markersVec[leftContourIdxStart+1].y = {{ r_breast_contour_1_y }}
+		markersVec[leftContourIdxStart+2].x = {{ r_breast_contour_2_x }}
+		markersVec[leftContourIdxStart+2].y = {{ r_breast_contour_2_y }}
+		markersVec[leftContourIdxStart+3].x = {{ r_breast_contour_3_x }}
+		markersVec[leftContourIdxStart+3].y = {{ r_breast_contour_3_y }}
+		markersVec[leftContourIdxStart+4].x = {{ r_breast_contour_4_x }}
+		markersVec[leftContourIdxStart+4].y = {{ r_breast_contour_4_y }}
+		markersVec[leftContourIdxStart+5].x = {{ r_breast_contour_5_x }}
+		markersVec[leftContourIdxStart+5].y = {{ r_breast_contour_5_y }}
+		markersVec[leftContourIdxStart+6].x = {{ r_breast_contour_6_x }}
+		markersVec[leftContourIdxStart+6].y = {{ r_breast_contour_6_y }}
+		markersVec[leftContourIdxStart+7].x = {{ r_breast_contour_7_x }}
+		markersVec[leftContourIdxStart+7].y = {{ r_breast_contour_7_y }}
+		markersVec[leftContourIdxStart+8].x = {{ r_breast_contour_8_x }}
+		markersVec[leftContourIdxStart+8].y = {{ r_breast_contour_8_y }}
+		markersVec[leftContourIdxStart+9].x = {{ r_breast_contour_9_x }}
+		markersVec[leftContourIdxStart+9].y = {{ r_breast_contour_9_y }}
+		markersVec[leftContourIdxStart+10].x = {{ r_breast_contour_10_x }}
+		markersVec[leftContourIdxStart+10].y = {{ r_breast_contour_10_y }}
+		markersVec[leftContourIdxStart+11].x = {{ r_breast_contour_11_x }}
+		markersVec[leftContourIdxStart+11].y = {{ r_breast_contour_11_y }}
+		markersVec[leftContourIdxStart+12].x = {{ r_breast_contour_12_x }}
+		markersVec[leftContourIdxStart+12].y = {{ r_breast_contour_12_y }}
+		markersVec[leftContourIdxStart+13].x = {{ r_breast_contour_13_x }}
+		markersVec[leftContourIdxStart+13].y = {{ r_breast_contour_13_y }}
+		markersVec[leftContourIdxStart+14].x = {{ r_breast_contour_14_x }}
+		markersVec[leftContourIdxStart+14].y = {{ r_breast_contour_14_y }}
+		markersVec[leftContourIdxStart+15].x = {{ r_breast_contour_15_x }}
+		markersVec[leftContourIdxStart+15].y = {{ r_breast_contour_15_y }}
+
+		/*for(var i = leftContourIdxStart+2;i<leftContourIdxEnd;i++)
+		{
+			markersVec[i].x=Math.min(markersVec[leftContourIdxStart].x,markersVec[leftContourIdxEnd].x)+(i-leftContourIdxStart)*Math.abs(markersVec[leftContourIdxStart].x-markersVec[leftContourIdxEnd].x)/(leftContourIdxEnd-leftContourIdxStart-1);
+			markersVec[i].y=0.4*canvas.height;;
+		}*/
+
+		//Right Breast Contour Points Coordinates (In the Numpy Array Left and Right are Fliped)
+		markersVec[rightContourIdxStart+1].x = {{ l_breast_contour_1_x }}
+		markersVec[rightContourIdxStart+1].y = {{ l_breast_contour_1_y }}
+		markersVec[rightContourIdxStart+2].x = {{ l_breast_contour_2_x }}
+		markersVec[rightContourIdxStart+2].y = {{ l_breast_contour_2_y }}
+		markersVec[rightContourIdxStart+3].x = {{ l_breast_contour_3_x }}
+		markersVec[rightContourIdxStart+3].y = {{ l_breast_contour_3_y }}
+		markersVec[rightContourIdxStart+4].x = {{ l_breast_contour_4_x }}
+		markersVec[rightContourIdxStart+4].y = {{ l_breast_contour_4_y }}
+		markersVec[rightContourIdxStart+5].x = {{ l_breast_contour_5_x }}
+		markersVec[rightContourIdxStart+5].y = {{ l_breast_contour_5_y }}
+		markersVec[rightContourIdxStart+6].x = {{ l_breast_contour_6_x }}
+		markersVec[rightContourIdxStart+6].y = {{ l_breast_contour_6_y }}
+		markersVec[rightContourIdxStart+7].x = {{ l_breast_contour_7_x }}
+		markersVec[rightContourIdxStart+7].y = {{ l_breast_contour_7_y }}
+		markersVec[rightContourIdxStart+8].x = {{ l_breast_contour_8_x }}
+		markersVec[rightContourIdxStart+8].y = {{ l_breast_contour_8_y }}
+		markersVec[rightContourIdxStart+9].x = {{ l_breast_contour_9_x }}
+		markersVec[rightContourIdxStart+9].y = {{ l_breast_contour_9_y }}
+		markersVec[rightContourIdxStart+10].x = {{ l_breast_contour_10_x }}
+		markersVec[rightContourIdxStart+10].y = {{ l_breast_contour_10_y }}
+		markersVec[rightContourIdxStart+11].x = {{ l_breast_contour_11_x }}
+		markersVec[rightContourIdxStart+11].y = {{ l_breast_contour_11_y }}
+		markersVec[rightContourIdxStart+12].x = {{ l_breast_contour_12_x }}
+		markersVec[rightContourIdxStart+12].y = {{ l_breast_contour_12_y }}
+		markersVec[rightContourIdxStart+13].x = {{ l_breast_contour_13_x }}
+		markersVec[rightContourIdxStart+13].y = {{ l_breast_contour_13_y }}
+		markersVec[rightContourIdxStart+14].x = {{ l_breast_contour_14_x }}
+		markersVec[rightContourIdxStart+14].y = {{ l_breast_contour_14_y }}
+		markersVec[rightContourIdxStart+15].x = {{ l_breast_contour_15_x }}
+		markersVec[rightContourIdxStart+15].y = {{ l_breast_contour_15_y }}
+
+		/*for(var i = rightContourIdxStart+8;i<rightContourIdxEnd;i++)
+		{
+			markersVec[i].x=Math.min(markersVec[rightContourIdxStart].x,markersVec[rightContourIdxEnd].x)+(i-rightContourIdxStart)*Math.abs(markersVec[rightContourIdxStart].x-markersVec[rightContourIdxEnd].x)/(rightContourIdxEnd-rightContourIdxStart-1);
+			markersVec[i].y=0.4*canvas.height;;
+		}		*/
+		contours = new createjs.Shape();
+		container.addChild(contours);
+		
+		loaded_img = true;
+		update = true;
+		
+		createjs.Ticker.addEventListener("tick", tick);
+		BRA = 0;
+	}
+	
+	function stop() {
+		createjs.Ticker.removeEventListener("tick", tick);
+	}
+
+	/*function handleImageLoad(event) {
+		//var image = event.target;
+		console.log("handleImageLoad");
+		container.removeAllChildren ();
+		
+		bitmap_bck = new createjs.Bitmap(backgroundImg);
+		container.addChild(bitmap_bck);
+		bitmap_bck.originalScale = 1.0;		
+		bitmap_bck.scale = 0.75;
+		//change canvas size to image size
+		//Original Scale
+		//canvas.height = bitmap_bck.image.height*bitmap_bck.originalScale;
+		//canvas.width = bitmap_bck.image.width*bitmap_bck.originalScale;
+		//scale
+		canvas.height = bitmap_bck.image.height*bitmap_bck.scale;
+		canvas.width = bitmap_bck.image.width*bitmap_bck.scale;
+		
+		//var mainmenu = document.getElementById("mainmenu"); // NOT WORKING -> fix me?
+		//mainmenu.width = canvas.width;
+		
+		featurePanel = new createjs.Container();
+		var featurePanelRect = new createjs.Shape();
+		var g = featurePanelRect.graphics;
+		g.beginStroke("red").beginFill("white").drawRect(0, 0, 200, 100).endFill();
+		featurePanelRect.alpha = 0.5;				
+		featurePanel.addChild(featurePanelRect);
+		featurePanel.x=0.8*canvas.width;
+		featurePanel.y=0.1*canvas.height;
+		txtBRA = new createjs.Text();
+		txtBRA.font = "bold 12px Arial";
+		txtBRA.color = "#000000";
+		txtBRA.textAlign = "left";
+		txtBRA.text =  "BRA";
+		txtBRA.x=4;
+		txtBRA.y=4;
+		featurePanel.addChild(txtBRA);		
+		container.addChild(featurePanel);
+		// using "on" binds the listener to the scope of the currentTarget by default
+		// in this case that means it executes in the scope of the button.
+		featurePanel.on("mousedown", function (evt) {
+			this.parent.addChild(this);
+			this.offset = {x: this.x - evt.stageX, y: this.y - evt.stageY};
+		});
+		// the pressmove event is dispatched when the mouse moves after a mousedown on the target until the mouse is released.
+		featurePanel.on("pressmove", function (evt) {
+			this.x = evt.stageX + this.offset.x;
+			this.y = evt.stageY + this.offset.y;
+			// indicate that the stage should be updated on the next tick:
+			update = true;
+		});
+		featurePanel.on("rollover", function (evt) {
+			update = true;
+		});
+		featurePanel.on("rollout", function (evt) {
+			update = true;
+		});
+			
+		// create and populate the screen with markers:
+		for (var i = 0; i < nMarkers; i++) {
+			//container = new createjs.Container();
+			//markersVec.push(new createjs.Shape());
+			markersVec.push(new createjs.Container());
+			var shapeMarker = new createjs.Shape();
+			var g = shapeMarker.graphics;
+			g.beginFill("#FF0000");		
+			shapeMarker.alpha = 0.25;				
+			if ( ((i>leftContourIdxStart) && (i<leftContourIdxEnd )) || (i>rightContourIdxStart) && (i<rightContourIdxEnd) )
+			{
+				g.beginFill("#DFDFDF");		
+				shapeMarker.alpha = 0.5;					
+			}
+			var radius = 15;
+			g.drawCircle(0,0,radius);
+			g.endFill();		
+		
+			markersVec[i].addChild(shapeMarker);
+			shapeMarker = new createjs.Shape();
+			g = shapeMarker.graphics;
+			g.beginFill("#000000");	
+			g.drawCircle(0,0,1);
+			g.endFill();			
+			markersVec[i].addChild(shapeMarker);
+			
+			container.addChild(markersVec[i]);
+			markersVec[i].scale = markersVec[i].originalScale = 1;//Math.random() * 0.4 + 0.6;
+			markersVec[i].name = "bmp_" + i;
+			markersVec[i].cursor = "pointer";
+			
+			var txt = new createjs.Text();
+			txt.font = "bold 18px Dorsa";
+			txt.color = "#000000";
+			txt.textAlign = "center";
+			txt.text =  markersText[i];
+			markersVec[i].addChild(txt);
+			
+			// using "on" binds the listener to the scope of the currentTarget by default
+			// in this case that means it executes in the scope of the button.
+			markersVec[i].on("mousedown", function (evt) {
+				this.parent.addChild(this);
+				this.offset = {x: this.x - evt.stageX, y: this.y - evt.stageY};
+			});
+			// the pressmove event is dispatched when the mouse moves after a mousedown on the target until the mouse is released.
+			markersVec[i].on("pressmove", function (evt) {
+				this.x = evt.stageX + this.offset.x;
+				this.y = evt.stageY + this.offset.y;
+				// indicate that the stage should be updated on the next tick:
+				update = true;
+			});
+			markersVec[i].on("rollover", function (evt) {
+				this.scale = this.originalScale * 1.2;
+				update = true;
+			});
+			markersVec[i].on("rollout", function (evt) {
+				this.scale = this.originalScale;
+				update = true;
+			});
+		}
+		markersVec[markScaleIdx].x = 0.5*canvas.width; markersVec[markScaleIdx].y = 2.0*canvas.height/3;
+		markersVec[incisuraJugularisIdx].y = 0.25*canvas.height; markersVec[incisuraJugularisIdx].x = 0.5*canvas.width;
+		markersVec[leftNippleIdx].x = 0.66*canvas.width; markersVec[leftNippleIdx].y = 0.5*canvas.height;
+		markersVec[rightNippleIdx].x = 0.33*canvas.width; markersVec[rightNippleIdx].y = 0.5*canvas.height;		
+		markersVec[leftContourIdxStart].x = 0.5*canvas.width; markersVec[leftContourIdxStart].y = 0.33*canvas.height;
+		markersVec[leftContourIdxEnd].x = 0.75*canvas.width; markersVec[leftContourIdxEnd].y = 0.33*canvas.height;		
+		markersVec[rightContourIdxStart].x = 0.25*canvas.width; markersVec[rightContourIdxStart].y = 0.33*canvas.height;
+		markersVec[rightContourIdxEnd].x = 0.5*canvas.width; markersVec[rightContourIdxEnd].y = 0.33*canvas.height;
+		for(var i = leftContourIdxStart+1;i<leftContourIdxEnd;i++)
+		{
+			markersVec[i].x=Math.min(markersVec[leftContourIdxStart].x,markersVec[leftContourIdxEnd].x)+(i-leftContourIdxStart)*Math.abs(markersVec[leftContourIdxStart].x-markersVec[leftContourIdxEnd].x)/(leftContourIdxEnd-leftContourIdxStart-1);
+			markersVec[i].y=0.4*canvas.height;;
+		}
+		for(var i = rightContourIdxStart+1;i<rightContourIdxEnd;i++)
+		{
+			markersVec[i].x=Math.min(markersVec[rightContourIdxStart].x,markersVec[rightContourIdxEnd].x)+(i-rightContourIdxStart)*Math.abs(markersVec[rightContourIdxStart].x-markersVec[rightContourIdxEnd].x)/(rightContourIdxEnd-rightContourIdxStart-1);
+			markersVec[i].y=0.4*canvas.height;;
+		}		
+		contours = new createjs.Shape();
+		container.addChild(contours);
+		
+		loaded_img = true;
+		update = true;
+		
+		createjs.Ticker.addEventListener("tick", tick);
+	}*/
+		
+	function drawContour(){
+		var spline_res = 64;
+		contours.graphics.clear();
+		contours.graphics.setStrokeStyle(2).beginStroke("rgba(0,0,0,1)");		
+
+		var points = [];
+		for (var i = leftContourIdxStart; i <= leftContourIdxEnd; i++) {
+			var aux=[];
+			aux.push(markersVec[i].x);
+			aux.push(markersVec[i].y);
+			points.push(aux);
+		}
+		var path = Smooth(points,{
+		method: Smooth.METHOD_CUBIC, 
+		cubicTension: Smooth.CUBIC_TENSION_CATMULL_ROM});
+
+		var aux = path(0);
+		contours.graphics.moveTo(aux[0], aux[1]);				
+		for (var i = 0; i <= points.length-1; i+=(1.0/spline_res)) {
+			aux = path(i);
+			contours.graphics.lineTo(aux[0], aux[1]);
+		}		
+		
+		
+		points=[];
+		for (var i = rightContourIdxStart; i <= rightContourIdxEnd; i++) {
+			var aux=[];
+			aux.push(markersVec[i].x);
+			aux.push(markersVec[i].y);
+			points.push(aux);
+		}
+		path = Smooth(points,{
+		method: Smooth.METHOD_CUBIC, 
+		cubicTension: Smooth.CUBIC_TENSION_CATMULL_ROM});	
+		
+		var aux = path(0);
+		contours.graphics.moveTo(aux[0], aux[1]);				
+		for (var i = 0; i <= points.length-1; i+=(1.0/spline_res)) {
+			aux = path(i);
+			contours.graphics.lineTo(aux[0], aux[1]);
+		}	
+		
+		
+		contours.graphics.endStroke();
+	}
+	
+	function tick(event) {
+		// this set makes it so the stage only re-renders when an event handler indicates a change has happened.
+		if (update) {
+			update = false; // only update once
+			drawContour();
+			// computeMeasures
+			var BRAaux1 = Math.abs(markersVec[leftNippleIdx].x - markersVec[incisuraJugularisIdx].x);
+			var BRAaux2 = Math.abs(markersVec[rightNippleIdx].x - markersVec[incisuraJugularisIdx].x);
+			var BRAaux3 = Math.abs(markersVec[leftNippleIdx].y - markersVec[incisuraJugularisIdx].y);
+			var BRAaux4 = Math.abs(markersVec[rightNippleIdx].y - markersVec[incisuraJugularisIdx].y);
+			var BRAaux5 = Math.sqrt((BRAaux1-BRAaux2)*(BRAaux1-BRAaux2)+(BRAaux3-BRAaux4)*(BRAaux3-BRAaux4));
+			var scale = 25.0/Math.abs(markersVec[markScaleIdx].y - markersVec[incisuraJugularisIdx].y);
+			BRA = BRAaux5*scale;
+			txtBRA.text = "BRA: " + BRA.toFixed(3);
+			document.getElementById("BRA").innerHTML = BRA.toFixed(3);
+			stage.update(event);
+		}
+	}
+	
+	function zoom(factor) {
+		if (!loaded_img)
+			return;
+		if (zoomStatus == 0 && factor < 1.0) {
+			return;
+		}
+		bitmap_bck.scale *= factor;
+		canvas.height = bitmap_bck.image.height*bitmap_bck.scale;
+		canvas.width = bitmap_bck.image.width*bitmap_bck.scale;			
+		//change pos of markers
+		for (var i = 0; i < nMarkers; i++) {
+			markersVec[i].x *= factor;
+			markersVec[i].y *= factor;
+		}
+		featurePanel.x *= factor;
+		featurePanel.y *= factor;
+		update = true;
+		if (factor < 1.0) {
+			zoomStatus -= 1;
+		} else if (factor > 1.0) {
+			zoomStatus += 1;
+		} else {
+			zoomStatus +=0;
+		}
+	}
+
+	function returnToInitialZoomState() {
+		factor = Math.pow(0.5, zoomStatus);
+		bitmap_bck.scale *= factor;
+		canvas.height = bitmap_bck.image.height*bitmap_bck.scale;
+		canvas.width = bitmap_bck.image.width*bitmap_bck.scale;			
+		//change pos of markers
+		for (var i = 0; i < nMarkers; i++) {
+			markersVec[i].x *= factor;
+			markersVec[i].y *= factor;
+		}
+		featurePanel.x *= factor;
+		featurePanel.y *= factor;
+		update = true;
+		zoomStatus = 0;
+	}
+
+	function logmarkers() {
+		console.log(markersVec[incisuraJugularisIdx].x, markersVec[incisuraJugularisIdx].y);
+		console.log(markersVec[leftNippleIdx].x, markersVec[leftNippleIdx].y);
+		console.log(markersVec[rightContourIdxStart].x, markersVec[rightContourIdxStart].y);
+		console.log(markersVec[rightContourIdxEnd].x, markersVec[rightContourIdxEnd].y);
+		console.log(markersVec[leftContourIdxEnd].x, markersVec[leftContourIdxEnd].y);
+		console.log(featurePanel.x, featurePanel.y);
+		console.log(zoomStatus);
+	}
+
+	// suppose the `id` attribute of element is `message_container`.
+	//var message_ele = document.getElementsByClassName("alert alert-info");
+
+	//setTimeout(function(){
+	//	message_ele[0].style.display = "none";
+	//	}, 0);
+	// Timeout is 3 sec, you can change it
+	//Update BRA Value in Database
+	var URL = "{% url 'update_breast_bra' %}";
+	function updateBraValue() {
+		var bra_data = {csrfmiddlewaretoken: "{{ csrf_token }}", 'BRA':BRA, 'image_pk':image_pk};
+		$.post(URL, bra_data, function(response){
+			if(response === 'Success!'){ alert('BRA saved in the database!'); }
+			else { alert('Error!'); }
+		});
+	}
+	$(document).ready(function(){
+		$('#updateBra').click(function(){
+			updateBraValue()
+		})
+	})
+</script>
+{% endblock extra_js %}

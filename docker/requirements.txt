@@ -1,0 +1,13 @@
+Django==2.2.5
+djongo==1.2.31
+sqlparse==0.2.4
+django-crispy-forms==1.7.2
+django-mathfilters==1.0.0
+django-allauth==0.41.0
+django-threadlocals==0.10
+signals==0.0.2
+Pillow==6.1.0
+mongoengine==0.20.0
+opencv-contrib-python==4.2.0.34
+ExifRead==2.1.2
+tensorflow==2.2.0

@@ -1,0 +1,1333 @@
+[{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00460"
+  },
+  "id": 1,
+  "name": "Can add log entry",
+  "content_type_id": 1,
+  "codename": "add_logentry"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00461"
+  },
+  "id": 2,
+  "name": "Can change log entry",
+  "content_type_id": 1,
+  "codename": "change_logentry"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00462"
+  },
+  "id": 3,
+  "name": "Can delete log entry",
+  "content_type_id": 1,
+  "codename": "delete_logentry"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00463"
+  },
+  "id": 4,
+  "name": "Can view log entry",
+  "content_type_id": 1,
+  "codename": "view_logentry"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00467"
+  },
+  "id": 5,
+  "name": "Can add permission",
+  "content_type_id": 2,
+  "codename": "add_permission"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00468"
+  },
+  "id": 6,
+  "name": "Can change permission",
+  "content_type_id": 2,
+  "codename": "change_permission"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00469"
+  },
+  "id": 7,
+  "name": "Can delete permission",
+  "content_type_id": 2,
+  "codename": "delete_permission"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f0046a"
+  },
+  "id": 8,
+  "name": "Can view permission",
+  "content_type_id": 2,
+  "codename": "view_permission"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f0046b"
+  },
+  "id": 9,
+  "name": "Can add group",
+  "content_type_id": 3,
+  "codename": "add_group"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f0046c"
+  },
+  "id": 10,
+  "name": "Can change group",
+  "content_type_id": 3,
+  "codename": "change_group"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f0046d"
+  },
+  "id": 11,
+  "name": "Can delete group",
+  "content_type_id": 3,
+  "codename": "delete_group"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f0046e"
+  },
+  "id": 12,
+  "name": "Can view group",
+  "content_type_id": 3,
+  "codename": "view_group"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f0046f"
+  },
+  "id": 13,
+  "name": "Can add user",
+  "content_type_id": 4,
+  "codename": "add_user"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00470"
+  },
+  "id": 14,
+  "name": "Can change user",
+  "content_type_id": 4,
+  "codename": "change_user"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00471"
+  },
+  "id": 15,
+  "name": "Can delete user",
+  "content_type_id": 4,
+  "codename": "delete_user"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00472"
+  },
+  "id": 16,
+  "name": "Can view user",
+  "content_type_id": 4,
+  "codename": "view_user"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00474"
+  },
+  "id": 17,
+  "name": "Can add content type",
+  "content_type_id": 5,
+  "codename": "add_contenttype"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00475"
+  },
+  "id": 18,
+  "name": "Can change content type",
+  "content_type_id": 5,
+  "codename": "change_contenttype"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00476"
+  },
+  "id": 19,
+  "name": "Can delete content type",
+  "content_type_id": 5,
+  "codename": "delete_contenttype"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00477"
+  },
+  "id": 20,
+  "name": "Can view content type",
+  "content_type_id": 5,
+  "codename": "view_contenttype"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f00479"
+  },
+  "id": 21,
+  "name": "Can add session",
+  "content_type_id": 6,
+  "codename": "add_session"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f0047a"
+  },
+  "id": 22,
+  "name": "Can change session",
+  "content_type_id": 6,
+  "codename": "change_session"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f0047b"
+  },
+  "id": 23,
+  "name": "Can delete session",
+  "content_type_id": 6,
+  "codename": "delete_session"
+},{
+  "_id": {
+    "$oid": "5e4fc82bb27a1b9087f0047c"
+  },
+  "id": 24,
+  "name": "Can view session",
+  "content_type_id": 6,
+  "codename": "view_session"
+},{
+  "_id": {
+    "$oid": "5e5155eda5bef84244ae1953"
+  },
+  "id": 25,
+  "name": "Can add post",
+  "content_type_id": 7,
+  "codename": "add_post"
+},{
+  "_id": {
+    "$oid": "5e5155eda5bef84244ae1954"
+  },
+  "id": 26,
+  "name": "Can change post",
+  "content_type_id": 7,
+  "codename": "change_post"
+},{
+  "_id": {
+    "$oid": "5e5155eda5bef84244ae1955"
+  },
+  "id": 27,
+  "name": "Can delete post",
+  "content_type_id": 7,
+  "codename": "delete_post"
+},{
+  "_id": {
+    "$oid": "5e5155eda5bef84244ae1956"
+  },
+  "id": 28,
+  "name": "Can view post",
+  "content_type_id": 7,
+  "codename": "view_post"
+},{
+  "_id": {
+    "$oid": "5e5155eda5bef84244ae1958"
+  },
+  "id": 29,
+  "name": "Can add profile",
+  "content_type_id": 8,
+  "codename": "add_profile"
+},{
+  "_id": {
+    "$oid": "5e5155eda5bef84244ae1959"
+  },
+  "id": 30,
+  "name": "Can change profile",
+  "content_type_id": 8,
+  "codename": "change_profile"
+},{
+  "_id": {
+    "$oid": "5e5155eda5bef84244ae195a"
+  },
+  "id": 31,
+  "name": "Can delete profile",
+  "content_type_id": 8,
+  "codename": "delete_profile"
+},{
+  "_id": {
+    "$oid": "5e5155eda5bef84244ae195b"
+  },
+  "id": 32,
+  "name": "Can view profile",
+  "content_type_id": 8,
+  "codename": "view_profile"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb4c"
+  },
+  "id": 33,
+  "name": "Can add photo",
+  "content_type_id": 9,
+  "codename": "add_photo"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb4d"
+  },
+  "id": 34,
+  "name": "Can change photo",
+  "content_type_id": 9,
+  "codename": "change_photo"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb4e"
+  },
+  "id": 35,
+  "name": "Can delete photo",
+  "content_type_id": 9,
+  "codename": "delete_photo"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb4f"
+  },
+  "id": 36,
+  "name": "Can view photo",
+  "content_type_id": 9,
+  "codename": "view_photo"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb50"
+  },
+  "id": 37,
+  "name": "Can add post",
+  "content_type_id": 10,
+  "codename": "add_post"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb51"
+  },
+  "id": 38,
+  "name": "Can change post",
+  "content_type_id": 10,
+  "codename": "change_post"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb52"
+  },
+  "id": 39,
+  "name": "Can delete post",
+  "content_type_id": 10,
+  "codename": "delete_post"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb53"
+  },
+  "id": 40,
+  "name": "Can view post",
+  "content_type_id": 10,
+  "codename": "view_post"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb54"
+  },
+  "id": 41,
+  "name": "Can add medical images",
+  "content_type_id": 11,
+  "codename": "add_medicalimages"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb55"
+  },
+  "id": 42,
+  "name": "Can change medical images",
+  "content_type_id": 11,
+  "codename": "change_medicalimages"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb56"
+  },
+  "id": 43,
+  "name": "Can delete medical images",
+  "content_type_id": 11,
+  "codename": "delete_medicalimages"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb57"
+  },
+  "id": 44,
+  "name": "Can view medical images",
+  "content_type_id": 11,
+  "codename": "view_medicalimages"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb59"
+  },
+  "id": 45,
+  "name": "Can add cinderella images",
+  "content_type_id": 12,
+  "codename": "add_cinderellaimages"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb5a"
+  },
+  "id": 46,
+  "name": "Can change cinderella images",
+  "content_type_id": 12,
+  "codename": "change_cinderellaimages"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb5b"
+  },
+  "id": 47,
+  "name": "Can delete cinderella images",
+  "content_type_id": 12,
+  "codename": "delete_cinderellaimages"
+},{
+  "_id": {
+    "$oid": "5e579e5ac02e61dfab6bbb5c"
+  },
+  "id": 48,
+  "name": "Can view cinderella images",
+  "content_type_id": 12,
+  "codename": "view_cinderellaimages"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f36f"
+  },
+  "id": 49,
+  "name": "Can add email address",
+  "content_type_id": 13,
+  "codename": "add_emailaddress"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f370"
+  },
+  "id": 50,
+  "name": "Can change email address",
+  "content_type_id": 13,
+  "codename": "change_emailaddress"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f371"
+  },
+  "id": 51,
+  "name": "Can delete email address",
+  "content_type_id": 13,
+  "codename": "delete_emailaddress"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f372"
+  },
+  "id": 52,
+  "name": "Can view email address",
+  "content_type_id": 13,
+  "codename": "view_emailaddress"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f373"
+  },
+  "id": 53,
+  "name": "Can add email confirmation",
+  "content_type_id": 14,
+  "codename": "add_emailconfirmation"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f374"
+  },
+  "id": 54,
+  "name": "Can change email confirmation",
+  "content_type_id": 14,
+  "codename": "change_emailconfirmation"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f375"
+  },
+  "id": 55,
+  "name": "Can delete email confirmation",
+  "content_type_id": 14,
+  "codename": "delete_emailconfirmation"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f376"
+  },
+  "id": 56,
+  "name": "Can view email confirmation",
+  "content_type_id": 14,
+  "codename": "view_emailconfirmation"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f37a"
+  },
+  "id": 57,
+  "name": "Can add social account",
+  "content_type_id": 15,
+  "codename": "add_socialaccount"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f37b"
+  },
+  "id": 58,
+  "name": "Can change social account",
+  "content_type_id": 15,
+  "codename": "change_socialaccount"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f37c"
+  },
+  "id": 59,
+  "name": "Can delete social account",
+  "content_type_id": 15,
+  "codename": "delete_socialaccount"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f37d"
+  },
+  "id": 60,
+  "name": "Can view social account",
+  "content_type_id": 15,
+  "codename": "view_socialaccount"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f37e"
+  },
+  "id": 61,
+  "name": "Can add social application",
+  "content_type_id": 16,
+  "codename": "add_socialapp"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f37f"
+  },
+  "id": 62,
+  "name": "Can change social application",
+  "content_type_id": 16,
+  "codename": "change_socialapp"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f380"
+  },
+  "id": 63,
+  "name": "Can delete social application",
+  "content_type_id": 16,
+  "codename": "delete_socialapp"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f381"
+  },
+  "id": 64,
+  "name": "Can view social application",
+  "content_type_id": 16,
+  "codename": "view_socialapp"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f382"
+  },
+  "id": 65,
+  "name": "Can add social application token",
+  "content_type_id": 17,
+  "codename": "add_socialtoken"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f383"
+  },
+  "id": 66,
+  "name": "Can change social application token",
+  "content_type_id": 17,
+  "codename": "change_socialtoken"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f384"
+  },
+  "id": 67,
+  "name": "Can delete social application token",
+  "content_type_id": 17,
+  "codename": "delete_socialtoken"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f385"
+  },
+  "id": 68,
+  "name": "Can view social application token",
+  "content_type_id": 17,
+  "codename": "view_socialtoken"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f388"
+  },
+  "id": 69,
+  "name": "Can add site",
+  "content_type_id": 18,
+  "codename": "add_site"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f389"
+  },
+  "id": 70,
+  "name": "Can change site",
+  "content_type_id": 18,
+  "codename": "change_site"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f38a"
+  },
+  "id": 71,
+  "name": "Can delete site",
+  "content_type_id": 18,
+  "codename": "delete_site"
+},{
+  "_id": {
+    "$oid": "5e57a85ad0b32256a3d7f38b"
+  },
+  "id": 72,
+  "name": "Can view site",
+  "content_type_id": 18,
+  "codename": "view_site"
+},{
+  "_id": {
+    "$oid": "5e6a52a8a7ef7692df2e3e17"
+  },
+  "id": 73,
+  "name": "Can add patient",
+  "content_type_id": 19,
+  "codename": "add_patient"
+},{
+  "_id": {
+    "$oid": "5e6a52a8a7ef7692df2e3e18"
+  },
+  "id": 74,
+  "name": "Can change patient",
+  "content_type_id": 19,
+  "codename": "change_patient"
+},{
+  "_id": {
+    "$oid": "5e6a52a8a7ef7692df2e3e19"
+  },
+  "id": 75,
+  "name": "Can delete patient",
+  "content_type_id": 19,
+  "codename": "delete_patient"
+},{
+  "_id": {
+    "$oid": "5e6a52a8a7ef7692df2e3e1a"
+  },
+  "id": 76,
+  "name": "Can view patient",
+  "content_type_id": 19,
+  "codename": "view_patient"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a4e"
+  },
+  "id": 77,
+  "name": "Can add email address",
+  "content_type_id": 6,
+  "codename": "add_emailaddress"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a4f"
+  },
+  "id": 78,
+  "name": "Can change email address",
+  "content_type_id": 6,
+  "codename": "change_emailaddress"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a50"
+  },
+  "id": 79,
+  "name": "Can delete email address",
+  "content_type_id": 6,
+  "codename": "delete_emailaddress"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a51"
+  },
+  "id": 80,
+  "name": "Can view email address",
+  "content_type_id": 6,
+  "codename": "view_emailaddress"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a52"
+  },
+  "id": 81,
+  "name": "Can add email confirmation",
+  "content_type_id": 7,
+  "codename": "add_emailconfirmation"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a53"
+  },
+  "id": 82,
+  "name": "Can change email confirmation",
+  "content_type_id": 7,
+  "codename": "change_emailconfirmation"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a54"
+  },
+  "id": 83,
+  "name": "Can delete email confirmation",
+  "content_type_id": 7,
+  "codename": "delete_emailconfirmation"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a55"
+  },
+  "id": 84,
+  "name": "Can view email confirmation",
+  "content_type_id": 7,
+  "codename": "view_emailconfirmation"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a59"
+  },
+  "id": 85,
+  "name": "Can add social account",
+  "content_type_id": 8,
+  "codename": "add_socialaccount"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a5a"
+  },
+  "id": 86,
+  "name": "Can change social account",
+  "content_type_id": 8,
+  "codename": "change_socialaccount"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a5b"
+  },
+  "id": 87,
+  "name": "Can delete social account",
+  "content_type_id": 8,
+  "codename": "delete_socialaccount"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a5c"
+  },
+  "id": 88,
+  "name": "Can view social account",
+  "content_type_id": 8,
+  "codename": "view_socialaccount"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a5d"
+  },
+  "id": 89,
+  "name": "Can add social application",
+  "content_type_id": 9,
+  "codename": "add_socialapp"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a5e"
+  },
+  "id": 90,
+  "name": "Can change social application",
+  "content_type_id": 9,
+  "codename": "change_socialapp"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a5f"
+  },
+  "id": 91,
+  "name": "Can delete social application",
+  "content_type_id": 9,
+  "codename": "delete_socialapp"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a60"
+  },
+  "id": 92,
+  "name": "Can view social application",
+  "content_type_id": 9,
+  "codename": "view_socialapp"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a61"
+  },
+  "id": 93,
+  "name": "Can add social application token",
+  "content_type_id": 10,
+  "codename": "add_socialtoken"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a62"
+  },
+  "id": 94,
+  "name": "Can change social application token",
+  "content_type_id": 10,
+  "codename": "change_socialtoken"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a63"
+  },
+  "id": 95,
+  "name": "Can delete social application token",
+  "content_type_id": 10,
+  "codename": "delete_socialtoken"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a64"
+  },
+  "id": 96,
+  "name": "Can view social application token",
+  "content_type_id": 10,
+  "codename": "view_socialtoken"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a66"
+  },
+  "id": 97,
+  "name": "Can add site",
+  "content_type_id": 11,
+  "codename": "add_site"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a67"
+  },
+  "id": 98,
+  "name": "Can change site",
+  "content_type_id": 11,
+  "codename": "change_site"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a68"
+  },
+  "id": 99,
+  "name": "Can delete site",
+  "content_type_id": 11,
+  "codename": "delete_site"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a69"
+  },
+  "id": 100,
+  "name": "Can view site",
+  "content_type_id": 11,
+  "codename": "view_site"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a6a"
+  },
+  "id": 101,
+  "name": "Can add profile",
+  "content_type_id": 1,
+  "codename": "add_profile"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a6b"
+  },
+  "id": 102,
+  "name": "Can change profile",
+  "content_type_id": 1,
+  "codename": "change_profile"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a6c"
+  },
+  "id": 103,
+  "name": "Can delete profile",
+  "content_type_id": 1,
+  "codename": "delete_profile"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a6d"
+  },
+  "id": 104,
+  "name": "Can view profile",
+  "content_type_id": 1,
+  "codename": "view_profile"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a6e"
+  },
+  "id": 105,
+  "name": "Can add patient",
+  "content_type_id": 2,
+  "codename": "add_patient"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a6f"
+  },
+  "id": 106,
+  "name": "Can change patient",
+  "content_type_id": 2,
+  "codename": "change_patient"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a70"
+  },
+  "id": 107,
+  "name": "Can delete patient",
+  "content_type_id": 2,
+  "codename": "delete_patient"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a71"
+  },
+  "id": 108,
+  "name": "Can view patient",
+  "content_type_id": 2,
+  "codename": "view_patient"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a72"
+  },
+  "id": 109,
+  "name": "Can add photo",
+  "content_type_id": 3,
+  "codename": "add_photo"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a73"
+  },
+  "id": 110,
+  "name": "Can change photo",
+  "content_type_id": 3,
+  "codename": "change_photo"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a74"
+  },
+  "id": 111,
+  "name": "Can delete photo",
+  "content_type_id": 3,
+  "codename": "delete_photo"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a75"
+  },
+  "id": 112,
+  "name": "Can view photo",
+  "content_type_id": 3,
+  "codename": "view_photo"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a76"
+  },
+  "id": 113,
+  "name": "Can add medical images",
+  "content_type_id": 4,
+  "codename": "add_medicalimages"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a77"
+  },
+  "id": 114,
+  "name": "Can change medical images",
+  "content_type_id": 4,
+  "codename": "change_medicalimages"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a78"
+  },
+  "id": 115,
+  "name": "Can delete medical images",
+  "content_type_id": 4,
+  "codename": "delete_medicalimages"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a79"
+  },
+  "id": 116,
+  "name": "Can view medical images",
+  "content_type_id": 4,
+  "codename": "view_medicalimages"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a7c"
+  },
+  "id": 117,
+  "name": "Can add log entry",
+  "content_type_id": 13,
+  "codename": "add_logentry"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a7d"
+  },
+  "id": 118,
+  "name": "Can change log entry",
+  "content_type_id": 13,
+  "codename": "change_logentry"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a7e"
+  },
+  "id": 119,
+  "name": "Can delete log entry",
+  "content_type_id": 13,
+  "codename": "delete_logentry"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a7f"
+  },
+  "id": 120,
+  "name": "Can view log entry",
+  "content_type_id": 13,
+  "codename": "view_logentry"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a83"
+  },
+  "id": 121,
+  "name": "Can add permission",
+  "content_type_id": 14,
+  "codename": "add_permission"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a84"
+  },
+  "id": 122,
+  "name": "Can change permission",
+  "content_type_id": 14,
+  "codename": "change_permission"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a85"
+  },
+  "id": 123,
+  "name": "Can delete permission",
+  "content_type_id": 14,
+  "codename": "delete_permission"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a86"
+  },
+  "id": 124,
+  "name": "Can view permission",
+  "content_type_id": 14,
+  "codename": "view_permission"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a87"
+  },
+  "id": 125,
+  "name": "Can add group",
+  "content_type_id": 15,
+  "codename": "add_group"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a88"
+  },
+  "id": 126,
+  "name": "Can change group",
+  "content_type_id": 15,
+  "codename": "change_group"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a89"
+  },
+  "id": 127,
+  "name": "Can delete group",
+  "content_type_id": 15,
+  "codename": "delete_group"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a8a"
+  },
+  "id": 128,
+  "name": "Can view group",
+  "content_type_id": 15,
+  "codename": "view_group"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a8b"
+  },
+  "id": 129,
+  "name": "Can add user",
+  "content_type_id": 16,
+  "codename": "add_user"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a8c"
+  },
+  "id": 130,
+  "name": "Can change user",
+  "content_type_id": 16,
+  "codename": "change_user"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a8d"
+  },
+  "id": 131,
+  "name": "Can delete user",
+  "content_type_id": 16,
+  "codename": "delete_user"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a8e"
+  },
+  "id": 132,
+  "name": "Can view user",
+  "content_type_id": 16,
+  "codename": "view_user"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a90"
+  },
+  "id": 133,
+  "name": "Can add session",
+  "content_type_id": 17,
+  "codename": "add_session"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a91"
+  },
+  "id": 134,
+  "name": "Can change session",
+  "content_type_id": 17,
+  "codename": "change_session"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a92"
+  },
+  "id": 135,
+  "name": "Can delete session",
+  "content_type_id": 17,
+  "codename": "delete_session"
+},{
+  "_id": {
+    "$oid": "5e6a828553c8e7dc2b2e2a93"
+  },
+  "id": 136,
+  "name": "Can view session",
+  "content_type_id": 17,
+  "codename": "view_session"
+},{
+  "_id": {
+    "$oid": "5e7000e6eb9e50470508f2da"
+  },
+  "id": 137,
+  "name": "Can add images",
+  "content_type_id": 18,
+  "codename": "add_images"
+},{
+  "_id": {
+    "$oid": "5e7000e6eb9e50470508f2db"
+  },
+  "id": 138,
+  "name": "Can change images",
+  "content_type_id": 18,
+  "codename": "change_images"
+},{
+  "_id": {
+    "$oid": "5e7000e6eb9e50470508f2dc"
+  },
+  "id": 139,
+  "name": "Can delete images",
+  "content_type_id": 18,
+  "codename": "delete_images"
+},{
+  "_id": {
+    "$oid": "5e7000e6eb9e50470508f2dd"
+  },
+  "id": 140,
+  "name": "Can view images",
+  "content_type_id": 18,
+  "codename": "view_images"
+},{
+  "_id": {
+    "$oid": "5e8ef635930996d70bacd8c9"
+  },
+  "id": 141,
+  "name": "Can add images patient",
+  "content_type_id": 19,
+  "codename": "add_imagespatient"
+},{
+  "_id": {
+    "$oid": "5e8ef635930996d70bacd8ca"
+  },
+  "id": 142,
+  "name": "Can change images patient",
+  "content_type_id": 19,
+  "codename": "change_imagespatient"
+},{
+  "_id": {
+    "$oid": "5e8ef635930996d70bacd8cb"
+  },
+  "id": 143,
+  "name": "Can delete images patient",
+  "content_type_id": 19,
+  "codename": "delete_imagespatient"
+},{
+  "_id": {
+    "$oid": "5e8ef635930996d70bacd8cc"
+  },
+  "id": 144,
+  "name": "Can view images patient",
+  "content_type_id": 19,
+  "codename": "view_imagespatient"
+},{
+  "_id": {
+    "$oid": "5e51a672ba4bc013486d96e8"
+  },
+  "id": 1
+},{
+  "_id": {
+    "$oid": "5e51a7149904ee3e424a310e"
+  },
+  "id": 2
+},{
+  "_id": {
+    "$oid": "5e53adf14f386ba707eab53c"
+  },
+  "id": 3
+},{
+  "_id": {
+    "$oid": "5e53b036f6cb5878d8d66ec7"
+  },
+  "id": 4
+},{
+  "_id": {
+    "$oid": "5e53b16c50534e86aea1f1c4"
+  },
+  "id": 5
+},{
+  "_id": {
+    "$oid": "5e53b2c12a244f97f7df16d8"
+  },
+  "id": 6
+},{
+  "_id": {
+    "$oid": "5e53b53926b20a1a9ddeebf9"
+  },
+  "id": 7
+},{
+  "_id": {
+    "$oid": "5e579f98a0d399fa28fdf5c1"
+  },
+  "id": 8
+},{
+  "_id": {
+    "$oid": "5e57aa4d85cc3588b735f325"
+  },
+  "id": 9
+},{
+  "_id": {
+    "$oid": "5e57b12b4c9f7ceaab005544"
+  },
+  "id": 10
+},{
+  "_id": {
+    "$oid": "5e5843ac1d6c7fb176568e27"
+  },
+  "id": 11
+},{
+  "_id": {
+    "$oid": "5e58f1fd1d63357a85730048"
+  },
+  "id": 12
+},{
+  "_id": {
+    "$oid": "5e5adca05a44534084e0e4d1"
+  },
+  "id": 13
+},{
+  "_id": {
+    "$oid": "5e6ac088cd9de522c69abe8a"
+  },
+  "id": 14
+},{
+  "_id": {
+    "$oid": "5e81f557416f3aaf03367a8b"
+  },
+  "id": 15
+},{
+  "_id": {
+    "$oid": "5e81f6e0353f1f3f2d1027b8"
+  },
+  "id": 16
+},{
+  "_id": {
+    "$oid": "5e81fdd813bd2c76bc62c402"
+  },
+  "id": 17
+},{
+  "_id": {
+    "$oid": "5ebfbc88f9803e00d30bf951"
+  },
+  "id": 18
+},{
+  "_id": {
+    "$oid": "5ebfbd7526589ad5c272828d"
+  },
+  "id": 19
+},{
+  "_id": {
+    "$oid": "5ebfc410e8e1203cf846fcf3"
+  },
+  "id": 20
+},{
+  "_id": {
+    "$oid": "5ebfc46c2ab4466446e29701"
+  },
+  "id": 21
+},{
+  "_id": {
+    "$oid": "5ebfc666d2429403bda3917c"
+  },
+  "id": 22
+},{
+  "_id": {
+    "$oid": "5ebfc9cef85e18e6bc4d0d12"
+  },
+  "id": 23
+},{
+  "_id": {
+    "$oid": "5ebfca80c7e578f9b75aae64"
+  },
+  "id": 24
+},{
+  "_id": {
+    "$oid": "5ebfcb03531a2768245133a7"
+  },
+  "id": 25
+},{
+  "_id": {
+    "$oid": "5ec063e5a50def38b03dae3b"
+  },
+  "id": 26
+},{
+  "_id": {
+    "$oid": "5ec7d9e8d2eafba633de9da7"
+  },
+  "id": 27
+},{
+  "_id": {
+    "$oid": "5ed635b90a3e71c8ddf849fd"
+  },
+  "id": 28
+},{
+  "_id": {
+    "$oid": "5ed81248b8e44716a74007d0"
+  },
+  "id": 29
+},{
+  "_id": {
+    "$oid": "5ed818d89bb85a7e4ec2b8e2"
+  },
+  "id": 30
+},{
+  "_id": {
+    "$oid": "5ed8190d9bb85a7e4ec2b8ed"
+  },
+  "id": 31
+},{
+  "_id": {
+    "$oid": "5ed8237b31139f95e6beba8c"
+  },
+  "id": 32
+},{
+  "_id": {
+    "$oid": "5ed823d931139f95e6beba97"
+  },
+  "id": 33
+},{
+  "_id": {
+    "$oid": "5ed8244331139f95e6bebaa4"
+  },
+  "id": 34
+},{
+  "_id": {
+    "$oid": "5ed8ba0c3801bfe307779aec"
+  },
+  "id": 35
+},{
+  "_id": {
+    "$oid": "5ed8baae3801bfe307779b07"
+  },
+  "id": 36
+}]

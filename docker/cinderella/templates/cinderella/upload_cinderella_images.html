@@ -1,0 +1,10 @@
+{% extends "bcctapp/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h2>Upload Cinderella Information</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Upload Cinderella Information!</button>
+    </form>
+{% endblock content %}

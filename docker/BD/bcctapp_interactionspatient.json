@@ -1,0 +1,66 @@
+[{
+  "_id": {
+    "$oid": "5eebcda3ebd800158fd3b16f"
+  },
+  "id": 688,
+  "number": 1,
+  "image_id": null,
+  "author": null,
+  "image": "",
+  "date_created": {
+    "$date": "2020-06-18T20:25:07.256Z"
+  },
+  "interaction_type": "keypoints_automatic_detection"
+},{
+  "_id": {
+    "$oid": "5eebcdaaebd800158fd3b171"
+  },
+  "id": 688,
+  "number": 2,
+  "image_id": null,
+  "author": null,
+  "image": "",
+  "date_created": {
+    "$date": "2020-06-18T20:25:14.322Z"
+  },
+  "interaction_type": "keypoints_automatic_detection"
+},{
+  "_id": {
+    "$oid": "5eebcdbaebd800158fd3b173"
+  },
+  "id": 688,
+  "number": 3,
+  "image_id": null,
+  "author": null,
+  "image": "",
+  "date_created": {
+    "$date": "2020-06-18T20:25:30.560Z"
+  },
+  "interaction_type": "keypoints_automatic_detection"
+},{
+  "_id": {
+    "$oid": "5eebcdc5ebd800158fd3b177"
+  },
+  "id": 688,
+  "number": 4,
+  "image_id": null,
+  "author": null,
+  "image": "",
+  "date_created": {
+    "$date": "2020-06-18T20:25:41.743Z"
+  },
+  "interaction_type": "keypoints_automatic_detection"
+},{
+  "_id": {
+    "$oid": "5eebcdd9ebd800158fd3b17b"
+  },
+  "id": 688,
+  "number": 5,
+  "image_id": null,
+  "author": null,
+  "image": "",
+  "date_created": {
+    "$date": "2020-06-18T20:26:01.540Z"
+  },
+  "interaction_type": "keypoints_automatic_detection"
+}]

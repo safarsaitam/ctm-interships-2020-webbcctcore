@@ -1,0 +1,22 @@
+version: '3'
+services: 
+  mongo: 
+    image: mongo
+    container_name: mongo
+    restart: always
+    ports:
+        - 27018:27017
+    environment:
+        - MONGO_INITDB_ROOT_USERNAME=breastgroup
+        - MONGO_INITDB_ROOT_PASSWORD=inesctec2020
+        - MONGO_INITDB_DATABASE=webbcct
+  web:
+    build: .
+    command: bash -c "pip install psutil && pip install sqlparse==0.2.4 --user && pip install -r requirements.txt  && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./:/code
+    ports:
+      - "8001:8000"
+    depends_on:
+      - mongo
+

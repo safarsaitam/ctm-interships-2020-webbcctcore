@@ -1,0 +1,55 @@
+{% extends "bcctapp/base.html" %}
+{% block extra_style %}
+<style>
+
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 50%;
+  padding: 5px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+} 
+
+</style>
+{% endblock extra_style %}
+
+{% block content %}
+<h1>Cinderella Application Clinical Study Analysis</h1>
+<p>Case Study ID: {{ study_id }}</p>
+<p>Age: {{ obj.age }}</p>
+<p>Weight: {{ obj.weight }}</p>
+<p>Height: {{ obj.height }}</p>
+<p>Bra Size: {{ obj.bra_size }}</p>
+<p>Aesthetic Classification: Excellent</p>
+<br>
+<h2>Photographs</h2>
+        <div class="row" style="margin-bottom:20px; text-align:center;">
+            <div class="col">
+                <h3>Before</h3>
+                <img src="{{ obj.before_image.url }}" alt="Before"  width="400" height="300">
+            </div>
+            <div class="col">
+                <h3>After</h3>
+                <img src="{{ obj.image.url }}" alt="After"  width="400" height="300">
+            </div>
+        </div>
+            <center>
+                <button class="btn btn-danger" onclick="goBack()" style="margin-bottom: 20px;">Return to results page</button>
+            </center>
+{% endblock content %}
+{% block extra_js %}
+<script>
+
+function goBack() {
+
+    window.history.back();
+
+    }
+</script>
+{% endblock extra_js %}

@@ -1,0 +1,10 @@
+{% extends "bcctapp/base.html" %}
+{% block content %}
+<p>Please enter the password to access the Cinderella Home Page:</p>
+<form id="form02" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="password">Password:</label><br>
+    <input type="password" id="pwd" name="password" value=""><br>
+    <input type="submit" value="Submit">
+  </form> 
+{% endblock content %}

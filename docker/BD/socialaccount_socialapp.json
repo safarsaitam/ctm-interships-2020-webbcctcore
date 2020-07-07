@@ -1,0 +1,31 @@
+[{
+  "_id": {
+    "$oid": "5e58eeb873a00e1faf996a66"
+  },
+  "id": 3,
+  "provider": "google",
+  "name": "Google Login",
+  "client_id": "817763410933-iqvrmag6teen56p6tucpq70c23rkmksu.apps.googleusercontent.com",
+  "secret": "6uB6LaTWp4gVBXhpHOG3QkQ7",
+  "key": ""
+},{
+  "_id": {
+    "$oid": "5e58f1b01d63357a85730039"
+  },
+  "id": 4,
+  "provider": "facebook",
+  "name": "Facebook login",
+  "client_id": "1061658550858420",
+  "secret": "fe5e2bbef54e8dffa164ea32ec003ffd",
+  "key": ""
+},{
+  "_id": {
+    "$oid": "5e595948a9fa41a588f06861"
+  },
+  "id": 5,
+  "provider": "twitter",
+  "name": "Twitter Login",
+  "client_id": "LoCkTAuhfF5AmxubHIMBMZt4Y",
+  "secret": "9TBjYmZP5vz2zsHWVTyPy65yTlqwEUXhcv1QoWXEUepIopQ5HU",
+  "key": ""
+}]

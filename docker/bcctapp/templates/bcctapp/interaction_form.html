@@ -1,0 +1,19 @@
+{% extends "bcctapp/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <h1>Interaction</h1>
+
+            {% for interaction in interaction %}
+                  {% if interaction.image_id == id %}
+                    <h3> author: {{ interaction.author }} </h3>
+                    <h3> date created: {{ interaction.date_created }} </h3>
+                    <h3> interaction_type : {{ interaction.interaction_type }} </h3>
+                  {% endif %}
+            {% endfor %}
+             <form method="POST" enctype="multipart/form-data">
+                 {% csrf_token %}
+                 <input type="number"  id="interaction" name="interaction"  value="Your first interaction ">
+                 <button type="submit" >Create new interaction</button>
+             </form>
+{% endblock content %}

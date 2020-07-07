@@ -1,0 +1,8 @@
+{% extends "bcctapp/base.html" %}
+{% block content %}
+    <h2>Upload</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <button type="submit">Upload file</button>
+    </form>
+{% endblock content %}

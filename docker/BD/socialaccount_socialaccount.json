@@ -1,0 +1,46 @@
+[{
+  "_id": {
+    "$oid": "5e5843ac1d6c7fb176568e28"
+  },
+  "id": 2,
+  "user_id": 11,
+  "provider": "google",
+  "uid": "102637943561601927181",
+  "last_login": {
+    "$date": "2020-05-16T09:51:53.526Z"
+  },
+  "date_joined": {
+    "$date": "2020-02-27T22:33:16.565Z"
+  },
+  "extra_data": "{\"id\": \"102637943561601927181\", \"name\": \"Jo\\u00e3o Rodrigues\", \"given_name\": \"Jo\\u00e3o\", \"family_name\": \"Rodrigues\", \"picture\": \"https://lh3.googleusercontent.com/a-/AOh14GhEsP6npbVc4TXgCFzuyqMIHR59VJXfjeF6ZmJ9\", \"locale\": \"pt-PT\"}"
+},{
+  "_id": {
+    "$oid": "5e58f1fd1d63357a85730049"
+  },
+  "id": 3,
+  "user_id": 12,
+  "provider": "facebook",
+  "uid": "3566877760021306",
+  "last_login": {
+    "$date": "2020-05-13T11:42:41.382Z"
+  },
+  "date_joined": {
+    "$date": "2020-02-28T10:57:01.250Z"
+  },
+  "extra_data": "{\"id\": \"3566877760021306\", \"name\": \"Jo\\u00e3o Rodrigues\", \"first_name\": \"Jo\\u00e3o\", \"last_name\": \"Rodrigues\"}"
+},{
+  "_id": {
+    "$oid": "5e5adca05a44534084e0e4d2"
+  },
+  "id": 4,
+  "user_id": 13,
+  "provider": "twitter",
+  "uid": "1233354654844624896",
+  "last_login": {
+    "$date": "2020-03-12T18:09:57.163Z"
+  },
+  "date_joined": {
+    "$date": "2020-02-29T21:50:24.828Z"
+  },
+  "extra_data": "{\"id\": 1233354654844624896, \"id_str\": \"1233354654844624896\", \"name\": \"Jo\\u00e3o Rodrigues\", \"screen_name\": \"JooRodr89017210\", \"location\": \"\", \"description\": \"\", \"url\": null, \"entities\": {\"description\": {\"urls\": []}}, \"protected\": false, \"followers_count\": 0, \"friends_count\": 0, \"listed_count\": 0, \"created_at\": \"Fri Feb 28 11:34:09 +0000 2020\", \"favourites_count\": 0, \"utc_offset\": null, \"time_zone\": null, \"geo_enabled\": false, \"verified\": false, \"statuses_count\": 0, \"lang\": null, \"contributors_enabled\": false, \"is_translator\": false, \"is_translation_enabled\": false, \"profile_background_color\": \"F5F8FA\", \"profile_background_image_url\": null, \"profile_background_image_url_https\": null, \"profile_background_tile\": false, \"profile_image_url\": \"http://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png\", \"profile_image_url_https\": \"https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png\", \"profile_link_color\": \"1DA1F2\", \"profile_sidebar_border_color\": \"C0DEED\", \"profile_sidebar_fill_color\": \"DDEEF6\", \"profile_text_color\": \"333333\", \"profile_use_background_image\": true, \"has_extended_profile\": false, \"default_profile\": true, \"default_profile_image\": true, \"following\": false, \"follow_request_sent\": false, \"notifications\": false, \"translator_type\": \"none\", \"suspended\": false, \"needs_phone_verification\": false}"
+}]

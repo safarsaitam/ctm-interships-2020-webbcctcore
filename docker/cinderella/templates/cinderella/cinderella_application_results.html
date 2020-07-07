@@ -1,0 +1,60 @@
+{% extends "bcctapp/base.html" %}
+{% block extra_style %}
+<style>
+
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 50%;
+  padding: 5px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+} 
+
+</style>
+{% endblock extra_style %}
+
+{% block content %}
+<h1>Cinderella Application Results</h1>
+<p>Age: {{ age }} +- {{ age_lims }}</p>
+<p>Weight: {{ weight }} +- {{ weight_lims }}</p>
+<p>Height: {{ height }} +- {{ height_lims }}</p>
+    {% for item in results %}
+        <div class="row" style="margin-bottom:10px; text-align:center;">
+            <div class="col-sm-4">
+                <h2>Before</h2>
+                <img src="{{ item.before_image.url }}" alt="Before" width="320" height="240">
+            </div>
+            <div class="col-sm-4">
+                <h2>After</h2>
+                <img src="{{ item.image.url }}" alt="After" width="320" height="240">
+            </div>
+            <div class="col-sm-4">
+                <h2>Aesthetic Classification</h2>
+                <p>Excellent</p>
+                <form id="{{ item.pk }}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-info" value="{{ item.pk }}" name="check_clinical_study">Check Clinical Study</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+    <center>
+        <button class="btn btn-danger" onclick="goBack()" style="margin-bottom: 20px;">Return to application page</button>
+    </center>
+{% endblock content %}
+{% block extra_js %}
+<script>
+
+function goBack() {
+
+    window.history.back();
+
+    }
+</script>
+{% endblock extra_js %}

@@ -1,0 +1,20 @@
+{% extends "bcctapp/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+   <h1>Update Patient: {{ patient.id }}</h1>
+
+       <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+
+                    {{ form | crispy}}
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit" multiple>Post</button>
+
+            </div>
+
+
+       </form>
+
+
+{% endblock content %}

@@ -1,0 +1,148 @@
+[{
+  "_id": {
+    "$oid": "5edf505daa6fb0ec545762f0"
+  },
+  "id": 685,
+  "first_name": "Ana",
+  "last_name": "Freitas",
+  "age": 45,
+  "birthday": "2022-12-23 00:00:00+00:00",
+  "surgery_date": "2020-05-16 00:00:00+00:00",
+  "patient_height": 178,
+  "patient_weight": 65,
+  "bra": "1",
+  "date_posted": {
+    "$date": "2020-06-09T09:03:24.856Z"
+  },
+  "owner_id": 27,
+  "n_images": 1,
+  "team": null,
+  "share": "",
+  "surgery_type": 1
+},{
+  "_id": {
+    "$oid": "5edfbd0b036c3d281b7976c4"
+  },
+  "id": 686,
+  "first_name": "1",
+  "last_name": "1",
+  "age": 1,
+  "birthday": "2020-05-16 00:00:00+00:00",
+  "surgery_date": "2020-05-16 00:00:00+00:00",
+  "patient_height": 1,
+  "patient_weight": 1,
+  "bra": "111",
+  "date_posted": {
+    "$date": "2020-06-09T16:47:07.189Z"
+  },
+  "owner_id": 27,
+  "n_images": 1,
+  "team": null,
+  "share": "",
+  "surgery_type": 2
+},{
+  "_id": {
+    "$oid": "5ee09d25ecb53d9db03aaff1"
+  },
+  "id": 688,
+  "first_name": "1",
+  "last_name": "1",
+  "age": 1,
+  "birthday": "2020-05-16 00:00:00+00:00",
+  "surgery_date": "2020-05-16 00:00:00+00:00",
+  "patient_height": 1,
+  "patient_weight": 1,
+  "bra": "1",
+  "date_posted": {
+    "$date": "2020-06-10T08:43:17.385Z"
+  },
+  "owner_id": 28,
+  "n_images": 1,
+  "team": null,
+  "share": "",
+  "surgery_type": 2
+},{
+  "_id": {
+    "$oid": "5ef31b3629e6685c1fe1fc70"
+  },
+  "id": 689,
+  "first_name": "1",
+  "last_name": "1",
+  "age": 1,
+  "birthday": "2010-10-22 00:00:00+00:00",
+  "surgery_date": "2010-10-22 00:00:00+00:00",
+  "patient_height": 1,
+  "patient_weight": 1,
+  "bra": "1",
+  "date_posted": {
+    "$date": "2020-06-24T09:21:58.458Z"
+  },
+  "owner_id": 28,
+  "n_images": 1,
+  "team": null,
+  "share": "",
+  "surgery_type": 2
+},{
+  "_id": {
+    "$oid": "5ef323d8fef148ef3465e201"
+  },
+  "id": 690,
+  "first_name": "11",
+  "last_name": "11",
+  "age": 1,
+  "birthday": "2010-10-22 00:00:00+00:00",
+  "surgery_date": "2010-10-22 00:00:00+00:00",
+  "patient_height": 1,
+  "patient_weight": 1,
+  "bra": "1",
+  "date_posted": {
+    "$date": "2020-06-24T09:58:48.680Z"
+  },
+  "owner_id": 28,
+  "n_images": 1,
+  "team": null,
+  "share": "",
+  "surgery_type": 2
+},{
+  "_id": {
+    "$oid": "5ef32483b4699ca4575f7049"
+  },
+  "id": 691,
+  "first_name": "1",
+  "last_name": "1",
+  "age": 1,
+  "birthday": "2010-10-22 00:00:00+00:00",
+  "surgery_date": "2010-10-22 00:00:00+00:00",
+  "patient_height": 1,
+  "patient_weight": 1,
+  "bra": "1",
+  "date_posted": {
+    "$date": "2020-06-24T10:01:39.416Z"
+  },
+  "owner_id": 28,
+  "n_images": 1,
+  "team": 2,
+  "share": "",
+  "surgery_type": 5
+},{
+  "_id": {
+    "$oid": "5ef3613837cc3e6351cf9880"
+  },
+  "id": 692,
+  "first_name": "team",
+  "last_name": "team",
+  "age": 1,
+  "birthday": "2010-10-22 00:00:00+00:00",
+  "surgery_date": "2010-10-22 00:00:00+00:00",
+  "patient_height": 1,
+  "patient_weight": 11,
+  "bra": "1",
+  "date_posted": {
+    "$date": "2020-06-24T14:20:40.344Z"
+  },
+  "owner_id": 30,
+  "n_images": 1,
+  "team": 2,
+  "share": "",
+  "surgery_type": 2
+}]

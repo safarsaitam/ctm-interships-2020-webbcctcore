@@ -1,0 +1,33 @@
+{% extends "bcctapp/base.html" %}
+{% block content %}
+    <h2>{{ user }}'s Medical Images List</h2>
+    <h2>{{ doctor }}'s Medical Images List</h2>
+    <table class="table" id="table_1">
+        <tbody>
+            {% for image in medical_images %}
+            {% if user == image.doctor %}
+            <tr>
+                <td><img src="{{ image.image.url }}" alt="Medical Image {{ image.pk }}"></td>
+            </tr>
+            <tr>
+                <td><form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary" value="{{ image.pk }}" name="medical_image">Predict Image Keypoints!</button>
+                    </form>
+                    <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" style="margin-top: 5px" value="{{ image.pk }}" name="medical_image_to_delete">Delete!</button>
+                    </form>
+                    {% if image.keypoints %}
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-info" style="margin-top: 5px" value="{{ image.pk }}" name="view_kpts">Plot Keypoints!</button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

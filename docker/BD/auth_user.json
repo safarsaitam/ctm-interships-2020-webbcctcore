@@ -1,0 +1,189 @@
+[{
+  "_id": {
+    "$oid": "5ec7d9e8d2eafba633de9da6"
+  },
+  "id": 27,
+  "password": "pbkdf2_sha256$150000$dIY7Ow7MjG5s$3k2vytSPknBTW8TqNjGFGRnJd5FXWuBI2oQIgVHhH/k=",
+  "last_login": {
+    "$date": "2020-06-09T09:35:13.727Z"
+  },
+  "is_superuser": false,
+  "username": "joao",
+  "first_name": "joao",
+  "last_name": "joao",
+  "email": "joao_mondim_16@hotmail.com",
+  "is_staff": false,
+  "is_active": true,
+  "date_joined": {
+    "$date": "2020-05-22T13:55:51.731Z"
+  }
+},{
+  "_id": {
+    "$oid": "5ed635b90a3e71c8ddf849fc"
+  },
+  "id": 28,
+  "password": "pbkdf2_sha256$150000$qKY2ddtWNJra$Dc4v6/l20s0uibuh4zZZVmUNxGqOpJVysF/uYPYdCbs=",
+  "last_login": {
+    "$date": "2020-06-26T11:11:43.829Z"
+  },
+  "is_superuser": true,
+  "username": "teste",
+  "first_name": "João",
+  "last_name": "Rodrigues",
+  "email": "joao_mondim_16@hotmail.com",
+  "is_staff": true,
+  "is_active": true,
+  "date_joined": {
+    "$date": "2020-06-02T11:19:21.221Z"
+  }
+},{
+  "_id": {
+    "$oid": "5ed81248b8e44716a74007cf"
+  },
+  "id": 29,
+  "password": "pbkdf2_sha256$150000$ffiwxAbDLnpv$IL4qLt1tpSw68OULRscAMWifC3w7URYavsjHQ4xBKSg=",
+  "last_login": {
+    "$date": "2020-06-03T21:12:52.720Z"
+  },
+  "is_superuser": false,
+  "username": "teste1",
+  "first_name": "teste",
+  "last_name": "teste",
+  "email": "unitecsolucoesweb@gmail.com",
+  "is_staff": false,
+  "is_active": true,
+  "date_joined": {
+    "$date": "2020-06-03T21:12:39.880Z"
+  }
+},{
+  "_id": {
+    "$oid": "5ed818d89bb85a7e4ec2b8e1"
+  },
+  "id": 30,
+  "password": "pbkdf2_sha256$150000$zOIoV6HeMnEb$mJAP4Vds4VImPW5219011RdCNgW1Omyvjy2hOpfYtDs=",
+  "last_login": {
+    "$date": "2020-06-26T00:39:29.158Z"
+  },
+  "is_superuser": false,
+  "username": "teste2",
+  "first_name": "joao",
+  "last_name": "joao",
+  "email": "joao_mondim_16@hotmail.com",
+  "is_staff": false,
+  "is_active": true,
+  "date_joined": {
+    "$date": "2020-06-03T21:40:40.735Z"
+  }
+},{
+  "_id": {
+    "$oid": "5ed8190d9bb85a7e4ec2b8ec"
+  },
+  "id": 31,
+  "password": "pbkdf2_sha256$150000$pvKeVd2X9D7R$VcXDPGen/ULoqpLUnHGolw37L+578Auzi5coqzc5+VQ=",
+  "last_login": {
+    "$date": "2020-06-03T21:41:40.948Z"
+  },
+  "is_superuser": false,
+  "username": "teste3",
+  "first_name": "1",
+  "last_name": "1",
+  "email": "joao_mondim_16@hotmail.com",
+  "is_staff": false,
+  "is_active": true,
+  "date_joined": {
+    "$date": "2020-06-03T21:41:33.334Z"
+  }
+},{
+  "_id": {
+    "$oid": "5ed8237b31139f95e6beba8b"
+  },
+  "id": 32,
+  "password": "pbkdf2_sha256$150000$jiIeAJWMYP1D$HtLVQSVlM19kGozl4AabZxx+8aiKPN7m5fDsUpMZM30=",
+  "last_login": {
+    "$date": "2020-06-03T22:26:10.795Z"
+  },
+  "is_superuser": false,
+  "username": "teste4",
+  "first_name": "1",
+  "last_name": "1",
+  "email": "joao_mondim_16@hotmail.com",
+  "is_staff": false,
+  "is_active": true,
+  "date_joined": {
+    "$date": "2020-06-03T22:26:02.844Z"
+  }
+},{
+  "_id": {
+    "$oid": "5ed823d931139f95e6beba96"
+  },
+  "id": 33,
+  "password": "pbkdf2_sha256$150000$0R8o5WwFsTlQ$azs5Ow1zdzpfLAzljgsVg4x8QeGay/X/wXl+Esg7w6Q=",
+  "last_login": null,
+  "is_superuser": false,
+  "username": "teste5",
+  "first_name": "1",
+  "last_name": "1",
+  "email": "joao_mondim_16@hotmail.com",
+  "is_staff": false,
+  "is_active": true,
+  "date_joined": {
+    "$date": "2020-06-03T22:27:37.404Z"
+  }
+},{
+  "_id": {
+    "$oid": "5ed8244331139f95e6bebaa3"
+  },
+  "id": 34,
+  "password": "pbkdf2_sha256$150000$udk5c5eZbGy0$8rv62FypKQP+m7Y6GDk8Mwq5Xed4FXoudq83uKSVUqs=",
+  "last_login": {
+    "$date": "2020-06-03T22:29:39.552Z"
+  },
+  "is_superuser": false,
+  "username": "teste6",
+  "first_name": "1",
+  "last_name": "1",
+  "email": "unitecsolucoesweb@gmail.com",
+  "is_staff": false,
+  "is_active": true,
+  "date_joined": {
+    "$date": "2020-06-03T22:29:23.413Z"
+  }
+},{
+  "_id": {
+    "$oid": "5ed8ba0c3801bfe307779aeb"
+  },
+  "id": 35,
+  "password": "pbkdf2_sha256$150000$aMF1NGXIURkv$uNYrKW0+nzaWXyZefUMSA7SPb3jnpl5VhWkHrHI3LaU=",
+  "last_login": {
+    "$date": "2020-06-04T09:08:41.400Z"
+  },
+  "is_superuser": false,
+  "username": "teste7",
+  "first_name": "João",
+  "last_name": "Rodrigues",
+  "email": "joao_mondim_16@hotmail.com",
+  "is_staff": false,
+  "is_active": true,
+  "date_joined": {
+    "$date": "2020-06-04T09:08:28.029Z"
+  }
+},{
+  "_id": {
+    "$oid": "5ed8baae3801bfe307779b06"
+  },
+  "id": 36,
+  "password": "pbkdf2_sha256$150000$qyTuYyvtcY8w$iGpE3kuLUcFIG/hE3Dlm2GkgPrCfggXwc0BVGVq8Uso=",
+  "last_login": {
+    "$date": "2020-06-04T09:11:20.859Z"
+  },
+  "is_superuser": false,
+  "username": "teste8",
+  "first_name": "1",
+  "last_name": "1",
+  "email": "joao_mondim_16@hotmail.com",
+  "is_staff": false,
+  "is_active": true,
+  "date_joined": {
+    "$date": "2020-06-04T09:11:10.217Z"
+  }
+}]

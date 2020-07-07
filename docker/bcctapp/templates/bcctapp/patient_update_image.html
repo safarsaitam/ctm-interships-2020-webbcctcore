@@ -1,0 +1,42 @@
+{% extends "bcctapp/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+   <h1>Update Image</h1>
+
+
+               <h2>Patient: {{patient.first_name}} {{patient.last_name}} ID:{{patient.id}}</h2>
+        <div class="form-group">
+             <form method="POST" enctype="multipart/form-data">
+                        <fieldset class="form-group">
+                            {% csrf_token %}
+                            <label for="image">Change Image Date:</label>
+                            <input type="number" id="image1" name="image1" value="Image ID">
+                            <input type="date" id="date" name="date">
+                            <button class="btn btn-outline-info" type="submit">Update</button>
+             </form>
+            {% for images_patient in images_patient %}
+                <h2> id : {{images_patient.number}}</h2>
+                <img class="myImages" src="{{ images_patient.image.url }}" width="300" height="200">
+                <form method="POST" enctype="multipart/form-data">
+                        <fieldset class="form-group">
+                            {% csrf_token %}
+                            {{ form.images }}
+                            <label for="image">Select image ID to confirm:</label>
+                            <input type="text" id="image" name="image">
+                            <button class="btn btn-outline-info" type="submit">Update</button>
+                 </form>
+
+            {% endfor %}
+            <h2> Add a new image: </h2>
+               <div class="form-group">
+                 <form method="POST" enctype="multipart/form-data">
+                        <fieldset class="form-group">
+                            {% csrf_token %}
+                             {{ form.images }}
+                      <button class="btn btn-outline-info" type="submit">Update</button>
+                 </form>
+               </div>
+
+
+
+{% endblock content %}

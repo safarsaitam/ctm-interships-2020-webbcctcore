@@ -1,0 +1,953 @@
+[{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c5c"
+  },
+  "id": 1,
+  "user_id": 16,
+  "permission_id": 1
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c5d"
+  },
+  "id": 2,
+  "user_id": 16,
+  "permission_id": 2
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c5e"
+  },
+  "id": 3,
+  "user_id": 16,
+  "permission_id": 3
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c5f"
+  },
+  "id": 4,
+  "user_id": 16,
+  "permission_id": 4
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c60"
+  },
+  "id": 5,
+  "user_id": 16,
+  "permission_id": 5
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c61"
+  },
+  "id": 6,
+  "user_id": 16,
+  "permission_id": 6
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c62"
+  },
+  "id": 7,
+  "user_id": 16,
+  "permission_id": 7
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c63"
+  },
+  "id": 8,
+  "user_id": 16,
+  "permission_id": 8
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c64"
+  },
+  "id": 9,
+  "user_id": 16,
+  "permission_id": 9
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c65"
+  },
+  "id": 10,
+  "user_id": 16,
+  "permission_id": 10
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c66"
+  },
+  "id": 11,
+  "user_id": 16,
+  "permission_id": 11
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c67"
+  },
+  "id": 12,
+  "user_id": 16,
+  "permission_id": 12
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c68"
+  },
+  "id": 13,
+  "user_id": 16,
+  "permission_id": 13
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c69"
+  },
+  "id": 14,
+  "user_id": 16,
+  "permission_id": 14
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c6a"
+  },
+  "id": 15,
+  "user_id": 16,
+  "permission_id": 15
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c6b"
+  },
+  "id": 16,
+  "user_id": 16,
+  "permission_id": 16
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c6c"
+  },
+  "id": 17,
+  "user_id": 16,
+  "permission_id": 17
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c6d"
+  },
+  "id": 18,
+  "user_id": 16,
+  "permission_id": 18
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c6e"
+  },
+  "id": 19,
+  "user_id": 16,
+  "permission_id": 19
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c6f"
+  },
+  "id": 20,
+  "user_id": 16,
+  "permission_id": 20
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c70"
+  },
+  "id": 21,
+  "user_id": 16,
+  "permission_id": 21
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c71"
+  },
+  "id": 22,
+  "user_id": 16,
+  "permission_id": 22
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c72"
+  },
+  "id": 23,
+  "user_id": 16,
+  "permission_id": 23
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c73"
+  },
+  "id": 24,
+  "user_id": 16,
+  "permission_id": 24
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c74"
+  },
+  "id": 25,
+  "user_id": 16,
+  "permission_id": 25
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c75"
+  },
+  "id": 26,
+  "user_id": 16,
+  "permission_id": 26
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c76"
+  },
+  "id": 27,
+  "user_id": 16,
+  "permission_id": 27
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c77"
+  },
+  "id": 28,
+  "user_id": 16,
+  "permission_id": 28
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c78"
+  },
+  "id": 29,
+  "user_id": 16,
+  "permission_id": 29
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c79"
+  },
+  "id": 30,
+  "user_id": 16,
+  "permission_id": 30
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c7a"
+  },
+  "id": 31,
+  "user_id": 16,
+  "permission_id": 31
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c7b"
+  },
+  "id": 32,
+  "user_id": 16,
+  "permission_id": 32
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c7c"
+  },
+  "id": 33,
+  "user_id": 16,
+  "permission_id": 33
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c7d"
+  },
+  "id": 34,
+  "user_id": 16,
+  "permission_id": 34
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c7e"
+  },
+  "id": 35,
+  "user_id": 16,
+  "permission_id": 35
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c7f"
+  },
+  "id": 36,
+  "user_id": 16,
+  "permission_id": 36
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c80"
+  },
+  "id": 37,
+  "user_id": 16,
+  "permission_id": 37
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c81"
+  },
+  "id": 38,
+  "user_id": 16,
+  "permission_id": 38
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c82"
+  },
+  "id": 39,
+  "user_id": 16,
+  "permission_id": 39
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c83"
+  },
+  "id": 40,
+  "user_id": 16,
+  "permission_id": 40
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c84"
+  },
+  "id": 41,
+  "user_id": 16,
+  "permission_id": 41
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c85"
+  },
+  "id": 42,
+  "user_id": 16,
+  "permission_id": 42
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c86"
+  },
+  "id": 43,
+  "user_id": 16,
+  "permission_id": 43
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c87"
+  },
+  "id": 44,
+  "user_id": 16,
+  "permission_id": 44
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c88"
+  },
+  "id": 45,
+  "user_id": 16,
+  "permission_id": 45
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c89"
+  },
+  "id": 46,
+  "user_id": 16,
+  "permission_id": 46
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c8a"
+  },
+  "id": 47,
+  "user_id": 16,
+  "permission_id": 47
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c8b"
+  },
+  "id": 48,
+  "user_id": 16,
+  "permission_id": 48
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c8c"
+  },
+  "id": 49,
+  "user_id": 16,
+  "permission_id": 49
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c8d"
+  },
+  "id": 50,
+  "user_id": 16,
+  "permission_id": 50
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c8e"
+  },
+  "id": 51,
+  "user_id": 16,
+  "permission_id": 51
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c8f"
+  },
+  "id": 52,
+  "user_id": 16,
+  "permission_id": 52
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c90"
+  },
+  "id": 53,
+  "user_id": 16,
+  "permission_id": 53
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c91"
+  },
+  "id": 54,
+  "user_id": 16,
+  "permission_id": 54
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c92"
+  },
+  "id": 55,
+  "user_id": 16,
+  "permission_id": 55
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c93"
+  },
+  "id": 56,
+  "user_id": 16,
+  "permission_id": 56
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c94"
+  },
+  "id": 57,
+  "user_id": 16,
+  "permission_id": 57
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c95"
+  },
+  "id": 58,
+  "user_id": 16,
+  "permission_id": 58
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c96"
+  },
+  "id": 59,
+  "user_id": 16,
+  "permission_id": 59
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c97"
+  },
+  "id": 60,
+  "user_id": 16,
+  "permission_id": 60
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c98"
+  },
+  "id": 61,
+  "user_id": 16,
+  "permission_id": 61
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c99"
+  },
+  "id": 62,
+  "user_id": 16,
+  "permission_id": 62
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c9a"
+  },
+  "id": 63,
+  "user_id": 16,
+  "permission_id": 63
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c9b"
+  },
+  "id": 64,
+  "user_id": 16,
+  "permission_id": 64
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c9c"
+  },
+  "id": 65,
+  "user_id": 16,
+  "permission_id": 65
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c9d"
+  },
+  "id": 66,
+  "user_id": 16,
+  "permission_id": 66
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c9e"
+  },
+  "id": 67,
+  "user_id": 16,
+  "permission_id": 67
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716c9f"
+  },
+  "id": 68,
+  "user_id": 16,
+  "permission_id": 68
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ca0"
+  },
+  "id": 69,
+  "user_id": 16,
+  "permission_id": 69
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ca1"
+  },
+  "id": 70,
+  "user_id": 16,
+  "permission_id": 70
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ca2"
+  },
+  "id": 71,
+  "user_id": 16,
+  "permission_id": 71
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ca3"
+  },
+  "id": 72,
+  "user_id": 16,
+  "permission_id": 72
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ca4"
+  },
+  "id": 73,
+  "user_id": 16,
+  "permission_id": 77
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ca5"
+  },
+  "id": 74,
+  "user_id": 16,
+  "permission_id": 78
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ca6"
+  },
+  "id": 75,
+  "user_id": 16,
+  "permission_id": 79
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ca7"
+  },
+  "id": 76,
+  "user_id": 16,
+  "permission_id": 80
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ca8"
+  },
+  "id": 77,
+  "user_id": 16,
+  "permission_id": 81
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ca9"
+  },
+  "id": 78,
+  "user_id": 16,
+  "permission_id": 82
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716caa"
+  },
+  "id": 79,
+  "user_id": 16,
+  "permission_id": 83
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cab"
+  },
+  "id": 80,
+  "user_id": 16,
+  "permission_id": 84
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cac"
+  },
+  "id": 81,
+  "user_id": 16,
+  "permission_id": 85
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cad"
+  },
+  "id": 82,
+  "user_id": 16,
+  "permission_id": 86
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cae"
+  },
+  "id": 83,
+  "user_id": 16,
+  "permission_id": 87
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716caf"
+  },
+  "id": 84,
+  "user_id": 16,
+  "permission_id": 88
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cb0"
+  },
+  "id": 85,
+  "user_id": 16,
+  "permission_id": 89
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cb1"
+  },
+  "id": 86,
+  "user_id": 16,
+  "permission_id": 90
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cb2"
+  },
+  "id": 87,
+  "user_id": 16,
+  "permission_id": 91
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cb3"
+  },
+  "id": 88,
+  "user_id": 16,
+  "permission_id": 92
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cb4"
+  },
+  "id": 89,
+  "user_id": 16,
+  "permission_id": 93
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cb5"
+  },
+  "id": 90,
+  "user_id": 16,
+  "permission_id": 94
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cb6"
+  },
+  "id": 91,
+  "user_id": 16,
+  "permission_id": 95
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cb7"
+  },
+  "id": 92,
+  "user_id": 16,
+  "permission_id": 96
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cb8"
+  },
+  "id": 93,
+  "user_id": 16,
+  "permission_id": 97
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cb9"
+  },
+  "id": 94,
+  "user_id": 16,
+  "permission_id": 98
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cba"
+  },
+  "id": 95,
+  "user_id": 16,
+  "permission_id": 99
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cbb"
+  },
+  "id": 96,
+  "user_id": 16,
+  "permission_id": 100
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cbc"
+  },
+  "id": 97,
+  "user_id": 16,
+  "permission_id": 101
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cbd"
+  },
+  "id": 98,
+  "user_id": 16,
+  "permission_id": 102
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cbe"
+  },
+  "id": 99,
+  "user_id": 16,
+  "permission_id": 103
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cbf"
+  },
+  "id": 100,
+  "user_id": 16,
+  "permission_id": 104
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cc0"
+  },
+  "id": 101,
+  "user_id": 16,
+  "permission_id": 105
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cc1"
+  },
+  "id": 102,
+  "user_id": 16,
+  "permission_id": 106
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cc2"
+  },
+  "id": 103,
+  "user_id": 16,
+  "permission_id": 107
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cc3"
+  },
+  "id": 104,
+  "user_id": 16,
+  "permission_id": 108
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cc4"
+  },
+  "id": 105,
+  "user_id": 16,
+  "permission_id": 109
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cc5"
+  },
+  "id": 106,
+  "user_id": 16,
+  "permission_id": 110
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cc6"
+  },
+  "id": 107,
+  "user_id": 16,
+  "permission_id": 111
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cc7"
+  },
+  "id": 108,
+  "user_id": 16,
+  "permission_id": 112
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cc8"
+  },
+  "id": 109,
+  "user_id": 16,
+  "permission_id": 113
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cc9"
+  },
+  "id": 110,
+  "user_id": 16,
+  "permission_id": 114
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cca"
+  },
+  "id": 111,
+  "user_id": 16,
+  "permission_id": 115
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ccb"
+  },
+  "id": 112,
+  "user_id": 16,
+  "permission_id": 116
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ccc"
+  },
+  "id": 113,
+  "user_id": 16,
+  "permission_id": 117
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ccd"
+  },
+  "id": 114,
+  "user_id": 16,
+  "permission_id": 118
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cce"
+  },
+  "id": 115,
+  "user_id": 16,
+  "permission_id": 119
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ccf"
+  },
+  "id": 116,
+  "user_id": 16,
+  "permission_id": 120
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cd0"
+  },
+  "id": 117,
+  "user_id": 16,
+  "permission_id": 121
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cd1"
+  },
+  "id": 118,
+  "user_id": 16,
+  "permission_id": 122
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cd2"
+  },
+  "id": 119,
+  "user_id": 16,
+  "permission_id": 123
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cd3"
+  },
+  "id": 120,
+  "user_id": 16,
+  "permission_id": 124
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cd4"
+  },
+  "id": 121,
+  "user_id": 16,
+  "permission_id": 125
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cd5"
+  },
+  "id": 122,
+  "user_id": 16,
+  "permission_id": 126
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cd6"
+  },
+  "id": 123,
+  "user_id": 16,
+  "permission_id": 127
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cd7"
+  },
+  "id": 124,
+  "user_id": 16,
+  "permission_id": 128
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cd8"
+  },
+  "id": 125,
+  "user_id": 16,
+  "permission_id": 129
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cd9"
+  },
+  "id": 126,
+  "user_id": 16,
+  "permission_id": 130
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cda"
+  },
+  "id": 127,
+  "user_id": 16,
+  "permission_id": 131
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cdb"
+  },
+  "id": 128,
+  "user_id": 16,
+  "permission_id": 132
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cdc"
+  },
+  "id": 129,
+  "user_id": 16,
+  "permission_id": 133
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cdd"
+  },
+  "id": 130,
+  "user_id": 16,
+  "permission_id": 134
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cde"
+  },
+  "id": 131,
+  "user_id": 16,
+  "permission_id": 135
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716cdf"
+  },
+  "id": 132,
+  "user_id": 16,
+  "permission_id": 136
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ce0"
+  },
+  "id": 133,
+  "user_id": 16,
+  "permission_id": 137
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ce1"
+  },
+  "id": 134,
+  "user_id": 16,
+  "permission_id": 138
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ce2"
+  },
+  "id": 135,
+  "user_id": 16,
+  "permission_id": 139
+},{
+  "_id": {
+    "$oid": "5e81f92f52b0939bb4716ce3"
+  },
+  "id": 136,
+  "user_id": 16,
+  "permission_id": 140
+}]

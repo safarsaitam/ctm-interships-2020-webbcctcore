@@ -1,0 +1,137 @@
+[{
+  "_id": {
+    "$oid": "5e6ba08c6113e399f50cd24d"
+  },
+  "id": 1,
+  "doctor_id": 9,
+  "image": "medical_images/bad_10_dZVNGTv_8GaTHRx.jpg",
+  "keypoints": "",
+  "bra": 0,
+  "first_name": "",
+  "last_name": "",
+  "date_posted": {
+    "$date": "2020-03-13T15:02:36.922Z"
+  }
+},{
+  "_id": {
+    "$oid": "5e6bc8d3801b8a4914451e83"
+  },
+  "id": 2,
+  "doctor_id": 9,
+  "image": "medical_images/bad_10_g9sJ6JE_pGJgVP8_13LxC7H.jpg",
+  "keypoints": "",
+  "bra": 0,
+  "first_name": "",
+  "last_name": "",
+  "date_posted": {
+    "$date": "2020-03-13T17:54:27.814Z"
+  }
+},{
+  "_id": {
+    "$oid": "5e6bd7e25147d4c685c29102"
+  },
+  "id": 3,
+  "doctor_id": 9,
+  "image": "medical_images/bad_10_dZVNGTv_g0XZDXN.jpg",
+  "keypoints": "",
+  "bra": 0,
+  "first_name": "",
+  "last_name": "",
+  "date_posted": {
+    "$date": "2020-03-13T18:58:42.647Z"
+  }
+},{
+  "_id": {
+    "$oid": "5e6d05e98373dc30d9da85c0"
+  },
+  "id": 4,
+  "doctor_id": 9,
+  "image": "medical_images/bad_10_g9sJ6JE_pGJgVP8_Fr5U2MK_GDIyvaf.jpg",
+  "keypoints": "",
+  "bra": 0,
+  "first_name": "",
+  "last_name": "",
+  "date_posted": {
+    "$date": "2020-03-14T16:27:21.526Z"
+  }
+},{
+  "_id": {
+    "$oid": "5e6d0a4cd14b8eb804b9038b"
+  },
+  "id": 5,
+  "doctor_id": 9,
+  "image": "medical_images/bad_10_g9sJ6JE_tlGfCYr_w8gTuJq_cCMRZmq_7TNCbzy.jpg",
+  "keypoints": "",
+  "bra": 0,
+  "first_name": "",
+  "last_name": "",
+  "date_posted": {
+    "$date": "2020-03-14T16:46:04.871Z"
+  }
+},{
+  "_id": {
+    "$oid": "5e6d2c1066de2df230cf4216"
+  },
+  "id": 6,
+  "doctor_id": 12,
+  "image": "medical_images/bad_10_g9sJ6JE_tlGfCYr_w8gTuJq_cCMRZmq_7TNCbzy_BoV0iO1.jpg",
+  "keypoints": "",
+  "bra": 0,
+  "date_posted": {
+    "$date": "2020-03-14T19:10:08.683Z"
+  }
+},{
+  "_id": {
+    "$oid": "5e6e4b482368892f34ae2dd3"
+  },
+  "id": 7,
+  "doctor_id": 12,
+  "image": "medical_images/test_nOlaAdL.jpg",
+  "keypoints": "",
+  "bra": 0,
+  "date_posted": {
+    "$date": "2020-03-15T15:35:36.292Z"
+  }
+},{
+  "_id": {
+    "$oid": "5e6fb806b81a89c5bc557e54"
+  },
+  "id": 8,
+  "doctor_id": 12,
+  "image": "medical_images/bad_10_g9sJ6JE_8phPwsf_tdxlQAj_Rc43qVQ.jpg"
+},{
+  "_id": {
+    "$oid": "5e6fc034ca261baccf98b515"
+  },
+  "id": 9,
+  "doctor_id": 12,
+  "image": "medical_images/bad_10_g9sJ6JE_8phPwsf_tdxlQAj_Rc43qVQ_9fTjP0e.jpg"
+},{
+  "_id": {
+    "$oid": "5e8f0d64c989dc0fec6abbbf"
+  },
+  "id": 10,
+  "doctor_id": 16,
+  "image": "medical_images/bad_10_dZVNGTv_8GaTHRx_ca7qqKA.jpg"
+},{
+  "_id": {
+    "$oid": "5ebe9682e2c3192e8cf2d760"
+  },
+  "id": 11,
+  "doctor_id": 11,
+  "image": "medical_images/003a_Vwc7rEO.jpg"
+},{
+  "_id": {
+    "$oid": "5ecba5612a975f80ea697658"
+  },
+  "id": 12,
+  "doctor_id": 27,
+  "image": "medical_images/003a_4wpjFQA_6VA8iHL.jpg"
+},{
+  "_id": {
+    "$oid": "5ed0e3b4671aab1b6ca9cf2d"
+  },
+  "id": 13,
+  "doctor_id": 27,
+  "image": "medical_images/test_UHPVhyB.jpg"
+}]
