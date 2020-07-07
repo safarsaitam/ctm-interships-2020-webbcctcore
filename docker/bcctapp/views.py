@@ -533,7 +533,7 @@ class InteractionsDetailView(LoginRequiredMixin,DetailView):
 
 class PatientUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Patient
-    fields = ['first_name','last_name','bra','patient_weight','patient_height','surgery_type','content',]
+    fields = ['first_name','last_name','bra','patient_weight','patient_height','surgery_type',]
     template_name = "bcctapp/patient_update.html"
 
     def form_valid(self, form):
