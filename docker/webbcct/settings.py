@@ -42,8 +42,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import json
 
-# Uncomment for Docker Deployment
-# with open('/code/webbcct_config.json') as config_file:
 with open('webbcct_config.json') as config_file:
 	config = json.load(config_file)
 
