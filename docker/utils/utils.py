@@ -46,9 +46,15 @@ from tensorflow.keras.applications.vgg16 import preprocess_input
 #
 #     return model
 
-#K.clear_session()
-model = load_model('../code/utils/15jan2019_14_30.hdf5')
-model.load_weights('../code/utils/15jan2019_14_30.hdf5')
+# K.clear_session()
+# Load Model
+# Docker Deployment
+# model = load_model('../code/utils/15jan2019_14_30.hdf5')
+# model.load_weights('../code/utils/15jan2019_14_30.hdf5')
+
+# Personal Computer Deployment
+model = load_model('utils/15jan2019_14_30.hdf5')
+model.load_weights('utils/15jan2019_14_30.hdf5')
 
 def keypoint_prediction(image):
     image = preprocess_input(image)

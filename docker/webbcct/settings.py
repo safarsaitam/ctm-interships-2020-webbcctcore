@@ -42,7 +42,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import json
 
-with open('/code/webbcct_config.json') as config_file:
+# Uncomment for Docker Deployment
+# with open('/code/webbcct_config.json') as config_file:
+with open('webbcct_config.json') as config_file:
 	config = json.load(config_file)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -122,7 +124,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'webbcct',
-        'HOST': 'mongo',
+        # 'HOST': 'mongo', Docker Only
+        'HOST':'127.0.0.1',
         'USER': 'breastgroup',
         'PASSWORD': 'inesctec2020',
         'PORT': 27017
