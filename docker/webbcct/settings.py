@@ -118,6 +118,8 @@ WSGI_APPLICATION = 'webbcct.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# TODO: Mongo DB
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
@@ -127,6 +129,18 @@ DATABASES = {
         'USER': 'breastgroup',
         'PASSWORD': 'inesctec2020',
         'PORT': 27017
+    }
+}
+"""
+
+# Debugg SQLite3
+# Database
+# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 

@@ -1,2 +1,0 @@
-# Django App WebBCCT.core
-

@@ -1,10 +1,14 @@
-from djongo import models
+# TODO: Djongo
+# from djongo import models
+
+# SQLite
+from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
 
 
 # Create your models here.
-from bcctapp.models import Patient
+# from bcctapp.models import Patient
 
 
 class Profile(models.Model):

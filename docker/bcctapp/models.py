@@ -15,10 +15,10 @@ class Patient(models.Model):
     patient_weight = models.IntegerField(null=True)
     bra = models.CharField(max_length=100,null=True)
     date_posted = models.DateTimeField(default=timezone.now)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    n_images = models.IntegerField()
-    team = models.IntegerField()
-    share = models.CharField(validators=[int_list_validator],max_length=100000)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    n_images = models.IntegerField(null=True)
+    team = models.IntegerField(null=True)
+    share = models.CharField(validators=[int_list_validator],max_length=100000, null=True)
     # Surgery Type
     C1 = 1
     C2 = 2
@@ -81,7 +81,7 @@ class ImagesPatient(models.Model):
     image_height = models.CharField(max_length=100,null=True)
     date_created = models.CharField(max_length=100,null=True)
     date_updated = models.CharField(max_length=100,null=True)
-    days = models.IntegerField()
+    days = models.IntegerField(null=True)
     left_endpoint_x = models.FloatField(null=True)
     left_endpoint_y = models.FloatField(null=True)
     l_breast_contour_2_x = models.FloatField(null=True)
@@ -187,7 +187,7 @@ class InteractionsPatient(models.Model):
 
 class Teams(models.Model):
     name = models.CharField(max_length=100)
-    number = models.IntegerField()
+    number = models.IntegerField(null=True)
     users =  models.CharField(validators=[int_list_validator],max_length=10000000)
     patients = models.CharField(validators=[int_list_validator],max_length=10000000)
 

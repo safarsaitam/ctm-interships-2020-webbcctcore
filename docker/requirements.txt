@@ -11,3 +11,4 @@ mongoengine==0.20.0
 opencv-contrib-python==4.2.0.34
 ExifRead==2.1.2
 tensorflow==2.2.0
+psutil==5.7.0
