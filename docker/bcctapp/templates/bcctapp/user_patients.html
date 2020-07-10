@@ -1,38 +1,206 @@
 {% extends "bcctapp/base.html" %}
+
+<!-- specific style for the page -->
+{% load static %}
+{% block extra_style %}
+    <!--<link rel="stylesheet"  href="{% static 'bcctapp/patients.css' %}" type="text/css">-->
+    <style>
+
+        .btn-app {
+            display: inline-block;
+            background-color: #fff;
+            color: #77A0FF;
+            text-decoration: none;
+            border: 2px solid #77A0FF;
+            border-radius: 3px;
+            transition: color .3s;
+            padding: 0 0.5rem;
+        }
+
+        .btn-app:hover {
+            display: inline-block;
+            background-color: #77A0FF;
+            color: #fff;
+            text-decoration: none;
+            border: 2px solid #77A0FF;
+            border-radius: 3px;
+            position: relative;
+        }
+
+
+        .no-outline {
+            outline: none;
+        }
+
+        .no-underline {
+            text-decoration: none;
+        }
+
+        .primary-color {
+            color: #77A0FF; 
+        }
+
+        .main-box {
+            background: #FFFFFF;
+            -webkit-box-shadow: 1px 1px 2px 0 #CCCCCC;
+            -moz-box-shadow: 1px 1px 2px 0 #CCCCCC;
+            -o-box-shadow: 1px 1px 2px 0 #CCCCCC;
+            -ms-box-shadow: 1px 1px 2px 0 #CCCCCC;
+            box-shadow: 1px 1px 2px 0 #CCCCCC;
+            margin-bottom: 16px;
+            -webikt-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+        }
+        .table a.table-link.danger {
+            color: #e74c3c;
+        }
+        .label {
+            border-radius: 3px;
+            font-size: 0.875em;
+            font-weight: 600;
+        }
+        .user-list tbody td .user-subhead {
+            font-size: 0.875em;
+            font-style: italic;
+        }
+        .user-list tbody td .user-link {
+            display: block;
+            font-size: 1.25em;
+            padding-top: 3px;
+            margin-left: 60px;
+        }
+     
+        .user-list tbody td>img {
+            position: relative;
+            max-width: 50px;
+            float: left;
+            margin-right: 15px;
+        }
+
+        .table thead tr th {
+            text-transform: uppercase;
+            font-size: 0.875em;
+        }
+        .table thead tr th {
+            border-bottom: 2px solid #e7ebee;
+        }
+        .table tbody tr td:first-child {
+            font-size: 1.125em;
+            font-weight: 300;
+        }
+        .table tbody tr td {
+            font-size: 0.875em;
+            vertical-align: middle;
+            border-top: 1px solid #e7ebee;
+            padding: 12px 8px;
+        }
+
+    </style>
+{% endblock extra_style %}
+
 {% block content %}
-    <h1 class="mb-3">Patients by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
-    <a class="nav-item nav-link" href="{% url 'patient-new' %}">New Patient</a>
 
-    <form method="POST" enctype="multipart/form-data">
-                       {% csrf_token %}
-            <label for="share_id">Select Patient ID to search:</label>
-            <input type="text" id="share_id" name="share_id">
-            <button type="submit">Search</button>
-    </form>
-    {% if request.user.is_staff %}
-        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'teams-detail' %}">Teams</a>
-    {% endif %}
-    <h2>Search my team:</h2>
-      <form method="POST" enctype="multipart/form-data">
-                           {% csrf_token %}
-                  <label for="name">Add a Name:</label>
-                  <input type="text" id="name" name="name" value="Team name">
-                  <button type="submit">Search</button>
-      </form>
-    {% for patient in patients %}
-        <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ patient.owner.profile.image.url }}" alt="Profile Picture">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="{% url 'user-patient' patient.owner.username %}">{{ patient.owner }}</a>
-                    <small class="text-muted">{{ patient.date_posted|date:"F d, Y"  }}</small>
-                </div>
-                <h2><a class="article-title" href="{% url 'patient-detail' patient.id %}">{{ patient.first_name }} {{ patient.last_name }}</a></h2>
 
-                <p class="article-content">{{ patient.content }}</p>
+    <div class="container my-4">
+
+        <div class="row my-4">
+            <div class="col-8">
+                <h1>
+                    Patients by {{ view.kwargs.username }}
+                </h1>
             </div>
-        </article>
-    {% endfor %}
+
+            <!-- create tem and patient links -->
+            <div class="col px-0 d-flex justify-content-end">
+                {% if request.user.is_staff %}
+                        <a class="no-underline btn-app no-outline p-1 align-self-center" href="{% url 'teams-detail' %}">Create Team</a>
+                {% endif %}
+            </div>
+
+            <div class="col px-0 d-flex justify-content-end">
+                <a class="no-underline btn-app no-outline p-1 align-self-center" href="{% url 'patient-new' %}">Create Patient</a>
+            </div>
+            
+        </div>
+
+    <!--patient search form-->
+        <form class = "row my-3" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-9">
+                <div class="d-flex bd-highlight">
+                    <label class = "mr-2 m-0 align-self-center" for="share_id">Search for a patient: </label>
+                    <input class = "m-0 flex-grow-1 no-outline" type="text" id="share_id" name="share_id">
+                </div>
+            </div>
+
+            <div class="col-2 px-2 w-100">
+                <label for="search_type">Search by: </label>
+                <select class = "h-100 no-outline primary-color" id="search_type">
+                    <option value="identifier">Identifier</option>
+                    <option value="name">Name</option>
+                    <option value="age">Age</option>
+                </select>
+            </div>
+
+            <div class="col-1 w-100 px-0 d-flex justify-content-end">
+                <button class = "btn-app no-outline h-100 p-1" type="submit">Search </button>
+            </div>
+        </form>   
+
+        <!--team search form-->
+      <form class = "row my-3" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="col-11 d-flex bd-highlight">
+                <label class = "mr-2 m-0 align-self-center" for="name">Search team by name:</label>
+                <input class = "m-0 flex-grow-1 no-outline" type="text" id="name" name="name" value="Team name">
+            </div>
+
+            <div class="col-1 w-100 px-0 d-flex justify-content-end">
+                <button class = "btn-app no-outline h-100 p-1" type="submit">Search </button>
+            </div>
+      </form>
+
+      <!--show patients-->
+      <h3 class = "row mt-5 mb-4">There are <span class = "primary-color px-1"> {{ page_obj.paginator.count }} </span> matches:</h3>
+
+        {% for patient in patients %}
+            <article class="media content-section row shadow-sm p-3 mb-5 bg-white rounded">
+                <img class="rounded-circle article-img mt-3" src="{{ patient.owner.profile.image.url }}" alt="Profile Picture">
+                <div class="media-body">
+                    <div class="article-metadata text-right">
+
+                        <span class = "mx-1">
+                            <strong>Owner:</strong>
+                            <a class="mr-2 primary-color" href="{% url 'user-patient' patient.owner.username %}">{{ patient.owner }}</a>
+                        </span>
+                        <span class = "mx-1">
+                            <strong>surgery date:</strong>
+                            <small class="text-muted">{{patient.surgery_date|date:"F d, Y"}}</small>
+                        </span>
+                        <span >
+                            <strong>posted:</strong>
+                            <small class="text-muted">{{ patient.date_posted|date:"F d, Y"}}</small>
+                        </span>
+                    </div>
+                    <h2><a class="article-title" href="{% url 'patient-detail' patient.id %}">{{ patient.first_name }} {{ patient.last_name }}</a></h2>
+                    
+                    <span>
+                        <strong>
+                            age:
+                        </strong>
+                        {{patient.age}}
+                    </span>
+
+                    <p class="article-content">{{ patient.content }}</p>
+                </div>
+            </article>
+        {% endfor %}
+      </div>
+
+
+
     {% if is_paginated %}
         {% if page_obj.has_previous %}
             <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
@@ -53,3 +221,4 @@
         {% endif %}
     {% endif %}
 {% endblock content %}
+</div>
