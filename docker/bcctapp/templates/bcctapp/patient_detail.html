@@ -2,166 +2,174 @@
 {% load mathfilters %}
 {% block extra_style %}
 <style>
-.myImages {
-  /*border-radius: 5px;*/
-  cursor: pointer;
-  transition: 0.3s;
-  margin: 5px;
-  text-align: center;
-}
-
-.myImages:hover {
-  /*opacity: 0.7;*/
-  transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-}
-
-.modal {
-  display: none;
-  /* Hidden by default */
-  position: fixed;
-  /* Stay in place */
-  z-index: 1;
-  /* Sit on top */
-  padding-top: 100px;
-  /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%;
-  /* Full width */
-  height: 100%;
-  /* Full height */
-  overflow: auto;
-  /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0);
-  /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.9);
-  /* Black w/ opacity */
-}
-
-.modal-content {
-  margin: auto;
-  display: block;
-  width: 80%;
-  max-width: 700px;
-}
-
-#form01 {
- margin-top: 5px;
- display: block;
- text-align: center;
-}
-
-#caption {
-  margin: auto;
-  display: block;
-  width: 80%;
-  max-width: 700px;
-  text-align: center;
-  color: #ccc;
-  padding: 10px 0;
-  height: 150px;
-}
-
-.modal-content,
-#caption {
-  animation-name: zoom;
-  animation-duration: 0.6s;
-}
-
-@keyframes zoom {
-  from {
-    transform: scale(0)
+  .myImages {
+    /*border-radius: 5px;*/
+    cursor: pointer;
+    transition: 0.3s;
+    margin: 5px;
+    text-align: center; 
   }
-  to {
-    transform: scale(1)
+  
+  .myImages:hover {
+    /*opacity: 0.7;*/
+    transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
   }
-}
-
-.close {
-  position: relative;
-  top: 15px;
-  right: 35px;
-  color: #f1f1f1;
-  font-size: 40px;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.close:hover,
-.close:focus {
-  color: #bbb;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-@media only screen and (max-width: 700px) {
-  .modal-content {
+  
+  .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
     width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Black w/ opacity */
   }
-}
-</style>
-{% endblock extra_style %}
+  
+  .modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+  }
+  
+  #form01 {
+   margin-top: 5px;
+   display: block;
+   text-align: center;
+  }
+  
+  #caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+  }
+  
+  .modal-content,
+  #caption {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+  }
+  
+  @keyframes zoom {
+    from {
+      transform: scale(0)
+    }
+    to {
+      transform: scale(1)
+    }
+  }
+  
+  .close {
+    position: relative;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  @media only screen and (max-width: 700px) {
+    .modal-content {
+      width: 100%;
+    }
+  }
+
+
+  h1 {
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  #patient-info {
+    text-align: left;
+  }
+
+  #patient-update {
+    text-align: left;
+  }
+
+  hr {
+    border: none;
+    height: 3px;
+    background-color: #aaaaaa;
+  }
+
+  #image-types {
+    font-size: larger;
+    text-align: left;
+    margin-top: 20px;
+  }
+
+  figcaption {
+    text-align: initial;
+  }
+
+  </style>
+  {% endblock extra_style %}
 {% block content %}
 {% endblock content %}
 {% block gallery %}
-    <div>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'patient-update' patient.id%}">Update</a>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'patient-update-image' patient.id%}">Update image</a>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'patient-delete' patient.id%}">Delete</a>
-                <form method="POST" enctype="multipart/form-data">
-                           {% csrf_token %}
-                  <label for="shareteam">Share with team:</label>
-                  <input type="text" id="shareteam" name="shareteam" value="Team ID">
-                  <button type="submit">Share</button>
-                </form>
-             {% if patient.owner_id == view.request.user.id %}
-                <form method="POST" enctype="multipart/form-data">
-                           {% csrf_token %}
-                  <label for="share">Share with:</label>
-                  <input type="text" id="share" name="share" value="User ID">
-                  <button type="submit">Submit</button>
-                </form>
-            {% endif %}
-
-    </div>
-    <h2>Patient: {{patient.first_name}} {{patient.last_name}} ID:{{patient.id}}</h2>
-    <h3>Age: {{patient.age}}</h3>
-    <h3>Weight: {{patient.patient_weight}} kg</h3>
-    <h3>Height: {{patient.patient_height }} cm </h3>
-    <h3>Bra: {{patient.bra}} </h3>
-    <h3>Additional Information: {{patient.content}} </h3>
-
-    {% if patient.surgery_type %}
-                {% if patient.surgery_type == 1  %} <h3>Surgery type : Conservative surgery - unilateral </h3> {% endif %}
-                {% if patient.surgery_type == 2  %} <h3>Surgery type : Conservative surgery with bilateral reduction</h3> {% endif %}
-                {% if patient.surgery_type == 3  %} <h3>Surgery type : Conservative surgery with LD or LICAP / TDAP </h3>{% endif %}
-                {% if patient.surgery_type == 4  %} <h3>Surgery type : Mastectomy with unilateral reconstruction with implant</h3> {% endif %}
-                {% if patient.surgery_type == 5  %} <h3>Surgery type : Mastectomy with unilateral reconstruction with autologous flap</h3> {% endif %}
-                {% if patient.surgery_type == 6  %} <h3>Surgery type : Mastectomy with bilateral reconstruction with implants</h3>{% endif %}
-                {% if patient.surgery_type == 7  %} <h3>Surgery type : Mastectomy with unilateral reconstruction with implant and contralateral symmetrization with implant (augmentation)</h3> {% endif %}
-                {% if patient.surgery_type == 8  %} <h3>Surgery type : Mastectomy with unilateral reconstruction with implant and contralateral symmetrization with reduction</h3> {% endif %}
-                {% if patient.surgery_type == 9  %} <h3>Surgery type : Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrization with reduction</h3>{% endif %}
-                {% if patient.surgery_type == 10 %} <h3>Surgery type : Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrisation with implant (augmentation)</h3>{% endif %}
-    {% endif %}
+<h1 class="mb-5">Patient: {{patient.first_name}} {{patient.last_name}}</h1>
+<div class="container">  
+<div class="row">
+  <div class="col-4">
     {% for images_patient in images_patient %}
-            <h2> Image Id : {{images_patient.number}}</h2>
+            
+            <figure>
+              <img class="myImages" src="{{ images_patient.image.url }}" width="300" height="200">
+              <figcaption>Image Id : {{images_patient.number}}</figcaption>
+            </figure>
+            <div class="row">
+              <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'patient-update-image' patient.id%}">Update image</a>
+
+            </div>
+
             <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'interaction-form' patient.id images_patient.number%}">Interactions</a>
             <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'model' patient.id images_patient.number %}">Predict</a>
             <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'plot' patient.id images_patient.number %}">Plot</a>
-
-            <img class="myImages" src="{{ images_patient.image.url }}" width="300" height="200">
             {% if images_patient.days < 0 %}
                 <h2> {{ images_patient.days|mul:-1 }} days before operation</h2>
             {% elif images_patient.days > 0 %}
                 <h2> {{images_patient.days}} after before operation</h2>
             {% endif %}
             {% if images_patient.view_type != 0 %}
-                {% if images_patient.view_type == 1 %} <h2>View type: Anterior Posterior</h2>{% endif %}
-                {% if images_patient.view_type == 2 %} <h2>View type: Lateral Esquerda</h2>{% endif %}
-                {% if images_patient.view_type == 3 %} <h2>View type: Lateral Direita</h2>{% endif %}
-                {% if images_patient.img_type == 1 %} <h2>Image type: Classificação Estética</h2>{% endif %}
-                {% if images_patient.img_type == 2 %} <h2>Image type: Mamografia</h2>{% endif %}
-
+              <div id="image-types">
+                <p>Image details</p>
+                <hr color="#aaa">
+                {% if images_patient.view_type == 1 %} <p>View type: Anterior Posterior</p>{% endif %}
+                {% if images_patient.view_type == 2 %} <p>View type: Lateral Esquerda</p>{% endif %}
+                {% if images_patient.view_type == 3 %} <p>View type: Lateral Direita</p>{% endif %}
+                {% if images_patient.img_type == 1 %} <p>Image type: Classificação Estética</p>{% endif %}
+                {% if images_patient.img_type == 2 %} <p>Image type: Mamografia</p>{% endif %}
+              </div>
+                
 
             {% elif  images_patient.number == 1 %}
                   <form method="POST" enctype="multipart/form-data">
@@ -279,6 +287,66 @@
 
 
     {% endfor %}
+    </div>
+<div class="col-8" id="patient-info">
+
+  <div class="d-flex justify-content-between">
+      
+    <h2><strong>Personal Information</strong></h2>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1 px-4" href="{% url 'patient-update' patient.id%}">Update</a>
+  
+  </div>
+  <hr color="#aaa">
+    
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h4><strong>ID:</strong> {{patient.id}}</h4>
+      </div>
+      <div class="col">
+        <h4><strong>Age:</strong> {{patient.age}}</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h4><strong>Weight:</strong> {{patient.patient_weight}} kg</h4>
+      </div>
+      <div class="col">
+        <h4><strong>Height:</strong> {{patient.patient_height }} cm </h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h4><strong>Bra:</strong> {{patient.bra}} </h3>
+      </div>
+    </div> 
+  </div>
+    
+    <h2 class="mt-5"><strong>Additional Information {{patient.content}} </strong></h2>
+    <hr color="#aaa">
+
+    {% if patient.surgery_type %}
+                {% if patient.surgery_type == 1  %} <h4><strong>Surgery type:</strong> Conservative surgery - unilateral </h4> {% endif %}
+                {% if patient.surgery_type == 2  %} <h4><strong>Surgery type:</strong> Conservative surgery with bilateral reduction</h4> {% endif %}
+                {% if patient.surgery_type == 3  %} <h4><strong>Surgery type:</strong> Conservative surgery with LD or LICAP / TDAP </h4>{% endif %}
+                {% if patient.surgery_type == 4  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with implant</h4> {% endif %}
+                {% if patient.surgery_type == 5  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with autologous flap</h4> {% endif %}
+                {% if patient.surgery_type == 6  %} <h4><strong>Surgery type:</strong> Mastectomy with bilateral reconstruction with implants</h4>{% endif %}
+                {% if patient.surgery_type == 7  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with implant and contralateral symmetrization with implant (augmentation)</h4> {% endif %}
+                {% if patient.surgery_type == 8  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with implant and contralateral symmetrization with reduction</h4> {% endif %}
+                {% if patient.surgery_type == 9  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrization with reduction</h4>{% endif %}
+                {% if patient.surgery_type == 10 %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrisation with implant (augmentation)</h4>{% endif %}
+    {% endif %}
+</div>
+</div>
+
+<div class="row d-flex justify-content-end">
+  <a class="btn btn-secondary btn-sm mt-1 mb-1 btn-danger px-4" id="delete-btn" href="{% url 'patient-delete' patient.id%}">Delete</a>  
+</div>
+
+</div>
+
+
 
 
 {% endblock gallery %}
