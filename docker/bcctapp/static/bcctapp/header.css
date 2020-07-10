@@ -17,13 +17,14 @@
 /* margins */
 
 .nav-item-start {
-    margin-left: 30px;
+    margin-left: 50px;
+    margin-right: 30px;
 }
 
 #navbarToggle .navbar-nav .nav-item-md {
-    margin-right: 18px;
+    margin-right: 20px;
 }
 
 #navbarToggle .navbar-nav .nav-item-end {
-    margin-right: 30px;
+    margin-right: 50px;
 }
