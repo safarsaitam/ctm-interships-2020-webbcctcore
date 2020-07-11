@@ -55,3 +55,10 @@ class TeamsForm(forms.ModelForm):
     class Meta:
         model = Teams
         fields = ('name','users',)
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(required = True)
+    email = forms.EmailField(required = True)
+    content = forms.CharField(max_length=1024)
+    score = forms.FloatField(required=True, max_value=5, min_value=0)

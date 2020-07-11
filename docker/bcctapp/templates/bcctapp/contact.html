@@ -1,0 +1,14 @@
+{% extends "bcctapp/base.html" %}
+{% load myfilters %}
+
+{% block content %}
+<div class="container">
+    <h1>Contact Form</h1>
+    <form action="">
+        {% csrf_token %}
+        {{ form.email|addclass:'w-100'  }}
+        <button class = "btn-waves">Send email</button>
+    </form>
+</div>
+
+{% endblock content %}
