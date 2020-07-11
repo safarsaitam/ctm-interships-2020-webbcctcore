@@ -29,144 +29,260 @@
 
 
         .no-outline {
-            outline: none;
+            outline: none !important;
         }
 
         .no-underline {
-            text-decoration: none;
+            text-decoration: none !important;
         }
 
         .primary-color {
-            color: #77A0FF; 
+            color: #77A0FF !important; 
         }
 
-        .main-box {
-            background: #FFFFFF;
-            -webkit-box-shadow: 1px 1px 2px 0 #CCCCCC;
-            -moz-box-shadow: 1px 1px 2px 0 #CCCCCC;
-            -o-box-shadow: 1px 1px 2px 0 #CCCCCC;
-            -ms-box-shadow: 1px 1px 2px 0 #CCCCCC;
-            box-shadow: 1px 1px 2px 0 #CCCCCC;
-            margin-bottom: 16px;
-            -webikt-border-radius: 3px;
-            -moz-border-radius: 3px;
-            border-radius: 3px;
-        }
-        .table a.table-link.danger {
-            color: #e74c3c;
-        }
-        .label {
-            border-radius: 3px;
-            font-size: 0.875em;
-            font-weight: 600;
-        }
-        .user-list tbody td .user-subhead {
-            font-size: 0.875em;
-            font-style: italic;
-        }
-        .user-list tbody td .user-link {
-            display: block;
-            font-size: 1.25em;
-            padding-top: 3px;
-            margin-left: 60px;
-        }
-     
-        .user-list tbody td>img {
-            position: relative;
-            max-width: 50px;
-            float: left;
-            margin-right: 15px;
-        }
+    /* generic cd-breadcrumb design*/
+    .cd-breadcrumb {
+        max-width: 100%;
+        background-color: #edeff0;
+        border-radius: .25em;
+    }
+    .cd-breadcrumb::after {
+        clear: both;
+        content: "";
+        display: table;
+    }
+    .cd-breadcrumb li {
+        display: inline-block;
+    }
+    .cd-breadcrumb li::after {
+        /* this is the separator between items */
+        display: inline-block;
+        content: '\00bb';
+        color: #959fa5;
+    }
+    .cd-breadcrumb li:last-of-type::after {
+        /* hide separator after the last item */
+        display: none;
+    }
+    .cd-breadcrumb li > * {
+        /* single step */
+        display: inline-block;
+        color: #2c3f4c;
+    }
+    .cd-breadcrumb li.current > * {
+        /* selected step */
+        color: #96c03d;
+    }
 
-        .table thead tr th {
-            text-transform: uppercase;
-            font-size: 0.875em;
+    .cd-breadcrumb.custom-separator li::after {
+        /* replace the default separator with a custom icon */
+        content: '';
+        background: url(https://codyhouse.co/demo/cd-breadcrumbs-multi-steps-indicator/img/cd-custom-separator.svg) no-repeat center center;
+        vertical-align: middle;
+    }
+    .cd-breadcrumb.custom-icons li > *::before {
+        /* add a custom icon before each item */
+        content: '';
+        display: inline-block;
+        margin-right: .4em;
+        margin-top: -2px;
+        background: url(https://codyhouse.co/demo/cd-breadcrumbs-multi-steps-indicator/img/cd-custom-icons-01.svg) no-repeat 0 0;
+        vertical-align: middle;
+    }
+    .cd-breadcrumb.custom-icons li:not(.current):nth-of-type(2) > *::before {
+        /* change custom icon using image sprites */
+        background-position: -20px 0;
+    }
+    .cd-breadcrumb.custom-icons li:not(.current):nth-of-type(3) > *::before {
+        background-position: -40px 0;
+    }
+    .cd-breadcrumb.custom-icons li:not(.current):nth-of-type(4) > *::before {
+        background-position: -60px 0;
+    }
+    .cd-breadcrumb.custom-icons li.current:first-of-type > *::before {
+        /* change custom icon for the current item */
+        background-position: 0 -20px;
+    }
+    .cd-breadcrumb.custom-icons li.current:nth-of-type(2) > *::before {
+        background-position: -20px -20px;
+    }
+    .cd-breadcrumb.custom-icons li.current:nth-of-type(3) > *::before {
+        background-position: -40px -20px;
+    }
+    .cd-breadcrumb.custom-icons li.current:nth-of-type(4) > *::before {
+        background-position: -60px -20px;
+    }
+
+    @media only screen and (min-width: 768px) {
+        .cd-breadcrumb.custom-icons {
+        padding: 0 0.8em;
         }
-        .table thead tr th {
-            border-bottom: 2px solid #e7ebee;
+        .cd-breadcrumb li {
+        margin: 0.5em 0;
         }
-        .table tbody tr td:first-child {
-            font-size: 1.125em;
-            font-weight: 300;
+        .cd-breadcrumb li::after {
+        margin: 0 0.5em;
         }
-        .table tbody tr td {
-            font-size: 0.875em;
-            vertical-align: middle;
-            border-top: 1px solid #e7ebee;
-            padding: 12px 8px;
-        }
+    }
+
+    /* create two separators: teams and patients*/
+
+    #tables-types li {
+        list-style: none;
+        margin: 0;
+        padding: 0.5rem 1rem;
+        border-bottom: 3px solid inherit;
+    }
+
+    #tables-types li.active {
+        border-bottom: 3px solid green;
+    }
+
+    #tables-types li:hover {
+        border-bottom: 3px solid greenyellow;
+    }
+
+    /*colors*/
+
+    .medicine-primary-color {
+        color: green;
+    }
+
+    .medicine-bg-primary {
+        background-color: green;
+    }
+
+    .counter {
+        position: relative;
+    }
+
+    .counter-badge {
+        width:25px;
+        height:25px;
+        position: absolute;
+        top: -6px;
+        right: -20px;
+        border-radius: 50%;
+        background: green;
+        color: white;
+    }
+
+    .counter-badge-content {
+        top:0;
+        left:25%;
+        position:absolute;
+        font-size:1.3rem;
+    }
+
 
     </style>
 {% endblock extra_style %}
 
 {% block content %}
 
+<div class="container-fluid my-4 h-100">
+    <nav class = "row col-12">
+        <ol class="cd-breadcrumb w-100">
+            {% if user.is_authenticated %}
+            <li>Logged in</li>
+            {% endif %}
+            <li class = "current"><a class = "no-underline" href="#">Patients and Teams</a></li>
+        </ol>
+    </nav>
 
-    <div class="container my-4">
+    <!--can be a patient or a team-->
+    <div id="tables-types" class="d-flex border-bottom p-2 row col-12">
+        <li data-select = "patients" class="active">
+            Patients </span>
+        </li>
+        <li data-select="teams"> Teams </span></li>
 
-        <div class="row my-4">
-            <div class="col-8">
-                <h1>
-                    Patients by {{ view.kwargs.username }}
-                </h1>
-            </div>
-
-            <!-- create tem and patient links -->
-            <div class="col px-0 d-flex justify-content-end">
-                {% if request.user.is_staff %}
-                        <a class="no-underline btn-app no-outline p-1 align-self-center" href="{% url 'teams-detail' %}">Create Team</a>
-                {% endif %}
-            </div>
-
-            <div class="col px-0 d-flex justify-content-end">
-                <a class="no-underline btn-app no-outline p-1 align-self-center" href="{% url 'patient-new' %}">Create Patient</a>
-            </div>
-            
+        <div id="add-patient" class="ml-auto">
+            <a class="no-underline btn-app no-outline p-1 align-self-center" href="{% url 'patient-new' %}">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                Add Patient
+            </a>
         </div>
 
-    <!--patient search form-->
-        <form class = "row my-3" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="col-9">
-                <div class="d-flex bd-highlight">
-                    <label class = "mr-2 m-0 align-self-center" for="share_id">Search for a patient: </label>
-                    <input class = "m-0 flex-grow-1 no-outline" type="text" id="share_id" name="share_id">
-                </div>
-            </div>
+        <div id = "add-team" class="ml-auto justify-content-end d-none">
+            {% if request.user.is_staff %}
+                    <a class="no-underline btn-app no-outline p-1 align-self-center" href="{% url 'teams-detail' %}">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        Create Team
+                    </a>
+            {% endif %}
+        </div>
+    </div>
 
-            <div class="col-2 px-2 w-100">
-                <label for="search_type">Search by: </label>
-                <select class = "h-100 no-outline primary-color" id="search_type">
-                    <option value="identifier">Identifier</option>
-                    <option value="name">Name</option>
-                    <option value="age">Age</option>
-                </select>
-            </div>
-
-            <div class="col-1 w-100 px-0 d-flex justify-content-end">
-                <button class = "btn-app no-outline h-100 p-1" type="submit">Search </button>
-            </div>
-        </form>   
-
-        <!--team search form-->
-      <form class = "row my-3" method="POST" enctype="multipart/form-data">
+    <!--search for users-->
+    <div id = "patients-search" class="border-bottom py-3 my-0 row col-12">
+        <form class="d-md-flex justify-content-between w-100"  method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
-            <div class="col-11 d-flex bd-highlight">
-                <label class = "mr-2 m-0 align-self-center" for="name">Search team by name:</label>
-                <input class = "m-0 flex-grow-1 no-outline" type="text" id="name" name="name" value="Team name">
+            <div class="form-group mb-0 flex-grow-1">
+            <label class = "mr-2 m-0 align-self-center w-100">
+                <input class = "m-0 no-outline form-control w-100" 
+                type="text" name="share_id" placeholder="Search patients by...">
+            </label>
             </div>
 
-            <div class="col-1 w-100 px-0 d-flex justify-content-end">
-                <button class = "btn-app no-outline h-100 p-1" type="submit">Search </button>
+            <div class="px-1">
+            <label for="search_type"> </label>
+            <select class = "h-100 no-outline primary-color px-2" id="search_type">
+                <option value="identifier">Identifier</option>
+                <option value="name">Name</option>
+                <option value="age">Age</option>
+            </select>
             </div>
-      </form>
 
-      <!--show patients-->
-      <h3 class = "row mt-5 mb-4">There are <span class = "primary-color px-1"> {{ page_obj.paginator.count }} </span> matches:</h3>
+            <div class="px-1 d-flex justify-content-end">
+            <button class = "btn-app no-outline h-100 px-3" type="submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+            </div>
+        </form>
+    </div><!--end of search for users-->
 
-        {% for patient in patients %}
-            <article class="media content-section row shadow-sm p-3 mb-5 bg-white rounded">
+    <!--team search-->
+    <div id = "teams-search" class="border-bottom py-3 my-0 d-none row col-12">
+        <form class="d-md-flex justify-content-between w-100" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group mb-0 flex-grow-1">
+                <label class = "mr-2 m-0 align-self-center w-100">
+                    <input class = "m-0 flex-grow-1 no-outline w-100 form-control" type="text" id="name" name="name" placeholder="Search for a team by name...">
+                </label>
+            </div>
+            <div class="px-1 d-flex justify-content-end">
+                <button class = "btn-app no-outline h-100 px-3" type="submit">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
+        </form>
+    </div> <!-- end of team search-->
+
+    <!--patients search results-->
+    <div class="patients-results row col-12 my-4" id = "patients">
+        <div class="container">
+
+        <div class = "row col-12 mb-4 px-0">
+            <div class="col-8 m-0 p-0">
+                <h2>
+                    Patients by {{ view.kwargs.username }}
+                    <span class = "counter"> 
+                    <small class = "counter-badge">
+                        <div class="counter-badge-content">
+                                {{ page_obj.paginator.count }}
+                        </div>
+                        </small>
+                    </span> 
+                </h2>
+            </div>
+     
+        </div>
+
+         {% for patient in patients %}
+            <article class="media content-section row shadow-sm p-3 mb-5 bg-white rounded row-col-12">
                 <img class="rounded-circle article-img mt-3" src="{{ patient.owner.profile.image.url }}" alt="Profile Picture">
                 <div class="media-body">
                     <div class="article-metadata text-right">
@@ -197,28 +313,85 @@
                 </div>
             </article>
         {% endfor %}
-      </div>
 
-
-
-    {% if is_paginated %}
-        {% if page_obj.has_previous %}
-            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-        {% endif %}
-
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% if is_paginated %}
+            {% if page_obj.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
             {% endif %}
-        {% endfor %}
 
-        {% if page_obj.has_next %}
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
         {% endif %}
-    {% endif %}
-{% endblock content %}
+
+        </div>
+    </div> <!-- end of patients results-->
+
+
+    <div class="teams-results row col-12 my-4 d-none" id = "teams">
+        <!-- todo-->
+
+    </div>        
 </div>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    "use strict";
+
+    const type_of_search = document.querySelectorAll('#tables-types > li');
+    const btn_add_patient = document.getElementById('add-patient');
+    const btn_add_team = document.getElementById('add-team');
+    const patient_form = document.getElementById('patients-search');
+    const team_form = document.getElementById('teams-search');
+    const patients_results = document.getElementById('patients');
+    const teams_results = document.getElementById('teams')
+
+    function noDisplay(elem) {
+        elem.classList.add('d-none');
+    }
+
+    function display(elem) {
+        elem.classList.remove('d-none')
+    }
+
+    (function () { [...type_of_search].forEach(type => type.addEventListener('click', function() {
+        // switch active element ui
+        const current_element = document.querySelector('#tables-types .active');
+        current_element.classList.remove('active');
+        type.classList.add('active');
+
+        const selected = type.getAttribute('data-select');
+        //switch add button e forms and results
+        if (selected === 'patients') {
+            display(btn_add_patient);
+            noDisplay(btn_add_team);
+            display(patient_form);
+            noDisplay(team_form);
+            display(patients_results);
+            noDisplay(teams_results);
+        } else if (selected === 'teams') {
+            display(btn_add_team);
+            noDisplay(btn_add_patient);   
+            display(team_form);
+            noDisplay(patient_form);
+            display(teams_results);
+            noDisplay(patients_results);
+        }
+        }));
+    })();
+
+
+</script>
+{% endblock extra_js %}
