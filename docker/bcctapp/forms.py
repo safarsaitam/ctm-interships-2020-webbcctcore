@@ -60,5 +60,6 @@ class TeamsForm(forms.ModelForm):
 class ContactForm(forms.Form):
     name = forms.CharField(required = True)
     email = forms.EmailField(required = True)
-    content = forms.CharField(max_length=1024)
-    score = forms.FloatField(required=True, max_value=5, min_value=0)
+    content = forms.CharField(required = False, max_length=1024, widget=forms.Textarea(attrs={"rows":6, "cols":20}))
+    CHOICES = (('1', '',), ('2', '',),('3', '',), ('4', '',),('5',''))
+    score = forms.ChoiceField(required = True, widget=forms.RadioSelect, choices=CHOICES)

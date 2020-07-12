@@ -1096,7 +1096,10 @@ def update_breast_bra(request,**kwargs):
 # contact form view
 def contact(request):
     
+    # [not tested yet]
     if request.method == 'POST':
+        print(request.POST)
+        return
         form = ContactForm(data = request.POST)
 
         if form.is_valid():
@@ -1126,7 +1129,10 @@ def contact(request):
 
         return redirect('home.html')
     else :
-        form = ContactForm()
+        if request.user.is_authenticated :
+            form = ContactForm(initial = {'email': request.user.email, 'name': request.user.username})
+        else :
+            form = ContactForm()
         return render(request,'bcctapp/contact.html',  {'form': form})
 
 
