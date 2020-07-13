@@ -444,10 +444,12 @@ def img_update(img_type1, img_type2, img_type3, img_type4, img_type5):
     if img_type5:
         ImagesPatient.objects.filter(number=5).update(img_type=img_type5)
 
+
 def days_between(d1, d2):
     d1 = datetime.strptime(d1, "%Y-%m-%d")
     d2 = datetime.strptime(d2, "%Y-%m-%d")
     return (d2 - d1).days
+
 
 class PatientDetailView(LoginRequiredMixin,DetailView):
     model = Patient

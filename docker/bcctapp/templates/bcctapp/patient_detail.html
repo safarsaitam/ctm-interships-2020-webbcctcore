@@ -6,8 +6,8 @@
     /*border-radius: 5px;*/
     cursor: pointer;
     transition: 0.3s;
-    margin: 5px;
-    text-align: center; 
+    margin-top: 5px;
+    text-align: center;
   }
   
   .myImages:hover {
@@ -121,15 +121,27 @@
     background-color: #aaaaaa;
   }
 
-  #image-types {
+  .image-types {
     font-size: larger;
     text-align: left;
     margin-top: 20px;
   }
 
-  figcaption {
-    text-align: initial;
+  #update-picture-button {
+    width: 300px;
+    border-radius: 0 !important;
+    margin-bottom: 20px;
   }
+
+  .action-button {
+    width: 95px;
+  }
+
+  option:hover {
+    background-color: #aaaaaa !important;
+  }
+ 
+
 
   </style>
   {% endblock extra_style %}
@@ -144,23 +156,23 @@
             
             <figure>
               <img class="myImages" src="{{ images_patient.image.url }}" width="300" height="200">
-              <figcaption>Image Id : {{images_patient.number}}</figcaption>
-            </figure>
-            <div class="row">
-              <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'patient-update-image' patient.id%}">Update image</a>
+              <a id="update-picture-button" class="btn btn-secondary btn-sm" href="{% url 'patient-update-image' patient.id%}">Update image</a>
+              <figcaption>Last updated on Mar 3rd, 2020</figcaption>
+            </figure>              
 
-            </div>
+            <div class="mb-5 mt-2">
+              <a class="btn btn-secondary btn-sm mt-1 mb-1 action-button" href="{% url 'interaction-form' patient.id images_patient.number%}">Interactions</a>
+              <a class="btn btn-secondary btn-sm mt-1 mb-1 action-button" href="{% url 'model' patient.id images_patient.number %}">Predict</a>
+              <a class="btn btn-secondary btn-sm mt-1 mb-1 action-button" href="{% url 'plot' patient.id images_patient.number %}">Plot</a>
+            </div>       
 
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'interaction-form' patient.id images_patient.number%}">Interactions</a>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'model' patient.id images_patient.number %}">Predict</a>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'plot' patient.id images_patient.number %}">Plot</a>
             {% if images_patient.days < 0 %}
                 <h2> {{ images_patient.days|mul:-1 }} days before operation</h2>
             {% elif images_patient.days > 0 %}
                 <h2> {{images_patient.days}} after before operation</h2>
             {% endif %}
             {% if images_patient.view_type != 0 %}
-              <div id="image-types">
+              <div class="image-types">
                 <p>Image details</p>
                 <hr color="#aaa">
                 {% if images_patient.view_type == 1 %} <p>View type: Anterior Posterior</p>{% endif %}
@@ -174,20 +186,25 @@
             {% elif  images_patient.number == 1 %}
                   <form method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
-                                <label for="view_type1">Choose a view type:</label>
+                                <div class="image-types">
+                                  <p>Image details</p>
+                                  <hr color="#aaa">
+                                  <small class="text-danger">Types have yet to be chosen</small><br>
+                                <label for="view_type1">View type:</label>
                                   <select id="view_type1" name="view_type1">
                                     <option value="1">Anterior Posterior</option>
                                     <option value="2">Lateral Esquerda</option>
                                     <option value="3">Lateral Direita</option>
                                   </select>
 
-                                <label for="img_type1">Choose a image type:</label>
+                                <label for="img_type1">Image type:</label>
                                   <select id="img_type1" name="img_type1">
                                     <option value="1">Classificação Estética</option>
                                     <option value="2">Mamografia</option>
                                   </select>
+                                </div>
 
-                      <input type="submit" value="Submit">
+                      <input type="submit" value="Submit" class="btn btn-secondary btn-sm mt-1 mb-1 action-button">
                  </form>
             {% elif  images_patient.number == 2 %}
 
