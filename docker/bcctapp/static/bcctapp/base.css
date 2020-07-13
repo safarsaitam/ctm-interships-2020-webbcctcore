@@ -97,6 +97,14 @@ body {
     .body-main {
         min-width: 100%;
     }
+    .links-footer a {
+        display: inline;
+        margin: 5vw;
+    }
+    #navbarToggle .navbar-nav .nav-link{
+        text-align: center;
+        margin-right: 0vh;
+    }
 }
 
 @media screen and (min-width: 768px) {
