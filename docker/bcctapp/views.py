@@ -1135,6 +1135,11 @@ def contact(request):
             form = ContactForm()
         return render(request,'bcctapp/contact.html',  {'form': form})
 
+#chat
+
+def chat(request) :
+    return render(request, 'bcctapp/chat.html')
+
 
 
 

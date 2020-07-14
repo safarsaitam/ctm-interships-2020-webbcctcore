@@ -14,8 +14,10 @@
         font-size: 2.7rem;
     }
 
-    .star-rating li  label::after {
+    .star-rating li label::after {
         content: "\2605";
+        padding:0;
+        margin:0;
     }
 
     .star-rating ul {
@@ -27,7 +29,7 @@
         color:yellow;
     }
 
-    .star-rating li.active, ul li.secondary-active {
+    .star-rating li.active, .star-rating li.secondary-active {
         color:yellow;
     }
 
