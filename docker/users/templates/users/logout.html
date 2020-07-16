@@ -1,9 +1,15 @@
 {% extends "bcctapp/base.html" %}
 {% block content %}
-    <h2>You have been logged out!</h2>
-    <div class="boarder-top pt-3">
-        <small class="text-muted">
-            <a class="ml-2" href="{% url 'login' %}">Log In Again!</a>
+    <h1 class = "h1 mb-3 mt-5 text-center">Logout page</h1>
+    <div class="boarder-top pt-3 d-flex justify-content-center">
+        <div class="self-align-center w-30 text-center">
+        <p> You are signed out now!</p>
+        <p>Do you wish to log in again or maybe you can give us some feedback ?</p>
+        <small class="m-3">
+            <a class="ml-3 btn btn-outline-info" href="{% url 'login' %}">Log in</a>
+            <a class="ml-5 btn btn-outline-success" href="{% url 'bcctapp-contact' %}">Feedback</a>
+
         </small>
+    </div>
     </div>
 {% endblock content %}
