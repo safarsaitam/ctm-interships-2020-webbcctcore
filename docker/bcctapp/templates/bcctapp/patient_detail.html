@@ -140,6 +140,17 @@
   option:hover {
     background-color: #aaaaaa !important;
   }
+
+  .form-check {
+    margin: 5px;
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+
+
+  #export-button {
+    width: 140px;
+  }
  
 
 
@@ -181,6 +192,31 @@
                 {% if images_patient.img_type == 1 %} <p>Image type: Classificação Estética</p>{% endif %}
                 {% if images_patient.img_type == 2 %} <p>Image type: Mamografia</p>{% endif %}
               </div>
+
+              <div id = "patients-search" class="row mt-5">
+                <form class="d-md-flex justify-content-between w-100"  method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+        
+                    <div class="form-group mb-0 flex-grow-1">
+                    <label class = "mt-2">
+                        Export details as...
+                    </label>
+                    </div>
+        
+                    <div class="px-1">
+                    <label for="search_type"> </label>
+                    <select class = "h-100 no-outline primary-color px-2" id="search_type">
+                        <option value="identifier">.xlsx</option>
+                        <option value="name">.csv</option>
+                    </select>
+                    </div>
+        
+                    <div class="px-1 d-flex justify-content-end">
+                      <input type="submit" value="Export" id="export-button" class="btn btn-secondary btn-sm mt-1 mb-1 action-button">
+                    </div>
+                </form>
+            </div>
+            
                 
 
             {% elif  images_patient.number == 1 %}
@@ -341,7 +377,9 @@
     
     <h2 class="mt-5"><strong>Additional Information {{patient.content}} </strong></h2>
     <hr color="#aaa">
+    <div class="mb-5">
 
+    
     {% if patient.surgery_type %}
                 {% if patient.surgery_type == 1  %} <h4><strong>Surgery type:</strong> Conservative surgery - unilateral </h4> {% endif %}
                 {% if patient.surgery_type == 2  %} <h4><strong>Surgery type:</strong> Conservative surgery with bilateral reduction</h4> {% endif %}
@@ -354,12 +392,20 @@
                 {% if patient.surgery_type == 9  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrization with reduction</h4>{% endif %}
                 {% if patient.surgery_type == 10 %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrisation with implant (augmentation)</h4>{% endif %}
     {% endif %}
+
+    </div>
+
+
+    <div class="row d-flex justify-content-end">
+      <a class="btn btn-secondary btn-sm btn-danger px-4 mt-5" id="delete-btn" href="{% url 'patient-delete' patient.id%}">Delete</a>  
+    </div>
 </div>
+  
 </div>
 
-<div class="row d-flex justify-content-end">
-  <a class="btn btn-secondary btn-sm mt-1 mb-1 btn-danger px-4" id="delete-btn" href="{% url 'patient-delete' patient.id%}">Delete</a>  
-</div>
+
+
+
 
 </div>
 
