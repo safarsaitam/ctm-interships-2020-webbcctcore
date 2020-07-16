@@ -1,0 +1,30 @@
+.inesc-bg-md-green {
+    background-color: #00A776;
+}
+
+.inesc-border-dk-green {
+    border-bottom: 6px solid #003828;
+}
+
+#navbarToggle .navbar-nav .nav-link {
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+}
+
+
+
+/* margins */
+
+.nav-item-start {
+    margin-left: 50px;
+    margin-right: 30px;
+}
+
+#navbarToggle .navbar-nav .nav-item-md {
+    margin-right: 20px;
+}
+
+#navbarToggle .navbar-nav .nav-item-end {
+    margin-right: 50px;
+}
