@@ -6,6 +6,8 @@ from . import views
 
 urlpatterns = [
     path('', views.bcctapphome, name='bcctapp-home'),
+    path('contact/', views.contact, name='bcctapp-contact'),
+    path('chat/', views.chat, name='bcctapp-chat'),
     path('patient/<int:pk>/', PatientDetailView.as_view(), name='patient-detail'),
     path('team/', TeamsCreateView.as_view(), name='teams-detail'),
     path('myteam/<str:name>', MyTeamsListView.as_view(), name='my-team'),
@@ -23,5 +25,6 @@ urlpatterns = [
     path('model/<int:pk>/<int>/', views.medical_image_modal, name='model'),
     path('plot/<int:pk>/<int>/', views.plot_image_modal, name='plot'),
     path('bcctcore/<int:pk>/<int>/', views.bcctcore, name='bcctcore'),
-    path('bcctcore/updateBra/', views.update_breast_bra, name='update_breast_bra')
+    path('bcctcore/updateBra/', views.update_breast_bra, name='update_breast_bra'),
+    
 ]

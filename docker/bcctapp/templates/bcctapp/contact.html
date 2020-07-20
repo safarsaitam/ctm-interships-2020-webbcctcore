@@ -1,0 +1,170 @@
+{% extends "bcctapp/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block extra_style %}
+<style>
+
+    /*star rating style based on render*/
+    .star-rating li {
+        display: inline-block !important;
+        padding:0;
+        margin:0;
+        color:rgb(148, 145, 145);
+        text-shadow: 2px 2px 5px grey;
+        font-size: 2.7rem;
+    }
+
+    .star-rating li label::after {
+        content: "\2605";
+        padding:0;
+        margin:0;
+    }
+
+    .star-rating ul {
+        padding:0;
+        margin:0;
+    }
+
+    .star-rating ul li:hover {
+        color:yellow;
+    }
+
+    .star-rating li.active, .star-rating li.secondary-active {
+        color:yellow;
+    }
+
+    .star-rating label {
+        display: inline-block;
+        border-radius: 3px;
+        position: relative;
+        padding: 0 5px;
+    }
+    
+    .star-rating input[type=radio] {
+        opacity: 1;
+	    position: absolute;
+        z-index: -1;
+        top:50%;
+        left:40%;
+    }
+
+    .star-rating input[type=radio]:checked +label {
+         border: 1px solid blue;
+    }
+
+
+    .star-rating li.hover-stars {
+        color: rgb(238, 238, 161);
+    }
+
+    .star-rating li.prev-stars {
+        color:yellow;
+    }
+
+</style>
+
+{% endblock extra_style %}
+
+{% block content %}
+
+<h1 class = "m-2">Give us some feedback</h1>
+<form action="POST">
+    {% csrf_token %}
+    <div class="form-row">
+        <div title = "Enter your email" class="form-group col-md-6 mb-0">
+          {{ form.email|as_crispy_field }}
+        </div>
+        <div title = "Enter your username" class="form-group col-md-6 mb-0">
+          {{ form.name|as_crispy_field }}
+        </div>
+    </div>
+    <div title = "Give us some feedback">
+        {{form.content|as_crispy_field}}
+    </div>
+    
+
+    <div title = "Gives us a rating" id="div_id_score" class = "star-rating form-group">
+        <label for="id_score" class="col-form-label requiredField">
+            Score<span class="asteriskField">*</span>
+        </label>
+        {{form.score}}
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">send email</button>
+</form>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+
+    'use strict';
+
+    const rating = document.querySelector('.star-rating');
+    const stars = rating.querySelectorAll('li');
+
+    function paintPreviousStars() {
+        [...stars].forEach(star => star.addEventListener('click', function(e) {
+            let current_selected = rating.querySelector('.active');
+
+            if (current_selected !== null) {
+                rating.querySelector('.active').classList.remove('active');
+
+                [... rating.querySelectorAll('.secondary-active')].forEach(
+                    e => e.classList.remove('secondary-active'));
+            }
+
+            star.classList.add('active');
+            let element = star;
+
+            while (element = element.previousElementSibling)
+                element.classList.add('secondary-active');
+
+        }));
+    }
+
+    function showDifferentStaronHover() {
+        [...stars].forEach(star => star.addEventListener('mouseenter', function(e) {
+
+            let traverse_prev = star;
+
+            while(traverse_prev = traverse_prev.previousElementSibling) {
+                traverse_prev.classList.add('prev-stars');
+            }
+
+            // add it
+            let element = star;
+            element.classList.add('hover-stars');
+            while (element = element.nextElementSibling) {
+                if (element.classList.contains('active') || element.classList.contains('secondary-active'))
+                    element.classList.add('hover-stars');
+                else break;    
+            }
+                
+        }));
+    }
+
+    function removeHoverEffect() {
+        [...stars].forEach(star => star.addEventListener('mouseout', function(e) {
+
+            let hovered_stars = document.querySelectorAll('.star-rating .hover-stars');
+            let prev_stars = document.querySelectorAll('.star-rating .prev-stars');
+
+            if (hovered_stars !== null) 
+                [...hovered_stars].forEach(e => e.classList.remove('hover-stars'));
+            
+            if (prev_stars !== null)
+                [...prev_stars].forEach(e => e.classList.remove('prev-stars'));
+        
+        }));
+    }
+
+    (function() {
+        paintPreviousStars();
+        showDifferentStaronHover();
+        removeHoverEffect();
+    })();
+
+</script>
+{% endblock extra_js %}
