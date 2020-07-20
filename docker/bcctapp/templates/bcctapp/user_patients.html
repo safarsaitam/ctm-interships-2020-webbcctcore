@@ -1,55 +1,397 @@
 {% extends "bcctapp/base.html" %}
+
+<!-- specific style for the page -->
+{% load static %}
+{% block extra_style %}
+    <!--<link rel="stylesheet"  href="{% static 'bcctapp/patients.css' %}" type="text/css">-->
+    <style>
+
+        .btn-app {
+            display: inline-block;
+            background-color: #fff;
+            color: #77A0FF;
+            text-decoration: none;
+            border: 2px solid #77A0FF;
+            border-radius: 3px;
+            transition: color .3s;
+            padding: 0 0.5rem;
+        }
+
+        .btn-app:hover {
+            display: inline-block;
+            background-color: #77A0FF;
+            color: #fff;
+            text-decoration: none;
+            border: 2px solid #77A0FF;
+            border-radius: 3px;
+            position: relative;
+        }
+
+
+        .no-outline {
+            outline: none !important;
+        }
+
+        .no-underline {
+            text-decoration: none !important;
+        }
+
+        .primary-color {
+            color: #77A0FF !important; 
+        }
+
+    /* generic cd-breadcrumb design*/
+    .cd-breadcrumb {
+        max-width: 100%;
+        background-color: #edeff0;
+        border-radius: .25em;
+    }
+    .cd-breadcrumb::after {
+        clear: both;
+        content: "";
+        display: table;
+    }
+    .cd-breadcrumb li {
+        display: inline-block;
+    }
+    .cd-breadcrumb li::after {
+        /* this is the separator between items */
+        display: inline-block;
+        content: '\00bb';
+        color: #959fa5;
+    }
+    .cd-breadcrumb li:last-of-type::after {
+        /* hide separator after the last item */
+        display: none;
+    }
+    .cd-breadcrumb li > * {
+        /* single step */
+        display: inline-block;
+        color: #2c3f4c;
+    }
+    .cd-breadcrumb li.current > * {
+        /* selected step */
+        color: #96c03d;
+    }
+
+    .cd-breadcrumb.custom-separator li::after {
+        /* replace the default separator with a custom icon */
+        content: '';
+        background: url(https://codyhouse.co/demo/cd-breadcrumbs-multi-steps-indicator/img/cd-custom-separator.svg) no-repeat center center;
+        vertical-align: middle;
+    }
+    .cd-breadcrumb.custom-icons li > *::before {
+        /* add a custom icon before each item */
+        content: '';
+        display: inline-block;
+        margin-right: .4em;
+        margin-top: -2px;
+        background: url(https://codyhouse.co/demo/cd-breadcrumbs-multi-steps-indicator/img/cd-custom-icons-01.svg) no-repeat 0 0;
+        vertical-align: middle;
+    }
+    .cd-breadcrumb.custom-icons li:not(.current):nth-of-type(2) > *::before {
+        /* change custom icon using image sprites */
+        background-position: -20px 0;
+    }
+    .cd-breadcrumb.custom-icons li:not(.current):nth-of-type(3) > *::before {
+        background-position: -40px 0;
+    }
+    .cd-breadcrumb.custom-icons li:not(.current):nth-of-type(4) > *::before {
+        background-position: -60px 0;
+    }
+    .cd-breadcrumb.custom-icons li.current:first-of-type > *::before {
+        /* change custom icon for the current item */
+        background-position: 0 -20px;
+    }
+    .cd-breadcrumb.custom-icons li.current:nth-of-type(2) > *::before {
+        background-position: -20px -20px;
+    }
+    .cd-breadcrumb.custom-icons li.current:nth-of-type(3) > *::before {
+        background-position: -40px -20px;
+    }
+    .cd-breadcrumb.custom-icons li.current:nth-of-type(4) > *::before {
+        background-position: -60px -20px;
+    }
+
+    @media only screen and (min-width: 768px) {
+        .cd-breadcrumb.custom-icons {
+        padding: 0 0.8em;
+        }
+        .cd-breadcrumb li {
+        margin: 0.5em 0;
+        }
+        .cd-breadcrumb li::after {
+        margin: 0 0.5em;
+        }
+    }
+
+    /* create two separators: teams and patients*/
+
+    #tables-types li {
+        list-style: none;
+        margin: 0;
+        padding: 0.5rem 1rem;
+        border-bottom: 3px solid inherit;
+    }
+
+    #tables-types li.active {
+        border-bottom: 3px solid green;
+    }
+
+    #tables-types li:hover {
+        border-bottom: 3px solid greenyellow;
+    }
+
+    /*colors*/
+
+    .medicine-primary-color {
+        color: green;
+    }
+
+    .medicine-bg-primary {
+        background-color: green;
+    }
+
+    .counter {
+        position: relative;
+    }
+
+    .counter-badge {
+        width:25px;
+        height:25px;
+        position: absolute;
+        top: -6px;
+        right: -20px;
+        border-radius: 50%;
+        background: green;
+        color: white;
+    }
+
+    .counter-badge-content {
+        top:0;
+        left:25%;
+        position:absolute;
+        font-size:1.3rem;
+    }
+
+
+    </style>
+{% endblock extra_style %}
+
 {% block content %}
-    <h1 class="mb-3">Patients by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
-    <a class="nav-item nav-link" href="{% url 'patient-new' %}">New Patient</a>
 
-    <form method="POST" enctype="multipart/form-data">
-                       {% csrf_token %}
-            <label for="share_id">Select Patient ID to search:</label>
-            <input type="text" id="share_id" name="share_id">
-            <button type="submit">Search</button>
-    </form>
-    {% if request.user.is_staff %}
-        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'teams-detail' %}">Teams</a>
-    {% endif %}
-    <h2>Search my team:</h2>
-      <form method="POST" enctype="multipart/form-data">
-                           {% csrf_token %}
-                  <label for="name">Add a Name:</label>
-                  <input type="text" id="name" name="name" value="Team name">
-                  <button type="submit">Search</button>
-      </form>
-    {% for patient in patients %}
-        <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ patient.owner.profile.image.url }}" alt="Profile Picture">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="{% url 'user-patient' patient.owner.username %}">{{ patient.owner }}</a>
-                    <small class="text-muted">{{ patient.date_posted|date:"F d, Y"  }}</small>
-                </div>
-                <h2><a class="article-title" href="{% url 'patient-detail' patient.id %}">{{ patient.first_name }} {{ patient.last_name }}</a></h2>
-
-                <p class="article-content">{{ patient.content }}</p>
-            </div>
-        </article>
-    {% endfor %}
-    {% if is_paginated %}
-        {% if page_obj.has_previous %}
-            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-        {% endif %}
-
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+<div class="container-fluid my-4 h-100">
+    <nav class = "row col-12">
+        <ol class="cd-breadcrumb w-100">
+            {% if user.is_authenticated %}
+            <li>Logged in</li>
             {% endif %}
+            <li class = "current"><a class = "no-underline" href="#">Patients and Teams</a></li>
+        </ol>
+    </nav>
+
+    <!--can be a patient or a team-->
+    <div id="tables-types" class="d-flex border-bottom p-2 row col-12">
+        <li data-select = "patients" class="active">
+            Patients </span>
+        </li>
+        <li data-select="teams"> Teams </span></li>
+
+        <div id="add-patient" class="ml-auto">
+            <a class="no-underline btn-app no-outline p-1 align-self-center" href="{% url 'patient-new' %}">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                Add Patient
+            </a>
+        </div>
+
+        <div id = "add-team" class="ml-auto justify-content-end d-none">
+            {% if request.user.is_staff %}
+                    <a class="no-underline btn-app no-outline p-1 align-self-center" href="{% url 'teams-detail' %}">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        Create Team
+                    </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!--search for users-->
+    <div id = "patients-search" class="border-bottom py-3 my-0 row col-12">
+        <form class="d-md-flex justify-content-between w-100"  method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group mb-0 flex-grow-1">
+            <label class = "mr-2 m-0 align-self-center w-100">
+                <input class = "m-0 no-outline form-control w-100" 
+                type="text" name="share_id" placeholder="Search patients by...">
+            </label>
+            </div>
+
+            <div class="px-1">
+            <label for="search_type"> </label>
+            <select class = "h-100 no-outline primary-color px-2" id="search_type">
+                <option value="identifier">Identifier</option>
+                <option value="name">Name</option>
+                <option value="age">Age</option>
+            </select>
+            </div>
+
+            <div class="px-1 d-flex justify-content-end">
+            <button class = "btn-app no-outline h-100 px-3" type="submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+            </div>
+        </form>
+    </div><!--end of search for users-->
+
+    <!--team search-->
+    <div id = "teams-search" class="border-bottom py-3 my-0 d-none row col-12">
+        <form class="d-md-flex justify-content-between w-100" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group mb-0 flex-grow-1">
+                <label class = "mr-2 m-0 align-self-center w-100">
+                    <input class = "m-0 flex-grow-1 no-outline w-100 form-control" type="text" id="name" name="name" placeholder="Search for a team by name...">
+                </label>
+            </div>
+            <div class="px-1 d-flex justify-content-end">
+                <button class = "btn-app no-outline h-100 px-3" type="submit">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
+        </form>
+    </div> <!-- end of team search-->
+
+    <!--patients search results-->
+    <div class="patients-results row col-12 my-4" id = "patients">
+        <div class="container">
+
+        <div class = "row col-12 mb-4 px-0">
+            <div class="col-8 m-0 p-0">
+                <h2>
+                    Patients by {{ view.kwargs.username }}
+                    <span class = "counter"> 
+                    <small class = "counter-badge">
+                        <div class="counter-badge-content">
+                                {{ page_obj.paginator.count }}
+                        </div>
+                        </small>
+                    </span> 
+                </h2>
+            </div>
+     
+        </div>
+
+         {% for patient in patients %}
+            <article class="media content-section row shadow-sm p-3 mb-5 bg-white rounded row-col-12">
+                <img class="rounded-circle article-img mt-3" src="{{ patient.owner.profile.image.url }}" alt="Profile Picture">
+                <div class="media-body">
+                    <div class="article-metadata text-right">
+
+                        <span class = "mx-1">
+                            <strong>Owner:</strong>
+                            <a class="mr-2 primary-color" href="{% url 'user-patient' patient.owner.username %}">{{ patient.owner }}</a>
+                        </span>
+                        <span class = "mx-1">
+                            <strong>surgery date:</strong>
+                            <small class="text-muted">{{patient.surgery_date|date:"F d, Y"}}</small>
+                        </span>
+                        <span >
+                            <strong>posted:</strong>
+                            <small class="text-muted">{{ patient.date_posted|date:"F d, Y"}}</small>
+                        </span>
+                    </div>
+                    <h2><a class="article-title" href="{% url 'patient-detail' patient.id %}">{{ patient.first_name }} {{ patient.last_name }}</a></h2>
+                    
+                    <span>
+                        <strong>
+                            age:
+                        </strong>
+                        {{patient.age}}
+                    </span>
+
+                    <p class="article-content">{{ patient.content }}</p>
+                </div>
+            </article>
         {% endfor %}
 
-        {% if page_obj.has_next %}
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% if is_paginated %}
+            {% if page_obj.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
         {% endif %}
-    {% endif %}
+
+        </div>
+    </div> <!-- end of patients results-->
+
+
+    <div class="teams-results row col-12 my-4 d-none" id = "teams">
+        <!-- todo-->
+
+    </div>        
+</div>
+
 {% endblock content %}
+
+{% block extra_js %}
+<script>
+    "use strict";
+
+    const type_of_search = document.querySelectorAll('#tables-types > li');
+    const btn_add_patient = document.getElementById('add-patient');
+    const btn_add_team = document.getElementById('add-team');
+    const patient_form = document.getElementById('patients-search');
+    const team_form = document.getElementById('teams-search');
+    const patients_results = document.getElementById('patients');
+    const teams_results = document.getElementById('teams')
+
+    function noDisplay(elem) {
+        elem.classList.add('d-none');
+    }
+
+    function display(elem) {
+        elem.classList.remove('d-none')
+    }
+
+    (function () { [...type_of_search].forEach(type => type.addEventListener('click', function() {
+        // switch active element ui
+        const current_element = document.querySelector('#tables-types .active');
+        current_element.classList.remove('active');
+        type.classList.add('active');
+
+        const selected = type.getAttribute('data-select');
+        //switch add button e forms and results
+        if (selected === 'patients') {
+            display(btn_add_patient);
+            noDisplay(btn_add_team);
+            display(patient_form);
+            noDisplay(team_form);
+            display(patients_results);
+            noDisplay(teams_results);
+        } else if (selected === 'teams') {
+            display(btn_add_team);
+            noDisplay(btn_add_patient);   
+            display(team_form);
+            noDisplay(patient_form);
+            display(teams_results);
+            noDisplay(patients_results);
+        }
+        }));
+    })();
+
+
+</script>
+{% endblock extra_js %}

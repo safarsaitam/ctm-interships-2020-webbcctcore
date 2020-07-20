@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect, render_to_resp
 from django.contrib.auth.models import User
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, request
 from .models import Patient, Photo, MedicalImages, ImagesPatient, InteractionsPatient, Teams
-from .forms import PhotoForm, MedicalImagesForm, PatientForm, ImagesForm, InteractionsPatientForm, TeamsForm
+from .forms import PhotoForm, MedicalImagesForm, PatientForm, ImagesForm, InteractionsPatientForm, TeamsForm, ContactForm
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -444,10 +444,12 @@ def img_update(img_type1, img_type2, img_type3, img_type4, img_type5):
     if img_type5:
         ImagesPatient.objects.filter(number=5).update(img_type=img_type5)
 
+
 def days_between(d1, d2):
     d1 = datetime.strptime(d1, "%Y-%m-%d")
     d2 = datetime.strptime(d2, "%Y-%m-%d")
     return (d2 - d1).days
+
 
 class PatientDetailView(LoginRequiredMixin,DetailView):
     model = Patient
@@ -1091,3 +1093,56 @@ def update_breast_bra(request,**kwargs):
             #print("patient bra ",patient.bra)
         return HttpResponse('Success!')
     return HttpResponse('FAIL!')
+
+
+# contact form view
+def contact(request):
+    
+    # [not tested yet]
+    if request.method == 'POST':
+        print(request.POST)
+        return
+        form = ContactForm(data = request.POST)
+
+        if form.is_valid():
+            
+            template = get_template('bcctapp/contact_form.txt')
+
+            content = {
+                'name' : request.POST.get('name'),
+                'email' : request.POST.get('email'),
+                'content' : request.POST.get('content'),
+                'score' : request.POST.get('score')
+            }
+
+
+            content = template.render(content)
+
+            email = EmailMessage(
+                "New contact form email",
+                content,
+                "Creative web" + "",
+                ['youremailid@gmail.com'],
+                header = {'Reply to' : email}
+
+            )
+
+            email.send()
+
+        return redirect('home.html')
+    else :
+        if request.user.is_authenticated :
+            form = ContactForm(initial = {'email': request.user.email, 'name': request.user.username})
+        else :
+            form = ContactForm()
+        return render(request,'bcctapp/contact.html',  {'form': form})
+
+#chat
+
+def chat(request) :
+    return render(request, 'bcctapp/chat.html')
+
+
+
+
+        

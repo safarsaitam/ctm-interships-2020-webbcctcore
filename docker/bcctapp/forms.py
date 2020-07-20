@@ -17,14 +17,17 @@ class MedicalImagesForm(forms.ModelForm):
         model = MedicalImages
         fields = ('image',)
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
 class PatientForm(forms.ModelForm):
     first_name = forms.CharField(max_length=100)
     last_name = forms.CharField(max_length=100)
-    age = forms.IntegerField()
-    birthday = forms.DateTimeField(input_formats=['%d/%m/%Y'], widget=forms.DateTimeInput(format='%d/%m/%Y'))
-    surgery_date = forms.DateTimeField(input_formats=['%d/%m/%Y'], widget=forms.DateTimeInput(format='%d/%m/%Y'))
-    patient_height = forms.IntegerField()
-    patient_weight = forms.IntegerField()
+    age = forms.IntegerField(min_value=0)
+    birthday = forms.DateField(input_formats=['%d/%m/%Y'],widget = DateInput)
+    surgery_date = forms.DateField(input_formats=['%d/%m/%Y'],widget = DateInput)
+    patient_height = forms.IntegerField(min_value=1)
+    patient_weight = forms.IntegerField(min_value=1)
     bra=forms.CharField(max_length=100)
     images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
@@ -55,3 +58,11 @@ class TeamsForm(forms.ModelForm):
     class Meta:
         model = Teams
         fields = ('name','users',)
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(required = True)
+    email = forms.EmailField(required = True)
+    content = forms.CharField(required = False, max_length=1024, widget=forms.Textarea(attrs={"rows":6, "cols":20}))
+    CHOICES = (('1', '',), ('2', '',),('3', '',), ('4', '',),('5',''))
+    score = forms.ChoiceField(required = True, widget=forms.RadioSelect, choices=CHOICES)
