@@ -1,0 +1,168 @@
+{% extends "bcctapp/base.html" %}
+{% load static %}
+{% load myfilters %}
+{% load tags %}
+{% block extra_style %}
+<style>
+        .btn-app {
+            display: inline-block;
+            background-color: #fff;
+            color: #77A0FF;
+            text-decoration: none;
+            border: 2px solid #77A0FF;
+            border-radius: 3px;
+            transition: color .3s;
+            padding: 0 0.5rem;
+        }
+
+        .btn-app:hover {
+            display: inline-block;
+            background-color: #77A0FF;
+            color: #fff;
+            text-decoration: none;
+            border: 2px solid #77A0FF;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        #tables-types li {
+        list-style: none;
+        margin: 0;
+        padding: 0.5rem 1rem;
+        border-bottom: 3px solid inherit;
+    }
+
+    .bg-green {
+        background-color: rgb(208 240 192);
+    }
+
+    #tables-types li.active {
+        border-bottom: 3px solid green;
+    }
+
+    #tables-types li:hover {
+        border-bottom: 3px solid greenyellow;
+    }
+    .counter {
+        position: relative;
+    }
+
+    .counter-badge {
+        width:25px;
+        height:25px;
+        position: absolute;
+        top: -6px;
+        right: -20px;
+        border-radius: 50%;
+        background: green;
+        color: white;
+    }
+
+    .counter-badge-content {
+        top:0;
+        left:25%;
+        position:absolute;
+        font-size:1.3rem;
+    }
+
+</style>
+{% endblock extra_style %}
+
+{% block content %}
+<div class="container">
+
+
+<div id="tables-types" class="d-flex border-bottom p-2">
+    <ul class = "d-flex m-0 p-0">
+        <li data-select = "patients p-0 m-0">
+            <a href="{% url 'user-patient' user.username %}">Patients</a>  </span>
+        </li>
+        <li data-select="teams" class="active"> Teams </span></li>
+    </ul>
+    <div id = "add-team" class="ml-auto justify-content-end">
+        {% if request.user.is_staff %}
+                <a class="no-underline btn-app no-outline p-1 align-self-center" href="{% url 'teams-detail' %}">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    Create Team
+                </a>
+        {% endif %}
+    </div>
+    </div>
+
+    <div id = "teams-search" class="border-bottom py-3 my-0 row">
+        <form class="row justify-content-between w-100" method="get">
+
+            <div class="form-group mb-0 col-md-5">
+                <label class = "d-flex align-items-center">
+                    <span class = "col-md-3">Team Identifier:</span> {{filter.form.id|addclass:'form-control m-1 col-md-9'}}
+                </label>
+            </div>
+
+            <div class="form-group mb-0 col-md-5">
+                <label class = "d-flex align-items-center">
+                    <span class = "col-md-3">Name:</span> {{filter.form.name__icontains|addclass:'form-control m-1 col-md-9'}}
+                </label>
+            </div>
+
+            <div class="justify-content-end col-md-2 d-flex">
+                <button class = "w-50 py-2 btn-app no-outline align-self-center" type="submit">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
+        </form>
+    </div> 
+    
+    <div class="teams-results row col-12 my-4" id = "teams">
+        <div class="container">
+
+            <div class = "row col-12 mb-4 px-0">
+                <div class="col-8 m-0 p-0">
+                    <h2>
+                        Teams results
+                        <span class = "counter"> 
+                        <small class = "counter-badge">
+                            <div class="counter-badge-content">
+                                {{ number_results }}
+                            </div>
+                            </small>
+                        </span> 
+                    </h2>
+                </div>
+         
+            </div>
+        <!--teams-->
+        {% for team in object_list %}
+            <article class="row shadow pt-3 pb-2 mb-5 rounded row bg-green">
+               <p class = "col-md-4 m-0">Team name: <a class  href="{%url 'my-team' team.name%}">{{team.name}}</a> </p>
+               <p class = "col-md-4 m-0">Number of patients: {{team.patients|wordcount}} </p>
+               <p class = "col-md-4 m-0">Number of users: {{team.users|wordcount}}</p>
+               <small class = "col-md-4 m-0">ID: {{team.id}}</small>
+            </article>
+        {% endfor %}
+
+
+
+        {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?{% param_replace page=1 %}">First</a>
+            <a class="btn btn-outline-info mb-4" href="?{% param_replace page=page_obj.previous_page_number %}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4" href="?{% param_replace page=num %}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a class="btn btn-outline-info mb-4" href="?{% param_replace page=num %}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?{% param_replace page=page_obj.next_page_number %}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?{% param_replace page=paginator.num_pages %}">Last</a>
+        {% endif %}
+    {% endif %}
+
+    </div> 
+</div>
+{% endblock content %}
+

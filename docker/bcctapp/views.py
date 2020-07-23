@@ -28,6 +28,8 @@ import cv2
 import psutil
 import sched
 import time
+from .filters import PatientFilter,TeamFilter
+
 scheduler = sched.scheduler(time.time, time.sleep)
 
 def print_event(name):
@@ -364,17 +366,47 @@ class PatientListView(ListView):
     paginate_by = 5
 
 
+
+class TeamListView(ListView):
+    model = Teams
+    template_name = 'bcctapp/my_teams.html'
+    context_object_name = 'teams'
+    paginate_by = 4
+    filterset_class = TeamFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        return self.filterset.qs.distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = TeamFilter(self.request.GET, queryset = self.get_queryset())
+        context['number_results'] = context['filter'].qs.count()
+        return context
+
+
+
 class UserPatientListView(ListView):
     print("entra aqui")
     model = Patient
     template_name = 'bcctapp/user_patients.html'
     context_object_name = 'patients'
-    paginate_by = 5
+    paginate_by = 2
+    filterset_class = PatientFilter
 
     def get_queryset(self):
-        user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Patient.objects.filter(owner=user).order_by('-date_posted')
-    #perguntar qual será a melhor forma de mostrar os pacientes partilhados/privados
+        queryset = super().get_queryset()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        return self.filterset.qs.distinct()
+
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = PatientFilter(self.request.GET, queryset = self.get_queryset())
+        context['number_results'] = context['filter'].qs.count()
+        return context
+
 
     def post(self, request, patients_obj=None, *args, **kwargs):
         current_user = request.user
@@ -385,6 +417,7 @@ class UserPatientListView(ListView):
 
 
         if name:
+            print("here boy")
             team = Teams.objects.get(name=name)
             if team is None:
                 return HttpResponse("This name doesn't exist!")
@@ -404,6 +437,7 @@ class UserPatientListView(ListView):
                     return HttpResponse("You are not member of this team!")
         patient = get_object_or_404(Patient, pk=shared_id) #verificar o erro
         if patient:
+            print("patient")
             check_id = patient.share
             user_id = str(current_user.id)
             flag = False
@@ -418,6 +452,7 @@ class UserPatientListView(ListView):
             else:
                 return HttpResponse("Check your permissions to this Patient!")
         else:
+            print("else")
             return HttpResponse("This Patient doesn't exist!")
 
 def view_update(view_type1, view_type2, view_type3, view_type4, view_type5):
