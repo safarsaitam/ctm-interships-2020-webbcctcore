@@ -83,6 +83,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
+    'channels',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -114,7 +116,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'webbcct.wsgi.application'
+ASGI_APPLICATION = 'webbcct.routing.application'
 
+CHANNEL_LAYERS={
+    "default":{
+        "BACKEND":"channels.layers.InMemoryChannelLayer"
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
