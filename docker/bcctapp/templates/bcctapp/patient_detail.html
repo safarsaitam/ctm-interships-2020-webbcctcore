@@ -151,7 +151,10 @@
   #export-button {
     width: 140px;
   }
- 
+
+    .sharing-options {
+        text-align: end;
+    }
 
 
   </style>
@@ -159,7 +162,25 @@
 {% block content %}
 {% endblock content %}
 {% block gallery %}
+<div class="row" >
 <h1 class="mb-5">Patient: {{patient.first_name}} {{patient.last_name}}</h1>
+    <div class="col sharing-options mb-3">
+<form method="POST" enctype="multipart/form-data">
+                           {% csrf_token %}
+                  <label for="shareteam">Share with team:</label>
+                  <input type="text" id="shareteam" name="shareteam" value="Team ID">
+                  <button type="submit" class="btn btn-secondary btn-sm mt-1 mb-1 action-button">Share</button>
+                </form>
+             {% if patient.owner_id == view.request.user.id %}
+                <form method="POST" enctype="multipart/form-data">
+                           {% csrf_token %}
+                  <label for="share">Share with:</label>
+                  <input type="text" id="share" name="share" value="User ID">
+                  <button type="submit" class="btn btn-secondary btn-sm mt-1 mb-1 action-button">Submit</button>
+                </form>
+            {% endif %}
+    </div>
+    </div>
 <div class="container">  
 <div class="row">
   <div class="col-4">
@@ -343,9 +364,11 @@
     </div>
 <div class="col-8" id="patient-info">
 
+
   <div class="d-flex justify-content-between">
       
     <h2><strong>Personal Information</strong></h2>
+
     <a class="btn btn-secondary btn-sm mt-1 mb-1 px-4" href="{% url 'patient-update' patient.id%}">Update</a>
   
   </div>

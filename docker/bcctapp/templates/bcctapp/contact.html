@@ -68,7 +68,7 @@
 {% block content %}
 
 <h1 class = "m-2">Give us some feedback</h1>
-<form action="POST">
+<form method="POST">
     {% csrf_token %}
     <div class="form-row">
         <div title = "Enter your email" class="form-group col-md-6 mb-0">
@@ -91,7 +91,7 @@
     </div>
 
 
-    <button type="submit" class="btn btn-primary">send email</button>
+    <button type="submit" class="btn btn-primary">Send email</button>
 </form>
 
 {% endblock content %}

@@ -3,10 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="10c75633-0fc6-429d-90c1-ff9a1e8a8d6c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bcctapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/bcctapp/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bcctapp/templates/bcctapp/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/bcctapp/templates/bcctapp/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bcctapp/templates/bcctapp/contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/bcctapp/templates/bcctapp/contact.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bcctapp/templates/bcctapp/patient_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/bcctapp/templates/bcctapp/patient_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bcctapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bcctapp/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webbcct/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/webbcct/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +38,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/INESC/tema_3" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -51,6 +53,7 @@
       <workItem from="1594205463453" duration="4101000" />
       <workItem from="1594309343617" duration="3091000" />
       <workItem from="1594588606850" duration="1476000" />
+      <workItem from="1595352415150" duration="13232000" />
     </task>
     <servers />
   </component>
@@ -65,10 +68,15 @@
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="318" y="221" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1280.777@0.23.1280.777" timestamp="1590403767874" />
-    <state x="305" y="143" width="670" height="657" key="search.everywhere.popup" timestamp="1593119009507">
-      <screen x="0" y="23" width="1280" height="777" />
+    <state x="549" y="188" key="FileChooserDialogImpl" timestamp="1595353264647">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="549" y="188" key="FileChooserDialogImpl/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1595353264647" />
+    <state x="366" y="133" width="804" height="731" key="search.everywhere.popup" timestamp="1595435142810">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="305" y="124" width="670" height="676" key="search.everywhere.popup/0.0.1280.800@0.0.1280.800" timestamp="1590137745211" />
+    <state x="366" y="133" width="804" height="731" key="search.everywhere.popup/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1595435142810" />
     <state x="305" y="143" width="670" height="657" key="search.everywhere.popup/0.23.1280.777@0.23.1280.777" timestamp="1593119009507" />
   </component>
 </project>

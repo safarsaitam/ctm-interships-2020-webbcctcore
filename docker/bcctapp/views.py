@@ -28,6 +28,10 @@ import cv2
 import psutil
 import sched
 import time
+from django.template.loader import get_template
+from email.message import EmailMessage
+from django.core.mail import send_mail
+from django.conf import settings
 scheduler = sched.scheduler(time.time, time.sleep)
 
 def print_event(name):
@@ -1097,39 +1101,37 @@ def update_breast_bra(request,**kwargs):
 
 # contact form view
 def contact(request):
-    
     # [not tested yet]
     if request.method == 'POST':
-        print(request.POST)
-        return
+        # print(request.POST)
+        # return
         form = ContactForm(data = request.POST)
 
         if form.is_valid():
-            
-            template = get_template('bcctapp/contact_form.txt')
+            # template = get_template('bcctapp/contact_form.txt')
+            #
+            # content = {
+            #     'name': request.POST.get('name'),
+            #     'email': request.POST.get('email'),
+            #     'content': request.POST.get('content'),
+            #     'score': request.POST.get('score')
+            # }
+            #
+            # content = template.render(content)
 
-            content = {
-                'name' : request.POST.get('name'),
-                'email' : request.POST.get('email'),
-                'content' : request.POST.get('content'),
-                'score' : request.POST.get('score')
-            }
+            message_name = request.POST.get('name')
+            message_email = request.POST.get('email')
 
+            content = 'Name: ' + message_name + '\nEmail: ' + message_email + '\nContent: ' + request.POST.get('content') + '\nScore: ' + request.POST.get('score')
 
-            content = template.render(content)
-
-            email = EmailMessage(
-                "New contact form email",
-                content,
-                "Creative web" + "",
-                ['youremailid@gmail.com'],
-                header = {'Reply to' : email}
-
+            send_mail(
+                'You got new feedback from ' + message_name,  # subject
+                content,  # message
+                message_email,  # from email
+                [settings.EMAIL_HOST_USER],
             )
 
-            email.send()
-
-        return redirect('home.html')
+        return redirect('/cinderella/')
     else :
         if request.user.is_authenticated :
             form = ContactForm(initial = {'email': request.user.email, 'name': request.user.username})
