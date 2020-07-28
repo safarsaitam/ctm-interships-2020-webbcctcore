@@ -1,19 +1,60 @@
 {% extends "bcctapp/base.html" %}
+
+{% block extra_style %}
+<style>
+  .team-create {
+    border-right: 1px solid grey;
+  }
+</style>
+{% endblock extra_style %}
+
 {% block content %}
-   <h2>Create a new team:</h2>
+
+<div class="container-fluid mt-4 border p-3">
+  <div class="row">
+
+    <div class="col-md-6 team-create">
+      <h2 class = "my-4 text-center border-bottom pb-3">Create a new <span class="text-info">team</span></h2>
+
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="name">Add a Name:</label>
+            <input class = "form-control" type="text" id="name" name="name" value="Team name">
+          </div>
+          <div class="text-right
+          ">
+            <button class = "btn btn-outline-info my-1" type="submit">Create</button>
+          </div>
+        </form>
+
+      </div>
+
+
+    <div class="col-md-6">
+      <h2 class = "my-4 text-center border-bottom pb-3">Add <span class="text-info">user</span>  to a team</h2>
       <form method="POST" enctype="multipart/form-data">
-                           {% csrf_token %}
-                  <label for="name">Add a Name:</label>
-                  <input type="text" id="name" name="name" value="Team name">
-                  <button type="submit">Create</button>
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="user_id">Add User Id:</label>
+          <input class = "form-control" type="number" min = "1" id="user_id" name="user_id" value="User ID">
+        </div>
+
+        <div class="form-group">
+          <label for="name">Team Name to add the user:</label>
+          <input class = "form-control" type="text" id="name_team" name="name_team" value="Team name">
+        </div>
+        <div class="text-right">
+          <button class = "btn btn-outline-info my-1 mr-0" type="submit">Add</button>
+        </div>
       </form>
-    <h2>Add a user to a team:</h2>
-      <form method="POST" enctype="multipart/form-data">
-                           {% csrf_token %}
-                  <label for="user_id">Add User Id:</label>
-                  <input type="number" id="user_id" name="user_id" value="User ID">
-                  <label for="name">Team Name to add:</label>
-                  <input type="text" id="name_team" name="name_team" value="Team name">
-                  <button type="submit">Add</button>
-      </form>
+    </div>
+    
+
+
+
+  </div><!--end of row-->
+  
+</div>
+
 {% endblock content %}

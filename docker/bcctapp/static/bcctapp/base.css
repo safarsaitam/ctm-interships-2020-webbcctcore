@@ -100,9 +100,8 @@ body {
     height: 100%
 }
 
-.body-main {
+.body-main, .body-galery {
     background-color: #ffffff;
-    min-height: 100vh;
 }
 
 .body-main-content {
