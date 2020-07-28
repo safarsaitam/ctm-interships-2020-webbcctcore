@@ -237,7 +237,21 @@
                     </div>
                 </form>
             </div>
-            
+                <div class="row">
+                  <form class="d-md-flex justify-content-between w-100"  method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+        
+                    <div class="form-group mb-0 p-0 ml-2">
+                    <label class = "mt-2 m-0 p-0">
+                        Export images
+                    </label>
+                    </div>
+        
+                    <div class="px-1 d-flex justify-content-end">
+                      <input type="submit" value="Export images" id="export-button" class="btn btn-secondary btn-sm mt-1 mb-1 action-button">
+                    </div>
+                </form>
+                </div>
                 
 
             {% elif  images_patient.number == 1 %}
