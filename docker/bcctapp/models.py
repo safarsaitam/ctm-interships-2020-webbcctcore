@@ -192,3 +192,6 @@ class Teams(models.Model):
     users =  models.CharField(validators=[int_list_validator],max_length=10000000)
     patients = models.CharField(validators=[int_list_validator],max_length=10000000)
 
+    def __str__(self):
+        return "name is {} and its id is {}".format(self.name, self.id)
+

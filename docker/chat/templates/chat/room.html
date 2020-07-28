@@ -1,41 +1,447 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Chat</title>
-</head>
-<body>
-<div style="height:500px;width:100%;overflow-y:scroll" id="div_data">
+{% extends "bcctapp/base.html" %}
 
+{% block extra_style %}
+<style>
+
+    .msger-header {
+        background-color: greenyellow;
+        padding: 0.5rem 1rem;
+
+    }
+
+    .chat-groups {
+        border-right: 1px solid greenyellow;
+    }
+
+    .msger-chat {
+        border: 1px solid greenyellow;
+        max-height: 80vh;
+    }
+
+    .chat-list {
+        list-style: none;
+        text-align: center;
+        padding:0;
+        margin:0;
+        overflow-y: auto;
+        height: 68vh;
+    }
+
+    .chat-messages {
+        overflow-y: auto;
+        height: 80vh;
+        background-image: url('/media/UI_images/Background/InescTec.png');
+    }
+
+
+    .chat-element {
+        background-color: #50597b;
+        color: white;
+        margin-bottom: 2px;
+        padding: 1rem 0.5rem;
+    }
+
+    .chat-element.chat-current {
+        border-left: 0.5rem solid #f87474;
+    }
+
+    .chat-list::-webkit-scrollbar,
+    .chat-messages::-webkit-scrollbar 
+    {
+        width: 6px;
+    }
+    .chat-list::-webkit-scrollbar-track,
+    .chat-messages::-webkit-scrollbar-track
+    {
+        background: #ddd;
+    }
+    .chat-list::-webkit-scrollbar-thumb,
+    .chat-messages::-webkit-scrollbar-thumb
+
+    {
+        background: #bdbdbd;
+    }
+
+    .msger-inputarea {
+        background-color: #bdbdbd;
+        position:sticky;
+        bottom: 0;
+    }
+
+    .msger-inputarea input {
+        outline: none;
+        padding:7px;
+        border-radius: 5px;
+        border:none;
+    }
+
+    .msger-send-btn {
+        background-color:#7892c2;
+        border-radius:10px;
+        padding: 0 10px;
+        border:1px solid #4e6096;
+        cursor:pointer;
+        color:#ffffff;
+        font-family:Arial;
+        text-decoration:none;
+        text-shadow:0px 1px 0px #283966;
+    }
+
+    .msger-send-btn:hover {
+        background-color:#446fa3;
+    }
+
+    .msg-bubble {
+        max-width: 50%;
+        min-width: 40%;
+        color: white;
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .others-message {
+        border-radius: 50px 20px;
+        background: #4e6096;
+
+    }
+
+    .my-message {
+        border-radius: 20px 50px;
+        background: #7892c2;
+
+    }
+
+    .chat-img {
+        width:45px;
+        height:45px;
+    }
+
+    .msg-text {
+        text-align: justify;
+        text-justify: inter-word;
+        padding: 0 10px;
+    }
+
+    @media only screen and (max-width: 600px) {
+        .chat-messages  {
+            border-left: 1px solid grey;
+        }
+
+        .msg-bubble {
+            max-width: 90%;
+        }
+    }
+
+    .nounderline {
+     text-decoration: none !important
+    }
+
+    .centered {
+        display: grid;
+        place-items: center;
+        height:100%;
+    }
+
+
+
+</style>
+
+{% endblock extra_style %}
+
+{% block content %}
+
+    <section class="msger">
+        <header class="msger-header d-flex justify-content-between">
+            <div class="msger-header-title">
+              <i class="fas fa-comment-alt"></i> Chat Rooms 
+            </div>
+            <div class = "text-center d-flex">
+               current: {{group.name}}
+                <a class = "px-2" title = "edit chat name" href="{% url 'chat:group-update' group.id %}"><i class="fas fa-pencil-alt"></i></a>
+            </div>
+        </header>
+        <main class="msger-chat container">
+            <div class="row">
+                <div class="col-md-3 chat-groups p-0">
+                    <div class="px-2 my-3">
+                        <input id = "team-search" type="text" class = "form-control" placeholder="search for a team ...">
+                    </div>
+                    <ul class = "chat-list">
+                        {% for group_ele in groups %}
+                        <li class="chat-element {% if group == group_ele %} chat-current {%endif%}">
+                            <a class = "text-white nounderline" href="{% url 'chat:show-chat' group_ele.id%}">
+                                <div>
+                                    name: {{group_ele.name }}
+
+                                </div>
+                                <div>
+                                    team identifier: {{group_ele.team.id}}
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="chat-messages justify-content-between col-md-9 d-flex flex-column p-0 position-relative">
+                    <!-- change this-->
+                    {% if group is None %}
+                    <span class = "centered"> 
+                        <div class = "w-75 text-center ">
+                            Choose a <span class = "text-info ">existing group</span>  or create a new one for one of your teams
+                            <a class = "btn btn-outline-info" href="{% url 'chat:group-create' %}">Create channel</a>
+                        </div>
+                    </span>
+                    {% else %}
+                        <div id="div_data">
+                            {% for message in messages %}
+
+                                {% if message.author == user %}
+                                <div class="msg d-flex my-3">
+                                    <img class="rounded-circle chat-img text-center mx-2" src="{{user.profile.image.url }}">
+                                    <div class="msg-bubble my-message">
+                                        <div class="mb-2 d-flex justify-content-between">
+                                            <div class="msg-info-name ml-2">{{user.username}}</div>
+                                            <div class="mr-3">{{message.timestamp}}</div>
+                                        </div>
+                                        
+                                        <div class="msg-text">
+                                           {{message.content}}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="msg d-flex my-3 flex-row-reverse">
+                                    <img class="rounded-circle chat-img text-center mx-2" src="{{message.author.profile.image.url}}">
+                                    <div class="msg-bubble others-message">
+                                        <div class="mb-2 d-flex justify-content-between">
+                                            <div class="msg-info-name ml-2">{{message.author.username}}</div>
+                                            <div class="mr-3">{{message.timestamp}}</div>
+                                        </div>
+                                        
+                                        <div class="msg-text">
+                                            {{message.content}}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {%endif%}
+                            {% endfor%}
+
+                        </div>
+                        
+                        <form class = "msger-inputarea align-self-end w-100" method="post" id = "form">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-between p-1">
+                                <input id = "message" type="text" class="msger-input flex-grow-1 m-0 mr-3" placeholder="Enter your message...">
+                                <button id = "send_message" title = "send message" type="submit" class="msger-send-btn"><i class="fa fa-paper-plane" aria-hidden="true"></i> </button>
+                            </div>
+                        </form>
+                    {% endif %}
+                
+                </div>
+
+
+            </div>
+        </main>
+
+
+    </section>
+
+    <div>
+
+    
+        <script src = "https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.js"></script>
 </div>
-<div>
-    <input type="text" name="message" id="message" placeholder="Message" style="padding:10px;width:100%">
-    <input type="button" value="Send Message" id="send_message" style="background:dodgerblue;color:#fff;padding:10px;border:0px;width:100%">
-    <script>
-        var roomName='{{ room_name }}';
-        var personname='{{ person_name }}';
-        var chatSocket=new WebSocket('ws://'+window.location.host+'/ws/chat/'+roomName+'/'+personname+'/');
+{% endblock content %}
+
+
+{% block extra_js %}
+<script>
+    let roomName='{{ pk }}';
+    let current_user_id = Number('{{user.id}}');
+
+    function updateScroll(element) {
+        element.scrollTop = element.scrollHeight;
+    }
+
+    class MessageManager {
+        constructor(msg_element) {
+            this._current_page = 0;
+            this._load_more = true;
+            updateScroll(msg_element);
+            this.msg_element = msg_element
+            this.addListener();
+        }
+
+        setEverythingLoaded(value) {
+            this._load_more = value;
+        }
+
+
+        addListener() {
+            let reference = this;
+            let page = this._current_page;
+            let ele = this.msg_element;
+            let messages_to_prepend = document.querySelector(".chat-messages");
+            document.addEventListener( "scroll", function (e) {
+                let scrollTop = ele.scrollTop;
+                if (scrollTop == 0 && reference._load_more === true) {
+                    reference.addCall();
+                    page = reference._current_page;
+                    reference.print();
+
+                    $.ajax({
+                        type:'POST',
+                        url : "{% url 'chat:load-messages' %}",
+                        data: {page, 'group_id': roomName , csrfmiddlewaretoken: '{{ csrf_token }}' },
+                        success: function(response) {
+                            console.log(response)
+                            let messages = response.messages
+                            let users = response.users
+                            reference.setEverythingLoaded(response.load_more);
+
+                            messages.forEach(message => {
+                                console.log(message.author_id)
+                                if (message.author_id === current_user_id) {
+                                    let my_msg = document.createElement('div');
+                                    my_msg.classList.add('msg', 'd-flex', 'my-3');
+                                    my_msg.innerHTML = `
+                                    <img class="rounded-circle chat-img text-center mx-2" src="">
+                                    <div class="msg-bubble others-message">
+                                        <div class="mb-2 d-flex justify-content-between">
+                                            <div class="msg-info-name ml-2">${users[message.author_id].username}</div>
+                                            <div class="mr-3">${message.timestamp}</div>
+                                        </div>
+                                        
+                                        <div class="msg-text">
+                                            ${message.content}
+                                        </div>
+                                    </div>
+                                    `;
+                                    messages_to_prepend.prepend(my_msg);
+                                } else {
+                                    let other_msg = document.createElement('div');
+                                    other_msg.classList.add('msg', 'd-flex', 'my-3', 'flex-row-reverse');
+                                    other_msg.innerHTML = `
+                                    <img class="rounded-circle chat-img text-center mx-2" src="">
+                                    <div class="msg-bubble others-message">
+                                        <div class="mb-2 d-flex justify-content-between">
+                                            <div class="msg-info-name ml-2">${message.author.username}</div>
+                                            <div class="mr-3">${message.timestamp}</div>
+                                        </div>
+                                        
+                                        <div class="msg-text">
+                                            ${message.content}
+                                        </div>
+                                    </div>
+                                    `;
+                                    messages_to_prepend.prepend(other_msg);
+
+                                }
+
+                            });
+
+                            const percent = messages.length / ((page+1) * 15);
+                            //alert( percent + " " + messages.length)
+                            reference.msg_element.scrollTop = reference.msg_element.scrollHeight * percent;
+                            
+                        },
+                        error: function(response) {
+                            console.log(response)
+                        }
+
+                    });
+                   
+                }
+            },true );
+        }
+
+        print() {
+            console.log(
+            "page: " + this._current_page + "| load more: " + this._load_more
+            );
+        }
+
+        addCall() {
+            if (this._load_more === true) this._current_page++;
+        }
+    }
+
+    let manager = new MessageManager(document.querySelector(".chat-messages"));
+
+
+    let send_msg_form = document.getElementById('form');
+
+    if (roomName !== '') {
+
+        let wsStart = 'ws://';
+        let loc = window.location;
+        if (loc.protocol === 'https:') {
+            wsStart = 'wss://';
+        }
+
+        let endpoint = wsStart + loc.host+'/ws/chat/room/'+ roomName+'/';
+        let chatSocket=new ReconnectingWebSocket(endpoint);
+        
         chatSocket.onmessage=function(e){
             var data=JSON.parse(e.data)
             var message=data['message']
             var div=document.querySelector("#div_data");
-            div.innerHTML+='<br><div style="padding:10px;color:#fff;background:dodgerblue;">'+message+'</div>';
-            console.log(e)
+            div.innerHTML+= `
+            <div class="msg d-flex my-3">
+                <img class="rounded-circle chat-img text-center mx-2" src="../../../media/default.jpeg">
+                <div class="msg-bubble my-message">
+                    <div class="mb-2 d-flex justify-content-between">
+                        <div class="msg-info-name ml-2">John</div>
+                        <div class="mr-3">12:45</div>
+                    </div>
+                    
+                    <div class="msg-text">
+                        ${message}
+                    </div>
+                </div>
+            </div>
+            `;
         }
+
+        chatSocket.onopen = function(e) {
+            send_msg_form.addEventListener('submit', function(event) {
+                event.preventDefault();
+            })
+        }
+
         chatSocket.onclose=function(e){
             var data=JSON.parse(e.data)
             var message=data['message']
             var div=document.querySelector("#div_data");
-            div.innerHTML+='<br><div style="padding:10px;color:#fff;background:dodgerblue;">'+message+'</div>';
+            div.innerHTML+=`
+            <div class="msg d-flex my-3 flex-row-reverse">
+                    <img class="rounded-circle chat-img text-center mx-2" src="../../../media/default.jpeg">
+                    <div class="msg-bubble others-message">
+                        <div class="mb-2 d-flex justify-content-between">
+                            <div class="msg-info-name ml-2">John</div>
+                            <div class="mr-3">12:45</div>
+                        </div>
+                        
+                        <div class="msg-text">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero, incidunt. 
+                        </div>
+                    </div>
+            </div>
+            `
         }
 
         document.querySelector("#send_message").onclick=function(e){
             var message=document.querySelector("#message").value;
-            chatSocket.send(JSON.stringify({'message':message}))
+            chatSocket.send(JSON.stringify({
+                'message':message,
+                'room_id' : roomName,
+            // 'command':'fetch_messages'
+            }))
             document.querySelector("#message").value=''
         }
+    }
 
-    </script>
-</div>
-</body>
-</html>
+</script>
+{% endblock extra_js %}
