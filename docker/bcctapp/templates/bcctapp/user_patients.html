@@ -2,6 +2,8 @@
 
 <!-- specific style for the page -->
 {% load static %}
+{% load myfilters %}
+{% load tags %}
 {% block extra_style %}
     <!--<link rel="stylesheet"  href="{% static 'bcctapp/patients.css' %}" type="text/css">-->
     <style>
@@ -123,7 +125,10 @@
         .cd-breadcrumb li::after {
         margin: 0 0.5em;
         }
+
     }
+
+
 
     /* create two separators: teams and patients*/
 
@@ -195,7 +200,7 @@
         <li data-select = "patients" class="active">
             Patients </span>
         </li>
-        <li data-select="teams"> Teams </span></li>
+        <li data-select="teams"> <a href="{% url 'my-teams'%}"> Teams</a></span></li>
 
         <div id="add-patient" class="ml-auto">
             <a class="no-underline btn-app no-outline p-1 align-self-center" href="{% url 'patient-new' %}">
@@ -204,62 +209,35 @@
             </a>
         </div>
 
-        <div id = "add-team" class="ml-auto justify-content-end d-none">
-            {% if request.user.is_staff %}
-                    <a class="no-underline btn-app no-outline p-1 align-self-center" href="{% url 'teams-detail' %}">
-                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                        Create Team
-                    </a>
-            {% endif %}
-        </div>
     </div>
-
-    <!--search for users-->
-    <div id = "patients-search" class="border-bottom py-3 my-0 row col-12">
-        <form class="d-md-flex justify-content-between w-100"  method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-
-            <div class="form-group mb-0 flex-grow-1">
-            <label class = "mr-2 m-0 align-self-center w-100">
-                <input class = "m-0 no-outline form-control w-100" 
-                type="text" name="share_id" placeholder="Search patients by...">
-            </label>
-            </div>
-
-            <div class="px-1">
-            <label for="search_type"> </label>
-            <select class = "h-100 no-outline primary-color px-2" id="search_type">
-                <option value="identifier">Identifier</option>
-                <option value="name">Name</option>
-                <option value="age">Age</option>
-            </select>
-            </div>
-
-            <div class="px-1 d-flex justify-content-end">
-            <button class = "btn-app no-outline h-100 px-3" type="submit">
-                <i class="fa fa-search" aria-hidden="true"></i>
-            </button>
-            </div>
-        </form>
-    </div><!--end of search for users-->
-
-    <!--team search-->
-    <div id = "teams-search" class="border-bottom py-3 my-0 d-none row col-12">
-        <form class="d-md-flex justify-content-between w-100" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-
-            <div class="form-group mb-0 flex-grow-1">
-                <label class = "mr-2 m-0 align-self-center w-100">
-                    <input class = "m-0 flex-grow-1 no-outline w-100 form-control" type="text" id="name" name="name" placeholder="Search for a team by name...">
+    <div id = "patients-search" class="border-bottom pt-1 my-0 row col-12">
+        <form id = "search-patient" class="d-md-flex justify-content-between w-100"  method="GET" >
+            <div class="form-group mb-0">
+                <label class = "d-flex align-items-center">
+                    Identifier: {{filter.form.id|addclass:'form-control m-1'}}
                 </label>
             </div>
-            <div class="px-1 d-flex justify-content-end">
-                <button class = "btn-app no-outline h-100 px-3" type="submit">
+
+            <div class="form-group mb-0">
+                <label class = "d-flex align-items-center">
+                    Name: {{filter.form.first_name__icontains|addclass:'form-control m-1'}}
+                </label>
+            </div>
+
+            <div class="form-group mb-0">
+                <label class = "d-flex align-items-center">
+                    Age: {{filter.form.age|addclass:'form-control m-1'}}
+                </label>
+            </div>
+
+            <div class="m-1">
+                <button class = "btn-app no-outline h-75 px-3" type="submit">
                     <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
             </div>
         </form>
-    </div> <!-- end of team search-->
+    </div>
+
 
     <!--patients search results-->
     <div class="patients-results row col-12 my-4" id = "patients">
@@ -272,7 +250,7 @@
                     <span class = "counter"> 
                     <small class = "counter-badge">
                         <div class="counter-badge-content">
-                                {{ page_obj.paginator.count }}
+                            {{ number_results }}
                         </div>
                         </small>
                     </span> 
@@ -281,7 +259,8 @@
      
         </div>
 
-         {% for patient in patients %}
+        
+         {% for patient in object_list %}
             <article class="media content-section row shadow-sm p-3 mb-5 bg-white rounded row-col-12">
                 <img class="rounded-circle article-img mt-3" src="{{ patient.owner.profile.image.url }}" alt="Profile Picture">
                 <div class="media-body">
@@ -314,84 +293,32 @@
             </article>
         {% endfor %}
 
+
+
         {% if is_paginated %}
             {% if page_obj.has_previous %}
-                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                <a class="btn btn-outline-info mb-4" href="?{% param_replace page=1 %}">First</a>
+                <a class="btn btn-outline-info mb-4" href="?{% param_replace page=page_obj.previous_page_number %}">Previous</a>
             {% endif %}
 
             {% for num in page_obj.paginator.page_range %}
                 {% if page_obj.number == num %}
-                    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                    <a class="btn btn-info mb-4" href="?{% param_replace page=num %}">{{ num }}</a>
                 {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                    <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                    <a class="btn btn-outline-info mb-4" href="?{% param_replace page=num %}">{{ num }}</a>
                 {% endif %}
             {% endfor %}
 
             {% if page_obj.has_next %}
-                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                <a class="btn btn-outline-info mb-4" href="?{% param_replace page=page_obj.next_page_number %}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="?{% param_replace page=paginator.num_pages %}">Last</a>
             {% endif %}
         {% endif %}
 
         </div>
     </div> <!-- end of patients results-->
-
-
-    <div class="teams-results row col-12 my-4 d-none" id = "teams">
-        <!-- todo-->
-
-    </div>        
+       
 </div>
 
 {% endblock content %}
 
-{% block extra_js %}
-<script>
-    "use strict";
-
-    const type_of_search = document.querySelectorAll('#tables-types > li');
-    const btn_add_patient = document.getElementById('add-patient');
-    const btn_add_team = document.getElementById('add-team');
-    const patient_form = document.getElementById('patients-search');
-    const team_form = document.getElementById('teams-search');
-    const patients_results = document.getElementById('patients');
-    const teams_results = document.getElementById('teams')
-
-    function noDisplay(elem) {
-        elem.classList.add('d-none');
-    }
-
-    function display(elem) {
-        elem.classList.remove('d-none')
-    }
-
-    (function () { [...type_of_search].forEach(type => type.addEventListener('click', function() {
-        // switch active element ui
-        const current_element = document.querySelector('#tables-types .active');
-        current_element.classList.remove('active');
-        type.classList.add('active');
-
-        const selected = type.getAttribute('data-select');
-        //switch add button e forms and results
-        if (selected === 'patients') {
-            display(btn_add_patient);
-            noDisplay(btn_add_team);
-            display(patient_form);
-            noDisplay(team_form);
-            display(patients_results);
-            noDisplay(teams_results);
-        } else if (selected === 'teams') {
-            display(btn_add_team);
-            noDisplay(btn_add_patient);   
-            display(team_form);
-            noDisplay(patient_form);
-            display(teams_results);
-            noDisplay(patients_results);
-        }
-        }));
-    })();
-
-
-</script>
-{% endblock extra_js %}

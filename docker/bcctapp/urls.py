@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import PatientDetailView, PatientCreateView, PatientUpdateView, PatientDeleteView, UserPatientListView, \
     ImagePatientUpdateView, PatientSharedDetailView, InteractionsDetailView, TeamsCreateView, \
-    MyTeamsListView
+    MyTeamsListView,TeamListView
 from . import views
 
 urlpatterns = [
@@ -10,6 +10,7 @@ urlpatterns = [
     path('chat/', views.chat, name='bcctapp-chat'),
     path('patient/<int:pk>/', PatientDetailView.as_view(), name='patient-detail'),
     path('team/', TeamsCreateView.as_view(), name='teams-detail'),
+    path('my_teams/', TeamListView.as_view(), name='my-teams'),
     path('myteam/<str:name>', MyTeamsListView.as_view(), name='my-team'),
     path('patient/new/', PatientCreateView.as_view(), name='patient-new'),
     path('patient/shared/<int:pk>', PatientSharedDetailView.as_view(), name='patient-shared'),

@@ -6,4 +6,5 @@ register = template.Library()
 def addclass(field, class_attr):
     return field.as_widget(attrs={'class': class_attr})
 
+
  
