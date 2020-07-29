@@ -30,5 +30,6 @@ urlpatterns = [
     path('plot/<int:pk>/<int>/', views.plot_image_modal, name='plot'),
     path('bcctcore/<int:pk>/<int>/', views.bcctcore, name='bcctcore'),
     path('bcctcore/updateBra/', views.update_breast_bra, name='update_breast_bra'),
+    path('patient/images/download', views.download_image, name = 'download-images')
     
 ]

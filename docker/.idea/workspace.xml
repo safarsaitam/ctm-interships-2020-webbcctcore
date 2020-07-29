@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="10c75633-0fc6-429d-90c1-ff9a1e8a8d6c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bcctapp/templates/bcctapp/interaction_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/bcctapp/templates/bcctapp/interaction_form.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bcctapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bcctapp/views.py" afterDir="false" />
@@ -64,7 +66,7 @@
       <workItem from="1594205463453" duration="4101000" />
       <workItem from="1594309343617" duration="3091000" />
       <workItem from="1594588606850" duration="1476000" />
-      <workItem from="1595352415150" duration="13232000" />
+      <workItem from="1595352415150" duration="16397000" />
     </task>
     <servers />
   </component>
@@ -83,6 +85,10 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="549" y="188" key="FileChooserDialogImpl/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1595353264647" />
+    <state width="189" height="457" key="HiddenNamespacesPopup" timestamp="1595888026211">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="189" height="457" key="HiddenNamespacesPopup/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1595888026211" />
     <state x="366" y="133" width="804" height="731" key="search.everywhere.popup" timestamp="1595435142810">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
