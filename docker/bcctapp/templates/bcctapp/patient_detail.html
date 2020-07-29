@@ -135,6 +135,7 @@
 
   .action-button {
     width: 95px;
+    height: 30px;
   }
 
   option:hover {
@@ -150,6 +151,7 @@
 
   #export-button {
     width: 140px;
+    
   }
 
     .sharing-options {
@@ -169,14 +171,14 @@
                            {% csrf_token %}
                   <label for="shareteam">Share with team:</label>
                   <input type="text" id="shareteam" name="shareteam" value="Team ID">
-                  <button type="submit" class="btn btn-secondary btn-sm mt-1 mb-1 action-button">Share</button>
+                  <button type="submit" class="btn-app btn-sm mt-1 mb-1 action-button">Share</button>
                 </form>
              {% if patient.owner_id == view.request.user.id %}
                 <form method="POST" enctype="multipart/form-data">
                            {% csrf_token %}
                   <label for="share">Share with:</label>
                   <input type="text" id="share" name="share" value="User ID">
-                  <button type="submit" class="btn btn-secondary btn-sm mt-1 mb-1 action-button">Submit</button>
+                  <button type="submit" class="btn-app btn-sm mt-1 mb-1 action-button">Submit</button>
                 </form>
             {% endif %}
     </div>
@@ -237,7 +239,21 @@
                     </div>
                 </form>
             </div>
-            
+                <div class="row">
+                  <form class="d-md-flex justify-content-between w-100"  method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+        
+                    <div class="form-group mb-0 p-0 ml-2">
+                    <label class = "mt-2 m-0 p-0">
+                        Export images
+                    </label>
+                    </div>
+        
+                    <div class="px-1 d-flex justify-content-end">
+                      <input type="submit" value="Export images" id="export-button" class="btn btn-secondary btn-sm mt-1 mb-1 action-button">
+                    </div>
+                </form>
+                </div>
                 
 
             {% elif  images_patient.number == 1 %}
@@ -369,7 +385,7 @@
       
     <h2><strong>Personal Information</strong></h2>
 
-    <a class="btn btn-secondary btn-sm mt-1 mb-1 px-4" href="{% url 'patient-update' patient.id%}">Update</a>
+    <a class="btn-app btn-sm mt-1 mb-1 px-4 action-button" href="{% url 'patient-update' patient.id%}">Update</a>
   
   </div>
   <hr color="#aaa">
