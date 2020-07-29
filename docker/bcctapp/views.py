@@ -505,6 +505,7 @@ class PatientDetailView(LoginRequiredMixin,DetailView):
 
         return redirect('patient-detail',pk=id)
 
+
 class InteractionsDetailView(LoginRequiredMixin,DetailView):
     model = Patient
     form_class = InteractionsPatientForm
@@ -512,7 +513,15 @@ class InteractionsDetailView(LoginRequiredMixin,DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(InteractionsDetailView, self).get_context_data(**kwargs)
-        context['interactions'] = InteractionsPatient.objects.filter(pk=self.kwargs['pk'])
+        print('interaction pk filter used: ' + str(self.kwargs['pk']))
+        context['interactions'] = InteractionsPatient.objects.filter(image_id=self.kwargs['pk'])
+        # data = {}
+        # for interaction in context['interactions']:
+        #     if interaction.author < 2:
+        #         user_filtered = User.objects.get(pk=interaction.author)
+        #         data[interaction.author] = user_filtered.username
+        # context['user_dictionary'].append(data)
+        context['users'] = User.objects.all()
         context['images_patient'] = ImagesPatient.objects.filter(pk=self.kwargs['pk'])
         context['id'] = int(self.kwargs['int'])
         return context
@@ -785,8 +794,10 @@ def save_kpts(patient_id,number,kpts):
 @login_required
 def plot_image_modal(request,**kwargs):
     # author, image_id
-    interaction_obj = InteractionsPatient(author=2, image_id=kwargs.get('pk'), interaction_type='Plot')
-    interaction_obj.save()
+    # interaction_obj = InteractionsPatient(author=2, image_id=kwargs.get('pk'), interaction_type='Plot')
+    # interaction_obj.save()
+    InteractionsPatient.objects.create(author=request.user.id, image_id=kwargs.get('pk'), interaction_type='Plot')
+    # print('interaction has been created for image ' + str(kwargs.get('pk')))
 
     medical_images = ImagesPatient.objects.filter(pk=kwargs.get('pk'), number=kwargs.get('int'))
     patient_id = kwargs.get('pk')
