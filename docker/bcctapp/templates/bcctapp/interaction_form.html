@@ -1,22 +1,46 @@
 {% extends "bcctapp/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+{% block extra_style %}
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px; /* 5px rounded corners */
+  padding: 1rem;
+}
 
-    <h1>Interactions</h1>
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
 
-            {% for interaction in interactions %}
-              {% for user in users %}              
-                  {% if interaction.author == user.id %}
-                    <h3> author: {{ user.username }} </h3>
-                  {% endif %}
-              {% endfor %}
-              <h3> date created: {{ interaction.date_created }} </h3>
-              <h3> interaction_type : {{ interaction.interaction_type }} </h3>
-              <hr>
-            {% endfor %}
-             <form method="POST" enctype="multipart/form-data">
-                 {% csrf_token %}
-                 <input type="number"  id="interaction" name="interaction"  value="Your first interaction ">
-                 <button type="submit" >Create new interaction</button>
-             </form>
+</style>
+{% endblock extra_style %}
+<h1 class="mb-5 mt-3">Interactions</h1>
+
+{% for interaction in interactions %}
+{% for user in users %} 
+{% if interaction.author == user.id %}
+<div class="text-center d-flex justify-content-center">
+
+
+  <div class="card mb-3" style="max-width: 750px;">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img src="{{ user.profile.image.url }}" class="card-img">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ user.username }}</h5>
+          <p class="card-text field">Creation date: {{ interaction.date_created }}</p>
+          <p class="card-text">Interaction type: {{ interaction.interaction_type }}</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  {% endif %}
+    {% endfor %}
+  {% endfor %}
+
 {% endblock content %}

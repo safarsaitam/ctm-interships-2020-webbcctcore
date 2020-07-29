@@ -515,12 +515,6 @@ class InteractionsDetailView(LoginRequiredMixin,DetailView):
         context = super(InteractionsDetailView, self).get_context_data(**kwargs)
         print('interaction pk filter used: ' + str(self.kwargs['pk']))
         context['interactions'] = InteractionsPatient.objects.filter(image_id=self.kwargs['pk'])
-        # data = {}
-        # for interaction in context['interactions']:
-        #     if interaction.author < 2:
-        #         user_filtered = User.objects.get(pk=interaction.author)
-        #         data[interaction.author] = user_filtered.username
-        # context['user_dictionary'].append(data)
         context['users'] = User.objects.all()
         context['images_patient'] = ImagesPatient.objects.filter(pk=self.kwargs['pk'])
         context['id'] = int(self.kwargs['int'])
@@ -906,6 +900,7 @@ def eventFunction0(message):
 #Medical Image List & Predict Keypoints, Plot Keypoints and Delete Image Functions
 @login_required
 def medical_image_modal(request,**kwargs):
+    InteractionsPatient.objects.create(author=request.user.id, image_id=kwargs.get('pk'), interaction_type='Predict')
     medical_images = ImagesPatient.objects.filter(pk=kwargs.get('pk'), number=kwargs.get('int'))
     patient_id = kwargs.get('pk')
     number = kwargs.get('int')
