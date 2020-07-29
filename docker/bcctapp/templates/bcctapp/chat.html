@@ -138,6 +138,7 @@
 {% endblock extra_style %}
 
 {% block content %}
+<!--
 <section class = "msger">
     
     <header class="msger-header d-flex justify-content-between">
@@ -233,7 +234,7 @@
 
                     
                     
-                </div> <!--end of messages-->
+                </div> end of messages
    
                 <form class="msger-inputarea align-self-end w-100">
                     {% csrf_token %}
@@ -244,19 +245,44 @@
                 </form>
             </div>
 
-        </div> <!--end of row-->
+        </div> end of row
     </main>
 
 
         
 
-</section>
+</section>-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Rooms</title>
+</head>
+<body>
+    What chat room would you like to enter?<br>
+    <input id="room-name-input" type="text" size="100"><br>
+    <input id="room-name-submit" type="button" value="Enter">
+
+</body>
+</html>
 
 {% endblock content %}
 
 {% block extra_js %}
 <script>
     "use strict";
+        document.querySelector('#room-name-input').focus();
+        document.querySelector('#room-name-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#room-name-submit').click();
+            }
+        };
+
+        document.querySelector('#room-name-submit').onclick = function(e) {
+            var roomName = document.querySelector('#room-name-input').value;
+            window.location.pathname = '/chat/' + roomName + '/';
+        };
 
     const KEY_CODE_ENTER = 13;
 
