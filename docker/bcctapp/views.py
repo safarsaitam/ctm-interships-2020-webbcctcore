@@ -33,8 +33,63 @@ from email.message import EmailMessage
 from django.core.mail import send_mail
 from django.conf import settings
 from .filters import PatientFilter,TeamFilter
+from django.http import JsonResponse, HttpResponseNotFound
+import os
+import zipfile
+from django.contrib import messages
+from io import BytesIO
+
 
 scheduler = sched.scheduler(time.time, time.sleep)
+
+
+def download_image(request):
+    if request.method == "POST":
+        patient_id = request.POST.get('patient_id')
+
+        product_images= ImagesPatient.objects.filter(pk=patient_id)
+
+        if product_images.count() == 0 :
+            return JsonResponse({"message" : "No images available to download"})
+
+        filenames = []
+        for product_image in product_images:
+            filenames.append(str(product_image.image.file))
+
+        # if size is 0 then does nothing
+        if len(filenames) == 0:
+            messages.add_message(request, messages.INFO, 'No images available')
+            return HttpResponseRedirect('/patient/' + patient_id)
+
+
+        # change
+        zip_subdir = "patient_" + patient_id + "_images"
+        zip_filename = "%s.zip" % zip_subdir
+        
+        s=BytesIO()
+
+        # The zip compressor
+        zf = zipfile.ZipFile(s, "w")
+
+        for fpath in filenames:
+            # Calculate path for file in zip
+            fdir, fname = os.path.split(fpath)
+            zip_path = os.path.join(zip_subdir, fname)
+
+            # Add file, at correct path
+            zf.write(fpath, zip_path)
+
+        # Must close zip for all contents to be written
+        zf.close()
+        resp = HttpResponse(s.getvalue(), content_type = "application/x-zip-compressed")
+        resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+        return resp
+    
+    #messages.error(request, 'Invalid request')
+    return HttpResponseNotFound('<h1>Invalid request</h1>')
+
+
+    
 
 def print_event(name):
     print('EVENT:', time.time(), name)

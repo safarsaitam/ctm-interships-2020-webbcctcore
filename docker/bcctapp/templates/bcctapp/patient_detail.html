@@ -136,6 +136,13 @@
   .action-button {
     width: 95px;
     height: 30px;
+    text-align: center;
+  }
+
+  .update-button {
+    width: 95px;
+    height: 40px;
+    text-align: center;
   }
 
   option:hover {
@@ -164,25 +171,7 @@
 {% block content %}
 {% endblock content %}
 {% block gallery %}
-<div class="row" >
 <h1 class="mb-5">Patient: {{patient.first_name}} {{patient.last_name}}</h1>
-    <div class="col sharing-options mb-3">
-<form method="POST" enctype="multipart/form-data">
-                           {% csrf_token %}
-                  <label for="shareteam">Share with team:</label>
-                  <input type="text" id="shareteam" name="shareteam" value="Team ID">
-                  <button type="submit" class="btn-app btn-sm mt-1 mb-1 action-button">Share</button>
-                </form>
-             {% if patient.owner_id == view.request.user.id %}
-                <form method="POST" enctype="multipart/form-data">
-                           {% csrf_token %}
-                  <label for="share">Share with:</label>
-                  <input type="text" id="share" name="share" value="User ID">
-                  <button type="submit" class="btn-app btn-sm mt-1 mb-1 action-button">Submit</button>
-                </form>
-            {% endif %}
-    </div>
-    </div>
 <div class="container">  
 <div class="row">
   <div class="col-4">
@@ -190,14 +179,14 @@
             
             <figure>
               <img class="myImages" src="{{ images_patient.image.url }}" width="300" height="200">
-              <a id="update-picture-button" class="btn btn-secondary btn-sm" href="{% url 'patient-update-image' patient.id%}">Update image</a>
+              <a id="update-picture-button" class="btn-app btn-sm" href="{% url 'patient-update-image' patient.id%}">Update image</a>
               <figcaption>Last updated on Mar 3rd, 2020</figcaption>
             </figure>              
 
             <div class="mb-5 mt-2">
-              <a class="btn btn-secondary btn-sm mt-1 mb-1 action-button" href="{% url 'interaction-form' patient.id images_patient.number%}">Interactions</a>
-              <a class="btn btn-secondary btn-sm mt-1 mb-1 action-button" href="{% url 'model' patient.id images_patient.number %}">Predict</a>
-              <a class="btn btn-secondary btn-sm mt-1 mb-1 action-button" href="{% url 'plot' patient.id images_patient.number %}">Plot</a>
+              <a class="btn-app btn-sm mt-1 mb-1 btn-patient-size" href="{% url 'interaction-form' patient.id images_patient.number%}">Interactions</a>
+              <a class="btn-app btn-sm mt-1 mb-1 btn-patient-size" href="{% url 'model' patient.id images_patient.number %}">Predict</a>
+              <a class="btn-app btn-sm mt-1 mb-1 btn-patient-size" href="{% url 'plot' patient.id images_patient.number %}">Plot</a>
             </div>       
 
             {% if images_patient.days < 0 %}
@@ -235,14 +224,14 @@
                     </div>
         
                     <div class="px-1 d-flex justify-content-end">
-                      <input type="submit" value="Export" id="export-button" class="btn btn-secondary btn-sm mt-1 mb-1 action-button">
+                      <input type="submit" value="Export" id="export-button" class="btn-app btn-sm mt-1 mb-1">
                     </div>
                 </form>
             </div>
                 <div class="row">
-                  <form class="d-md-flex justify-content-between w-100"  method="POST" enctype="multipart/form-data">
+                  <form action = "{% url 'download-images' %}" class="d-md-flex justify-content-between w-100"  method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-        
+                    <input type="hidden" name="patient_id" value="{{patient.id}}" />
                     <div class="form-group mb-0 p-0 ml-2">
                     <label class = "mt-2 m-0 p-0">
                         Export images
@@ -250,7 +239,7 @@
                     </div>
         
                     <div class="px-1 d-flex justify-content-end">
-                      <input type="submit" value="Export images" id="export-button" class="btn btn-secondary btn-sm mt-1 mb-1 action-button">
+                      <button id="export-images" title = "export" type="submit" class="btn-app btn-patient-size">Export </button>
                     </div>
                 </form>
                 </div>
@@ -385,7 +374,7 @@
       
     <h2><strong>Personal Information</strong></h2>
 
-    <a class="btn-app btn-sm mt-1 mb-1 px-4 action-button" href="{% url 'patient-update' patient.id%}">Update</a>
+    <a class="btn-app btn-sm mt-1 mb-1 update-button" href="{% url 'patient-update' patient.id%}">Update</a>
   
   </div>
   <hr color="#aaa">
@@ -431,6 +420,26 @@
                 {% if patient.surgery_type == 9  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrization with reduction</h4>{% endif %}
                 {% if patient.surgery_type == 10 %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrisation with implant (augmentation)</h4>{% endif %}
     {% endif %}
+    
+    <h3 class="mt-5"><strong>Share</strong></h3>
+    <hr color="#aaa">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label for="shareteam">Share with team:</label>
+      <input type="text" id="shareteam" name="shareteam" value="Team ID">
+      <button type="submit" class="btn-app btn-sm mt-1 mb-1 btn-patient-size">Share</button>
+      </form>
+      {% if patient.owner_id == view.request.user.id %}
+      <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+      <label for="share">Share with:</label>
+      <input type="text" id="share" name="share" value="User ID">
+      <button type="submit" class="btn-app btn-sm mt-1 mb-1 btn-patient-size">Submit</button>
+      </form>
+      {% endif %}
+    
+
+
 
     </div>
 
@@ -465,6 +474,25 @@
     //var modalForm2 = document.getElementById("form02");
     //var modalForm3 = document.getElementById("form03");
 
+    /*
+    let export_images_btn = document.getElementById('export-images');
+    export_images_btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      $.ajax({
+        type:'POST',
+        url : "{% url 'download-images' %}",
+        data: { patient_id: "{{patient.id}}" , csrfmiddlewaretoken: '{{ csrf_token }}' },
+        success : function(response) {
+          console.log(response)
+        }, 
+        error: function(response) {
+          console.log(response)
+        }
+      });
+    });*/
+
+
+
 // Go through all of the images with our custom class
 for (var i = 0; i < images.length; i++) {
   var img = images[i];
@@ -479,11 +507,12 @@ for (var i = 0; i < images.length; i++) {
   }
 }
 
+/*
 var span = document.getElementsByClassName("close")[0];
 
 span.onclick = function() {
   modal.style.display = "none";
-}
+}*/
 
 
 	</script>

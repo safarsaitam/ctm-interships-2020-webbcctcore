@@ -82,6 +82,10 @@
     font-size: 2.5rem;
   }
 
+  .navbar {
+    background-color: var(--primary-color);
+  }
+
   /* botoes */
   .btn-app {
     display: inline-block;
@@ -91,8 +95,11 @@
     border: 2px solid var(--primary-color);
     border-radius: 3px;
     transition: color .3s;
-    padding: 0 0.5rem;
-    text-align: end;
+  }
+
+  .btn-patient-size {
+    width: 95px;
+    height: 30px;
   }
 
   .btn-app:hover {
@@ -103,10 +110,6 @@
       border: 2px solid var(--primary-color);
       border-radius: 3px;
       position: relative;
-  }
-
-  .navbar {
-    background-color: var(--primary-color);
   }
 
   /* bread crumbs */

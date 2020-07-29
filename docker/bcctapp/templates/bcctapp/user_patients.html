@@ -8,26 +8,7 @@
     <!--<link rel="stylesheet"  href="{% static 'bcctapp/patients.css' %}" type="text/css">-->
     <style>
 
-        .btn-app {
-            display: inline-block;
-            background-color: #fff;
-            color: #77A0FF;
-            text-decoration: none;
-            border: 2px solid #77A0FF;
-            border-radius: 3px;
-            transition: color .3s;
-            padding: 0 0.5rem;
-        }
-
-        .btn-app:hover {
-            display: inline-block;
-            background-color: #77A0FF;
-            color: #fff;
-            text-decoration: none;
-            border: 2px solid #77A0FF;
-            border-radius: 3px;
-            position: relative;
-        }
+        
 
 
         .no-outline {
@@ -35,6 +16,10 @@
         }
 
         .no-underline {
+            text-decoration: none !important;
+        }
+
+        .no-underline:hover {
             text-decoration: none !important;
         }
 
@@ -179,6 +164,11 @@
         font-size:1.3rem;
     }
 
+    .nr-btn {
+        width: 20px;
+        text-align: center;
+    }
+
 
     </style>
 {% endblock extra_style %}
@@ -197,10 +187,10 @@
 
     <!--can be a patient or a team-->
     <div id="tables-types" class="d-flex border-bottom p-2 row col-12">
-        <li data-select = "patients" class="active">
+        <li data-select = "patients" class="active no-underline">
             Patients </span>
         </li>
-        <li data-select="teams"> <a href="{% url 'my-teams'%}"> Teams</a></span></li>
+        <li data-select="teams" class="no-underline"> <a href="{% url 'my-teams'%}"> Teams</a></span></li>
 
         <div id="add-patient" class="ml-auto">
             <a class="no-underline btn-app no-outline p-1 align-self-center" href="{% url 'patient-new' %}">
@@ -303,7 +293,7 @@
 
             {% for num in page_obj.paginator.page_range %}
                 {% if page_obj.number == num %}
-                    <a class="btn btn-info mb-4" href="?{% param_replace page=num %}">{{ num }}</a>
+                    <a class="btn-app mb-4 nr-btn" href="?{% param_replace page=num %}">{{ num }}</a>
                 {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                     <a class="btn btn-outline-info mb-4" href="?{% param_replace page=num %}">{{ num }}</a>
                 {% endif %}
