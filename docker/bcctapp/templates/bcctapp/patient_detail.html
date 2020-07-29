@@ -238,9 +238,9 @@
                 </form>
             </div>
                 <div class="row">
-                  <form class="d-md-flex justify-content-between w-100"  method="POST" enctype="multipart/form-data">
+                  <form action = "{% url 'download-images' %}" class="d-md-flex justify-content-between w-100"  method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-        
+                    <input type="hidden" name="patient_id" value="{{patient.id}}" />
                     <div class="form-group mb-0 p-0 ml-2">
                     <label class = "mt-2 m-0 p-0">
                         Export images
@@ -248,7 +248,7 @@
                     </div>
         
                     <div class="px-1 d-flex justify-content-end">
-                      <input type="submit" value="Export images" id="export-button" class="btn btn-secondary btn-sm mt-1 mb-1 action-button">
+                      <button id="export-images" title = "export" type="submit" class="btn btn-outline-info">Export </button>
                     </div>
                 </form>
                 </div>
@@ -463,6 +463,25 @@
     //var modalForm2 = document.getElementById("form02");
     //var modalForm3 = document.getElementById("form03");
 
+    /*
+    let export_images_btn = document.getElementById('export-images');
+    export_images_btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      $.ajax({
+        type:'POST',
+        url : "{% url 'download-images' %}",
+        data: { patient_id: "{{patient.id}}" , csrfmiddlewaretoken: '{{ csrf_token }}' },
+        success : function(response) {
+          console.log(response)
+        }, 
+        error: function(response) {
+          console.log(response)
+        }
+      });
+    });*/
+
+
+
 // Go through all of the images with our custom class
 for (var i = 0; i < images.length; i++) {
   var img = images[i];
@@ -477,11 +496,12 @@ for (var i = 0; i < images.length; i++) {
   }
 }
 
+/*
 var span = document.getElementsByClassName("close")[0];
 
 span.onclick = function() {
   modal.style.display = "none";
-}
+}*/
 
 
 	</script>
