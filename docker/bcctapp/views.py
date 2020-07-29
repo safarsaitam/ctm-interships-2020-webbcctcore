@@ -512,7 +512,7 @@ class InteractionsDetailView(LoginRequiredMixin,DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(InteractionsDetailView, self).get_context_data(**kwargs)
-        context['interaction'] = InteractionsPatient.objects.filter(pk=self.kwargs['pk'])
+        context['interactions'] = InteractionsPatient.objects.filter(pk=self.kwargs['pk'])
         context['images_patient'] = ImagesPatient.objects.filter(pk=self.kwargs['pk'])
         context['id'] = int(self.kwargs['int'])
         return context
@@ -784,6 +784,10 @@ def save_kpts(patient_id,number,kpts):
 
 @login_required
 def plot_image_modal(request,**kwargs):
+    # author, image_id
+    interaction_obj = InteractionsPatient(author=2, image_id=kwargs.get('pk'), interaction_type='Plot')
+    interaction_obj.save()
+
     medical_images = ImagesPatient.objects.filter(pk=kwargs.get('pk'), number=kwargs.get('int'))
     patient_id = kwargs.get('pk')
     number = kwargs.get('int')
@@ -1139,12 +1143,13 @@ def contact(request):
             form = ContactForm()
         return render(request,'bcctapp/contact.html',  {'form': form})
 
+# interactions
+
+
+
+
 #chat
 
 def chat(request) :
     return render(request, 'bcctapp/chat.html')
 
-
-
-
-        

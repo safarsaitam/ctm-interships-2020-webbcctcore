@@ -4,12 +4,21 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
+
 # Create your views here.
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
+            # user = form.save()
+            # user.save()
             form.save()
+            username = form.cleaned_data.get('username')
+            #
+            # user_profile = user.profile
+            # user_profile.username = username
+            # user_profile.save()
+
             messages.success(request, f'Your account has been created! You are now able to login in!')
             return redirect('login')
 
@@ -17,6 +26,7 @@ def register(request):
         form = UserRegisterForm()
     
     return render(request, 'users/register.html', {'form':form})
+
 
 @login_required
 def profile(request):

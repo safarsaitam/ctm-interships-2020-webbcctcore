@@ -4,11 +4,13 @@
 
     <h1>Interaction</h1>
 
-            {% for interaction in interaction %}
-                  {% if interaction.image_id == id %}
+            {% for interaction in interactions %}
+            <h3> author: {{ interaction.image_id }} </h3>
                     <h3> author: {{ interaction.author }} </h3>
                     <h3> date created: {{ interaction.date_created }} </h3>
                     <h3> interaction_type : {{ interaction.interaction_type }} </h3>
+                  {% if interaction.author == 1 %}
+                    
                   {% endif %}
             {% endfor %}
              <form method="POST" enctype="multipart/form-data">

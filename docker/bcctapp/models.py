@@ -178,6 +178,7 @@ class ImagesPatient(models.Model):
     def __str__(self):
         return str('image')
 
+
 class InteractionsPatient(models.Model):
     number = models.IntegerField(null=True)
     image_id = models.IntegerField(null=True)
@@ -185,6 +186,7 @@ class InteractionsPatient(models.Model):
     image = models.ImageField(upload_to='medical_images4/', blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     interaction_type = models.CharField(max_length=30)
+
 
 class Teams(models.Model):
     name = models.CharField(max_length=100)
