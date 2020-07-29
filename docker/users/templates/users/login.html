@@ -3,9 +3,202 @@
 {% load socialaccount %}
 {% providers_media_js %}
 {% block content %}
-    <div class="content-section">
+<style>
+    .form-container {
+    background: #fff;
+    top: 10vh;
+    width: 50vw;
+    height: 450px;
+    position: relative;
+    text-align: center;
+    padding-bottom: 10px;
+    margin: auto;
+    box-shadow: 0 0 20px 0px rgba(0,0,0,0.1);
+    overflow: hidden;
+    }
 
-        <form method="POST">
+
+
+    .form-container span{
+        font-weight: bold;
+        font-size: larger;
+        color: #555;
+        cursor: pointer;
+        width: 24.5vw;
+        height: 40px;
+        padding-top: 7px;
+        display: inline-block;
+    }
+
+    #LoginBtn {
+        background: #fff;
+    }
+    
+    #RegisterBtn {
+        background: rgb(209, 209, 209);
+    }
+
+    .form-btn {
+        display: inline-block;
+    } 
+
+    .form-container form {
+        max-width: 100%;
+        padding: 0 20px;
+        position: absolute;
+        top: 80px;
+        transition: transform 0.5s;
+    }
+
+    form input{
+        width: 100%;
+        height: 30px;
+        margin: 10px 0;
+        padding: 0 10px;
+        border: 1px solid #ccc;
+        display: block;
+    }
+
+    form .btn{
+        width: 100%;
+        border: none;
+        cursor: pointer;
+        margin: 10px 0;
+        background: #00A776;
+        color: #fff;
+        font: bold;
+    }
+
+    form .btn:hover{
+        background: #003828;
+        color: #fff;
+    }
+
+    form .btn:focus{
+        outline: none;
+    }
+
+    #LoginForm {
+        width: 100%;
+        left: 0vw;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 70%;
+    }
+
+    .loginform {
+        width: 96%;
+        padding-top: 40px;
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+
+    .loginform input {
+        margin: 20px 0;
+        height: 40px;
+    }
+
+    .socialform {
+        padding: 70px 10px;
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+
+    .socialform p {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 20px;
+        padding-bottom: 10px;
+    }
+
+    .socialform a {
+        display: inline-block;
+        margin: 5px 5px;
+    }
+
+    .socialform a:nth-child(2){
+        background: url(/media/UI_images/SocialMedia/google_login.png) no-repeat;
+        color: rgba(255, 255, 255, 0);
+        height: 51px;
+        width: 141px;
+    }
+    .socialform a:nth-child(3){
+        background: url(/media/UI_images/SocialMedia/facebook_login.png) no-repeat;
+        color: rgba(255, 255, 255, 0);
+        height: 45px;
+        width: 141px;
+    }
+    .socialform a:nth-child(4){
+        background: url(/media/UI_images/SocialMedia/twitter_login.png) no-repeat;
+        color: rgba(255, 255, 255, 0);
+        height: 52px;
+        width: 141px;
+    }
+
+    #RegisterForm {
+        width: 100%;
+        left: 50vw;
+        padding: 0 10vw;
+        padding-top: 0px;
+    }
+
+    #RegisterForm * {
+        margin-top: 5px;
+        height: 40px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .form-container{
+            height: 575px;
+        }
+
+        #LoginForm {
+        width: 100%;
+        left: 0vw;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 70% 10%;
+        }
+
+        #RegisterForm {
+        width: 100%;
+        left: 50vw;
+        padding: 0 3vw;
+        padding-top: 48px;
+        }
+
+        #RegisterForm * {
+            margin-top: 10px;
+            height: 40px;
+        }
+
+        .socialform {
+        top: -50px;
+        padding: 0px 10px;
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        }
+
+        .socialform p {
+           display: none;
+        }
+
+    }
+
+    .body-main {
+    background: rgba(255, 255, 255, 0);
+    }
+
+</style>
+
+        <!-- <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Log In</legend>
@@ -30,12 +223,57 @@
             <small class="text-muted">
                 Need An Account? <a class="ml-2" href="{% url 'register' %}">Sign Up</a>
             </small>
+        </div> -->
+    <div class="form-container">
+        <div class="form-btn">
+            <span onclick="login()" id="LoginBtn">Log In</span>
+            <span onclick="register()" id="RegisterBtn">Register</span>
         </div>
-<<<<<<< HEAD
-    </div> 
-=======
+        <form id="LoginForm" method="POST">
+            <div class="loginform">
+                <input type="text" placeholder="Username">
+                <input type="password" placeholder="Password">
+                <button type="submit" class="btn">Login</button>
+                <a href="">Forgot Password</a>
+            </div>
+            <div class="socialform">
+                <p>Login with your social media account</p>
+                <a href="{% provider_login_url "google" %}"> Login with Google Account</a>
+                <a href="{% provider_login_url "facebook" method="oauth2" %}">Login with Facebook Account</a>
+                <a href="{% provider_login_url "twitter" %}"> Login with Twitter Account</a>
+            </div>
+        </form>
+
+        <form id="RegisterForm" method="POST">
+            <input type="text" placeholder="Username">
+            <input type="text" placeholder="First Name">
+            <input type="text" placeholder="Last Name">
+            <input type="email" placeholder="Email">
+            <input type="password" placeholder="Password">
+            <input type="password" placeholder="Password Confirmation">
+            <button type="submit" class="btn">Register</button>
+        </form>
     </div>
 
-    
->>>>>>> origin/fujicsso
+<script>
+    var LoginForm = document.getElementById("LoginForm");
+    var LoginBtn = document.getElementById("LoginBtn");
+    var RegisterForm = document.getElementById("RegisterForm");
+    var RegisterBtn = document.getElementById("RegisterBtn");
+    var Indicator = document.getElementById("Indicator");
+
+    function register() {
+        RegisterForm.style.transform = "translateX(-50vw)";
+        LoginForm.style.transform = "translateX(-50vw)";
+        RegisterBtn.style.background = "#fff";
+        LoginBtn.style.background = "rgb(209, 209, 209)";
+    }
+
+    function login() {
+        RegisterForm.style.transform = "translateX(0vw)";
+        LoginForm.style.transform = "translateX(0vw)";
+        RegisterBtn.style.background = "rgb(209, 209, 209)";
+        LoginBtn.style.background = "#fff";
+    }
+</script>
 {% endblock content %}

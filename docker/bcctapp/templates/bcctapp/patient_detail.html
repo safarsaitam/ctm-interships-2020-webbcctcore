@@ -159,9 +159,8 @@
 
   </style>
   {% endblock extra_style %}
+
 {% block content %}
-{% endblock content %}
-{% block gallery %}
 <div class="row" >
 <h1 class="mb-5">Patient: {{patient.first_name}} {{patient.last_name}}</h1>
     <div class="col sharing-options mb-3">
@@ -435,7 +434,7 @@
 
 
 
-{% endblock gallery %}
+{% endblock content %}
 {% block extra_js %}
 	<script type='text/javascript'>
     // create references to the modal...
