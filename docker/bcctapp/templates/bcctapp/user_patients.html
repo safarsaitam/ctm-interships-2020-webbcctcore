@@ -223,11 +223,7 @@
 
             {% for num in page_obj.paginator.page_range %}
                 {% if page_obj.number == num %}
-<<<<<<< HEAD
-                    <a class="btn-app mb-4 nr-btn" href="?{% param_replace page=num %}">{{ num }}</a>
-=======
                     <a class="btn-app px-3 mb-4" href="?{% param_replace page=num %}">{{ num }}</a>
->>>>>>> 4a5ef60... ui fix
                 {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                     <a class="btn-app px-3 mb-4" href="?{% param_replace page=num %}">{{ num }}</a>
                 {% endif %}

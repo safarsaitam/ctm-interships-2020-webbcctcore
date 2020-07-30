@@ -150,4 +150,4 @@ def check_clinical_study(request):
 
 
 
-    return render(request, 'cinderella/cinderella_clinical_study.html', context)
+    return render(request, 'cinderella/p', context)

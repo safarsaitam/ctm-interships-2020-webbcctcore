@@ -61,18 +61,15 @@
                 <div class="navbar-nav">
                     {% if user.is_authenticated %}
                     <a class="nav-item-md nav-link" href="{% url 'profile' %}">Profile</a>
-
+                    <a href="{% url 'chat:show-chat' %}" class="icon-block nav-item-md nav-link">
+                        Chat
+                    </a>
                     <a class="nav-item-md nav-link" href="{% url 'logout' %}">Logout</a>
                     {% else %}
                     <a class="nav-item-md nav-link" href="{% url 'login' %}">Login</a>
                     {% endif %}
                 </div>
             </div>
-            {% if user.is_authenticated %}
-            <a href="" class="icon-block">
-                <i class="material-icons chat-icon">chat_bubble</i>
-            </a>
-            {% endif %}
         </nav>
     </header>
 

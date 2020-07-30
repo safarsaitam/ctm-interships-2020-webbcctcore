@@ -20,7 +20,18 @@
 {% endblock extra_style %}
 
 {% block content %}
-<h1>Cinderella Application Results</h1>
+<nav class = "mt-2 mb-4 text-left">
+    <ol class="cd-breadcrumb w-100">
+      {% if user.is_authenticated %}
+      <li>Logged in</li>
+      {% endif %}
+      <li><a class = "no-underline" href="{%url 'cinderella_url'%}">Cinderella App</a></li>
+      <li class = "current"><a class = "no-underline" href="#">Results</a></li>
+
+    </ol>
+    </nav>
+
+<h1 class = "h2 mb-4">Cinderella Application Results</h1>
 <p>Age: {{ age }} +- {{ age_lims }}</p>
 <p>Weight: {{ weight }} +- {{ weight_lims }}</p>
 <p>Height: {{ height }} +- {{ height_lims }}</p>
@@ -44,9 +55,9 @@
             </div>
         </div>
     {% endfor %}
-    <center>
+    <div class = "w-100 text-right">
         <button class="btn btn-danger" onclick="goBack()" style="margin-bottom: 20px;">Return to application page</button>
-    </center>
+    </div>
 {% endblock content %}
 {% block extra_js %}
 <script>

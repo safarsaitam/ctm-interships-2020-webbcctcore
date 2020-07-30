@@ -171,7 +171,17 @@
 {% block content %}
 {% endblock content %}
 {% block gallery %}
-<h1 class="mb-5">Patient: {{patient.first_name}} {{patient.last_name}}</h1>
+<nav class = "mt-2 mb-4 text-left">
+  <ol class="cd-breadcrumb w-100">
+    {% if user.is_authenticated %}
+    <li>Logged in</li>
+    {% endif %}
+    <li ><a class = "no-underline" href="{% url 'user-patient' user.username %}">Patients</a></li>
+    <li class = "current"><a class = "no-underline" href="#">Patient {{patient.first_name}}</a></li>
+
+  </ol>
+  </nav>
+<h1 class="mb-4 class = h2 ml-5">Patient: {{patient.first_name}} {{patient.last_name}}</h1>
 <div class="container">  
 <div class="row">
   <div class="col-4">

@@ -2,6 +2,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from .models import Message, Group
+from django.contrib.auth.models import User
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -27,22 +28,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
-        await self.channel_layer.group_send(
-            self.room_group_name, {
-            "type": "chat_message",
-            "message":self.person_name+" is on the chat"
-            }
-        )
+        #
+        #await self.channel_layer.group_send(
+         #   self.room_group_name, {
+          #  "type": "chat_message",
+        # "message":self.person_name+" is on the chat"
+        #    }
+        #)
 
         await self.accept()
 
     async def disconnect(self, close_code):
-        await self.channel_layer.group_send(
-            self.room_group_name, {
-            "type": "chat_message",
-            "message":self.person_name + " is not on the chat anymore"
-            }
-        )
+        
+        #await self.channel_layer.group_send(
+        #    self.room_group_name, {
+        #    "type": "chat_message",
+        #    "message":self.person_name + " is not on the chat anymore"
+        #    }
+        #)
+
         # Leave room group
         await self.channel_layer.group_discard(
             self.room_group_name,
@@ -55,16 +59,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         room_id = text_data_json['room_id']
-        print("here: ", message)
-        print(self.user)
+   
         await self.save_message(message, room_id)
+        print("here", User.objects.get(username = self.person_name).profile.image.url)
 
+        
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message':self.person_name+" : "+message
+                'message':self.person_name+" : "+message,
             }
         )
 
@@ -74,7 +79,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'message': message
+            'message': message,
+            'photo' : User.objects.get(username = self.person_name).profile.image.url
+
         }))
 
     @database_sync_to_async
