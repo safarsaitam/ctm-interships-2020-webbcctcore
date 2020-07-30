@@ -1,41 +1,101 @@
 {% extends "bcctapp/base.html" %}
 {% load crispy_forms_tags %}
+
+{% block extra_style %}
+<style>
+     @media only screen and (max-width: 700px) {
+    #add-image {
+      border-left: 1px solid #dee2e6;
+    }
+  }
+
+
+</style>
+{% endblock extra_style %}
 {% block content %}
-   <h1>Update Image</h1>
+
+<nav class = "mt-2 mb-4">
+  <ol class="cd-breadcrumb w-100">
+      {% if user.is_authenticated %}
+      <li>Logged in</li>
+      {% endif %}
+      <li><a class = "no-underline" href="{%url 'patient-detail' patient.id %}">Patient</a></li>
+      <li class = "current"><a class = "no-underline" href="#">Update images </a></li>
+  </ol>
+</nav>
 
 
-               <h2>Patient: {{patient.first_name}} {{patient.last_name}} ID:{{patient.id}}</h2>
+
+<h1 class = "h2 mb-4">Patient: {{patient.first_name}} {{patient.last_name}} | <small class = "text-primary-color">Identifier:{{patient.id}}</small> </h2>
+
+<div class="container border-top">
+  <div class="row">
+    <div class="col-md-6 bg-color py-5">
+      <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3 class = "h2 mb-4">Update Image</h3>
+              <div class="form-group mb-0">
+                <label for="image1">Image ID:</label>
+                <input class = "form-control" min= "1" type="number" id="image1" name="image1" value="Image ID">
+              </div>
+
+              <div class="form-group mb-0">
+                <label for="date">Image date:</label>
+                <input class = "form-control" type="date" id="date" name="date">
+              </div>
+      
+            <div class="w-100 text-right mt-3">
+              <button class="btn-app px-2 py-1" type="submit">Update</button>
+            </div>
+      </form>
+    </div>
+
+   <div id = "add-image" class="col-md-6 py-5 border-bottom border-right">
+    <h3 class = "h2 mb-4">Add a new image</h3>
         <div class="form-group">
-             <form method="POST" enctype="multipart/form-data">
-                        <fieldset class="form-group">
-                            {% csrf_token %}
-                            <label for="image">Change Image Date:</label>
-                            <input type="number" id="image1" name="image1" value="Image ID">
-                            <input type="date" id="date" name="date">
-                            <button class="btn btn-outline-info" type="submit">Update</button>
-             </form>
-            {% for images_patient in images_patient %}
-                <h2> id : {{images_patient.number}}</h2>
-                <img class="myImages" src="{{ images_patient.image.url }}" width="300" height="200">
-                <form method="POST" enctype="multipart/form-data">
-                        <fieldset class="form-group">
-                            {% csrf_token %}
-                            {{ form.images }}
-                            <label for="image">Select image ID to confirm:</label>
-                            <input type="text" id="image" name="image">
-                            <button class="btn btn-outline-info" type="submit">Update</button>
-                 </form>
+          <form method="POST" enctype="multipart/form-data">
+                <fieldset class="form-group">
+                    {% csrf_token %}
+                    <div class="w-50">
+                      {{ form.images|as_crispy_field }}
+                    </div>
+              <div class="w-100 text-right mt-3">
+                <button class="btn-app px-2 py-1" type="submit">Update</button>
+              </div>
+          </form>
+        </div>
 
-            {% endfor %}
-            <h2> Add a new image: </h2>
-               <div class="form-group">
-                 <form method="POST" enctype="multipart/form-data">
-                        <fieldset class="form-group">
-                            {% csrf_token %}
-                             {{ form.images }}
-                      <button class="btn btn-outline-info" type="submit">Update</button>
-                 </form>
-               </div>
+    </div>
+  </div>
+
+  {% for images_patient in images_patient %}
+  <div class="row my-3  shadow p-3 mb-5 bg-white rounded">
+
+    <div class="col-md-6">
+      <h2 class = "mb-3"> Image ID : {{images_patient.number}}</h2>
+      <img class="myImages" src="{{ images_patient.image.url }}" width="300" height="200">
+    </div>
+    <div class="col-md-6">
+      <form method="POST" enctype="multipart/form-data">
+        <fieldset class="form-group">
+            {% csrf_token %}
+
+            <div class="w-25">
+              {{ form.images|as_crispy_field }}
+            </div>           
+            <label class = "mt-3" for="image">Select image ID to confirm:</label>
+            <input class = "form-control mb-3" type="text" id="image" name="image">
+            <div class="w-100 text-right">
+              <button class="btn-app px-2 py-1" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+  </div>
+
+  {% endfor %}
+
+</div>
+
 
 
 

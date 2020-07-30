@@ -4,40 +4,17 @@
 {% load tags %}
 {% block extra_style %}
 <style>
-        .btn-app {
-            display: inline-block;
-            background-color: #fff;
-            color: #77A0FF;
-            text-decoration: none;
-            border: 2px solid #77A0FF;
-            border-radius: 3px;
-            transition: color .3s;
-            padding: 0 0.5rem;
-        }
-
-        .btn-app:hover {
-            display: inline-block;
-            background-color: #77A0FF;
-            color: #fff;
-            text-decoration: none;
-            border: 2px solid #77A0FF;
-            border-radius: 3px;
-            position: relative;
-        }
-
-        #tables-types li {
+        
+    #tables-types li {
         list-style: none;
         margin: 0;
         padding: 0.5rem 1rem;
         border-bottom: 3px solid inherit;
     }
 
-    .bg-green {
-        background-color: rgb(208 240 192);
-    }
 
     #tables-types li.active {
-        border-bottom: 3px solid green;
+        border-bottom: 3px solid var(--primary-color);
     }
 
     #tables-types li:hover {
@@ -54,7 +31,7 @@
         top: -6px;
         right: -20px;
         border-radius: 50%;
-        background: green;
+        background: var(--primary-color);
         color: white;
     }
 
@@ -69,13 +46,21 @@
 {% endblock extra_style %}
 
 {% block content %}
+<nav class = "m-2">
+    <ol class="cd-breadcrumb w-100">
+        {% if user.is_authenticated %}
+        <li>Logged in</li>
+        {% endif %}
+        <li class = "current"><a class = "no-underline" href="#">Teams</a></li>
+    </ol>
+  </nav>
 <div class="container">
 
 
 <div id="tables-types" class="d-flex border-bottom p-2">
     <ul class = "d-flex m-0 p-0">
         <li data-select = "patients p-0 m-0">
-            <a href="{% url 'user-patient' user.username %}">Patients</a>  </span>
+            <a class = "a-app no-underline" href="{% url 'user-patient' user.username %}">Patients</a>  </span>
         </li>
         <li data-select="teams" class="active"> Teams </span></li>
     </ul>
@@ -83,7 +68,7 @@
         {% if request.user.is_staff %}
                 <a class="no-underline btn-app no-outline p-1 align-self-center" href="{% url 'teams-detail' %}">
                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                    Create Team
+                    Team options
                 </a>
         {% endif %}
     </div>
@@ -132,8 +117,8 @@
             </div>
         <!--teams-->
         {% for team in object_list %}
-            <article class="row shadow pt-3 pb-2 mb-5 rounded row bg-green">
-               <p class = "col-md-4 m-0">Team name: <a class  href="{%url 'my-team' team.name%}">{{team.name}}</a> </p>
+            <article class="row shadow pt-3 pb-2 mb-5 rounded row card-color text-white ">
+               <p class = "col-md-4 m-0">Team name: <a class = "a-app  no-underline"  href="{%url 'my-team' team.name%}">{{team.name}}</a> </p>
                <p class = "col-md-4 m-0">Number of patients: {{team.patients|wordcount}} </p>
                <p class = "col-md-4 m-0">Number of users: {{team.users|wordcount}}</p>
                <small class = "col-md-4 m-0">ID: {{team.id}}</small>

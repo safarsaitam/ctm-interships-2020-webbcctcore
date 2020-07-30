@@ -16,11 +16,26 @@
 
 </style>
 {% endblock extra_style %}
+
+<nav class = "mt-2 mb-4">
+  <ol class="cd-breadcrumb w-100">
+      {% if user.is_authenticated %}
+      <li>Logged in</li>
+      {% endif %}
+      <li><a class = "no-underline" href="{%url 'patient-detail' patient.id %}">Patient</a></li>
+      <li class = "current"><a class = "no-underline" href="#">Interactions</a></li>
+  </ol>
+</nav>
+
 <h1 class="mb-5 mt-3">Interactions</h1>
+
 
 {% for interaction in interactions %}
 {% for user in users %} 
 {% if interaction.author == user.id %}
+
+
+
 <div class="text-center d-flex justify-content-center">
 
 

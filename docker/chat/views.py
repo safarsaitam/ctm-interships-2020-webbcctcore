@@ -34,7 +34,7 @@ def ShowChatPage(request, room_name):
         'group': Group.objects.filter(pk=room_name).first(),
         'pk': room_name,
         'groups': Group.objects.filter(team__in=teams),
-        'messages' : Message.objects.filter(group=room_name).order_by('-timestamp')[:15]
+        'messages' : Message.objects.filter(group=room_name).order_by('timestamp')[:15]
         })
     else:
         return redirect('/')
@@ -47,14 +47,14 @@ def loadMessage(request):
         number_messages = int(request.POST.get('page')) * const_load
 
         if Message.objects.filter(group=group_id).exists():
-            data =  Message.objects.order_by('-timestamp').all()[number_messages:number_messages+15]
+            data =  Message.objects.order_by('-timestamp').all()[number_messages:number_messages + const_load]
             users = {}
 
             for info in data:
                 users[str(info.author.id)]  = {
                     'id':info.author.id,
-                    'username' : info.author.username
-                     #'image': info.author.profile.image.url 
+                    'username' : info.author.username,
+                    'image': info.author.profile.image.url 
                 }
             
             load_more = True

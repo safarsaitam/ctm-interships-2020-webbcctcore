@@ -1,20 +1,35 @@
 {% extends "bcctapp/base.html" %}
-{% block content %}
-    <h1 class="mb-3">Team Patients</h1>
-    <h4>Team ID: {{team_id}} </h4>
-    {% for patient in patient %}
-        <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ patient.owner.profile.image.url }}" alt="Profile Picture">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <small class="text-muted">{{ patient.date_posted|date:"F d, Y"  }}</small>
-                </div>
-                <h2><a class="article-title" href="{% url 'patient-detail' patient.id %}">{{ patient.first_name }} {{ patient.last_name }}</a></h2>
 
-                <p class="article-content">{{ patient.content }}</p>
-            </div>
-        </article>
-    {% endfor %}
+{% block content %}
+<nav class = "mt-2 mb-4">
+    <ol class="cd-breadcrumb w-100">
+        {% if user.is_authenticated %}
+        <li>Logged in</li>
+        {% endif %}
+        <li><a class = "no-underline" href="{%url 'my-teams' %}">Teams</a></li>
+        <li class = "current"><a class = "no-underline" href="#">Team identifier: {{team_id}}</a></li>
+    </ol>
+  </nav>
+    <h1 class="mb-4 h2">Team Patients</h1>
+    <div class = "parent-flex w-80 m-auto">
+
+    
+        {% for patient in patient %}
+            <article class="media content-section child-flex mx-3">
+                <img class="rounded-circle article-img" src="{{ patient.owner.profile.image.url }}" alt="Profile Picture">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <small class="text-muted">{{ patient.date_posted|date:"F d, Y"  }}</small>
+                    </div>
+                    <h2>Name: <a class="article-title a-app" href="{% url 'patient-detail' patient.id %}">{{ patient.first_name }} {{ patient.last_name }}</a></h2>
+
+                    <p class="article-content">{{ patient.content }}</p>
+                </div>
+            </article>
+            
+            
+        {% endfor %}
+    </div>
     {% if is_paginated %}
         {% if page_obj.has_previous %}
             <a class="btn btn-outline-info mb-4" href="?page=1">First</a>

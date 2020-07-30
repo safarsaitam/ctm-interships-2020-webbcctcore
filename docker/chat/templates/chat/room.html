@@ -4,17 +4,18 @@
 <style>
 
     .msger-header {
-        background-color: greenyellow;
+        background-color: var(--secondary-color);
         padding: 0.5rem 1rem;
+        color: white;
 
     }
 
     .chat-groups {
-        border-right: 1px solid greenyellow;
+        border-right: 1px solid  var(--secondary-color);
     }
 
     .msger-chat {
-        border: 1px solid greenyellow;
+        border: 1px solid  var(--secondary-color);
         max-height: 80vh;
     }
 
@@ -42,7 +43,7 @@
     }
 
     .chat-element.chat-current {
-        border-left: 0.5rem solid #f87474;
+        border-left: 0.5rem solid var(--primary-color);
     }
 
     .chat-list::-webkit-scrollbar,
@@ -156,9 +157,9 @@
               <i class="fas fa-comment-alt"></i> Chat Rooms 
             </div>
             <div class = "text-center d-flex">
-               current: {{group.name}}
                {% if group is not None %}
-                <a class = "px-2" title = "edit chat name" href="{% url 'chat:group-update' group.id %}"><i class="fas fa-pencil-alt"></i></a>
+                current: {{group.name}}
+                <a class = "px-2 a-app" title = "edit chat name" href="{% url 'chat:group-update' group.id %}"><i class="fas fa-pencil-alt"></i></a>
                {% endif %}
             </div>
         </header>
@@ -166,7 +167,7 @@
             <div class="row">
                 <div class="col-md-3 chat-groups p-0">
                     <div class="px-2 my-3">
-                        <input id = "team-search" type="text" class = "form-control" placeholder="search for a team ...">
+                        <input id = "team-search" type="text" class = "form-control" placeholder="search with name or id...">
                     </div>
                     <ul class = "chat-list">
                         {% for group_ele in groups %}
@@ -198,10 +199,10 @@
                         <div id="div_data">
                             {% for message in messages %}
 
-                                {% if message.author == user %}
+                                {% if message.author != user %}
                                 <div class="msg d-flex my-3">
-                                    <img class="rounded-circle chat-img text-center mx-2" src="{{user.profile.image.url }}">
-                                    <div class="msg-bubble my-message">
+                                    <img class="rounded-circle chat-img text-center mx-2" src="{{message.author.profile.image.url}}">
+                                    <div class="msg-bubble others-message">
                                         <div class="mb-2 d-flex justify-content-between">
                                             <div class="msg-info-name ml-2">{{user.username}}</div>
                                             <div class="mr-3">{{message.timestamp}}</div>
@@ -213,9 +214,9 @@
                                     </div>
                                 </div>
                                 {% else %}
-                                <div class="msg d-flex my-3 flex-row-reverse">
-                                    <img class="rounded-circle chat-img text-center mx-2" src="{{message.author.profile.image.url}}">
-                                    <div class="msg-bubble others-message">
+                                <div class="msg d-flex my-3 flex-row-reverse">  
+                                    <img class="rounded-circle chat-img text-center mx-2" src="{{user.profile.image.url }}">
+                                    <div class="msg-bubble my-message">
                                         <div class="mb-2 d-flex justify-content-between">
                                             <div class="msg-info-name ml-2">{{message.author.username}}</div>
                                             <div class="mr-3">{{message.timestamp}}</div>
@@ -263,6 +264,11 @@
     let roomName='{{ pk }}';
     let current_user_id = Number('{{user.id}}');
 
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+             "July", "August", "September", "October", "November", "December"
+    ];
+
+
     function updateScroll(element) {
         element.scrollTop = element.scrollHeight;
     }
@@ -302,18 +308,23 @@
                             let messages = response.messages
                             let users = response.users
                             reference.setEverythingLoaded(response.load_more);
+                            let usuarios = response.users;
+
 
                             messages.forEach(message => {
-                                console.log(message.author_id)
+                                let date = new Date(message.timestamp);
+                                    let date_string = monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear() + ", " + formatAMPM(date);
+
                                 if (message.author_id === current_user_id) {
+                                  
                                     let my_msg = document.createElement('div');
-                                    my_msg.classList.add('msg', 'd-flex', 'my-3');
+                                    my_msg.classList.add('msg', 'd-flex', 'my-3', 'flex-row-reverse');
                                     my_msg.innerHTML = `
-                                    <img class="rounded-circle chat-img text-center mx-2" src="">
-                                    <div class="msg-bubble others-message">
+                                    <img class="rounded-circle chat-img text-center mx-2" src="${usuarios[message.author_id].image}">
+                                    <div class="msg-bubble my-message">
                                         <div class="mb-2 d-flex justify-content-between">
-                                            <div class="msg-info-name ml-2">${users[message.author_id].username}</div>
-                                            <div class="mr-3">${message.timestamp}</div>
+                                            <div class="msg-info-name ml-2">${usuarios[message.author_id].username}</div>
+                                            <div class="mr-3">${date_string}</div>
                                         </div>
                                         
                                         <div class="msg-text">
@@ -324,13 +335,13 @@
                                     messages_to_prepend.prepend(my_msg);
                                 } else {
                                     let other_msg = document.createElement('div');
-                                    other_msg.classList.add('msg', 'd-flex', 'my-3', 'flex-row-reverse');
+                                    other_msg.classList.add('msg', 'd-flex', 'my-3');
                                     other_msg.innerHTML = `
-                                    <img class="rounded-circle chat-img text-center mx-2" src="">
+                                    <img class="rounded-circle chat-img text-center mx-2" src="${usuarios[message.author_id].image}">
                                     <div class="msg-bubble others-message">
                                         <div class="mb-2 d-flex justify-content-between">
-                                            <div class="msg-info-name ml-2">${message.author.username}</div>
-                                            <div class="mr-3">${message.timestamp}</div>
+                                            <div class="msg-info-name ml-2">${usuarios[message.author_id].image}</div>
+                                            <div class="mr-3">${date_string}</div>
                                         </div>
                                         
                                         <div class="msg-text">
@@ -372,6 +383,17 @@
 
     let manager = new MessageManager(document.querySelector(".chat-messages"));
 
+    function formatAMPM(date) {
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let ampm = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0'+minutes : minutes;
+            let strTime = hours + ':' + minutes + ' ' + ampm;
+            return strTime;
+        }
+
 
     let send_msg_form = document.getElementById('form');
 
@@ -387,16 +409,20 @@
         let chatSocket=new ReconnectingWebSocket(endpoint);
         
         chatSocket.onmessage=function(e){
-            var data=JSON.parse(e.data)
-            var message=data['message']
-            var div=document.querySelector("#div_data");
+            let data=JSON.parse(e.data)
+            let [author, message] = data['message'].split(':');
+            let div=document.querySelector("#div_data");
+
+            let date = new Date();
+            let date_string = monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear() + ", " + formatAMPM(date);
+
             div.innerHTML+= `
-            <div class="msg d-flex my-3">
-                <img class="rounded-circle chat-img text-center mx-2" src="../../../media/default.jpeg">
+            <div class="msg d-flex my-3 flex-row-reverse">
+                <img class="rounded-circle chat-img text-center mx-2" src="${data.photo}">
                 <div class="msg-bubble my-message">
                     <div class="mb-2 d-flex justify-content-between">
-                        <div class="msg-info-name ml-2">John</div>
-                        <div class="mr-3">12:45</div>
+                        <div class="msg-info-name ml-2">${author}</div>
+                        <div class="mr-3">${date_string}</div>
                     </div>
                     
                     <div class="msg-text">
@@ -405,6 +431,9 @@
                 </div>
             </div>
             `;
+
+            updateScroll(document.querySelector(".chat-messages"));
+
         }
 
         chatSocket.onopen = function(e) {
@@ -444,6 +473,57 @@
             document.querySelector("#message").value=''
         }
     }
+
+    function intersect(a, b) {
+        let t;
+        if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
+        return a.filter(function (e) {
+            return b.indexOf(e) > -1;
+        });
+    }
+
+    function search_team_listener(team_search, chat_list) {
+        team_search.addEventListener('keyup', function(e) {
+            let value_to_search = team_search.value.toLowerCase();
+            const suggestions = [...chat_list].filter(function(name) {
+                let nome = name.innerText.split(":")[1].trim().toLowerCase();
+               // console.log("|" + nome + "|")
+                return nome.startsWith(value_to_search);
+            });
+
+            if (value_to_search === '') {
+                [...chat_list].forEach(e => e.parentElement.parentElement.classList.remove('d-none'));
+                return;
+            }
+            else if (value_to_search === 'current') {
+                const current = document.querySelector('.chat-list .chat-current');
+                if (suggestions.includes(current) === false) suggestions.push(current);
+            }
+
+           
+
+            [...chat_list].forEach(function (ele) { 
+                if ([...suggestions].includes(ele) === true) {
+                    ele.parentElement.parentElement.classList.remove('d-none');
+                }
+                else {
+                    let siblings = [...ele.parentNode.children];
+                    console.log(siblings)
+                    console.log(intersect(siblings, [...suggestions]))
+                    if (intersect(siblings, [...suggestions]).length  === 0)
+                        ele.parentElement.parentElement.classList.add('d-none')
+                }
+            });
+            
+        
+        });
+    }
+
+    (function() {
+        const team_search = document.getElementById('team-search');
+        const chat_list = document.querySelectorAll('.chat-list li div');
+        search_team_listener(team_search, chat_list);
+    })();
 
 </script>
 {% endblock extra_js %}

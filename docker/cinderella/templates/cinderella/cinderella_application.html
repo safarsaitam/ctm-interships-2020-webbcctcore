@@ -102,6 +102,14 @@ input[type=range]:focus::-ms-fill-upper {
 
 {% endblock extra_style %}
 {% block content %}
+<nav class = "mt-2 mb-4 text-left">
+  <ol class="cd-breadcrumb w-100">
+    {% if user.is_authenticated %}
+    <li>Logged in</li>
+    {% endif %}
+    <li class = "current"><a class = "no-underline" href="#">Cinderella App</a></li>
+  </ol>
+  </nav>
 <h1 class = "h2 mt-3 mb-5">Cinderella Application Demo</h1>
 
 <p class = "mb-4 h6">Please fill the form to find a matching case</p>
@@ -139,7 +147,7 @@ input[type=range]:focus::-ms-fill-upper {
     </div>
   </div>
 
-    <button class="btn btn-outline-info my-2" type="submit" multiple>Search <i class="fas fa-search"></i></button>
+    <button class="btn-app px-2 py-1 my-2" type="submit" multiple>Search <i class="fas fa-search"></i></button>
 <br>
 
 {% endblock content %}

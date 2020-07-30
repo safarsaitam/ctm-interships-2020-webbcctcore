@@ -1,6 +1,14 @@
 {% extends "bcctapp/base.html" %}
 {% block content %}
-<h1 class = "h3 mt-3 mb-4">Please enter the password to access the<span class = "text-info"> Cinderella Home Page</span> :</h1>
+<nav class = "mt-2 mb-4 text-left">
+  <ol class="cd-breadcrumb w-100">
+    {% if user.is_authenticated %}
+    <li>Logged in</li>
+    {% endif %}
+    <li class = "current"><a class = "no-underline" href="#">Cinderella access</a></li>
+  </ol>
+  </nav>
+<h1 class = "h3 mt-3 mb-4">Please enter the password to access the<span class = "text-primary-color"> Cinderella Home Page</span> :</h1>
 <form id="form02" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group">
@@ -8,7 +16,7 @@
       <input class = "form-control w-50" type="password" id="pwd" name="password" value="">
     </div>
 
-      <button type="submit" class="btn btn-outline-info">Submit</button>
+      <button type="submit" class="btn-app px-2 py-1">Submit</button>
 
   </form> 
 {% endblock content %}
