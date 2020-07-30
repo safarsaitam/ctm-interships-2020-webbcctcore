@@ -108,6 +108,7 @@ body {
     padding-top: 5rem;
     padding-left: 54px;
     padding-right: 54px;
+    min-height: 92vh;
 }
 
 @media screen and (max-width: 768px) {
@@ -133,5 +134,5 @@ body {
 /* Footer Section -------------------------------------------------------- */
 
 footer {
-    margin-top: -103px;
+    max-height: 8vh;
 }
