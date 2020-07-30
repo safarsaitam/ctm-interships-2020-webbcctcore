@@ -416,8 +416,9 @@ class PatientCreateView(FormView, RedirectView):
             x=len(files)
             Patient.objects.filter(pk=id).update(n_images=x)
             add_patient(files,x,i,id,current_user.id)
+            return redirect('patient-detail', pk=id)
             
-        return redirect('patient-detail',pk=id)
+        return redirect('/cinderella/')
 
 class PatientListView(ListView):
     model = Patient
