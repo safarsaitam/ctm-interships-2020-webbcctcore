@@ -1,6 +1,10 @@
   
   :root {
     --primary-color: #00a776;
+    --secondary-color: #2b6954;
+    --card-color: #2c7873;
+    --link-color: #6fb98f;
+    --bg-color: #ddd;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -86,7 +90,36 @@
     background-color: var(--primary-color);
   }
 
-  /* botoes */
+  /*generic */
+  .no-outline {
+    outline: none !important;
+  }
+
+  .no-underline {
+      text-decoration: none !important;
+  }
+
+  .no-underline:hover {
+      text-decoration: none !important;
+  }
+
+  .text-primary-color {
+    color: var(--primary-color) !important;
+  }
+
+  .card-color {
+    background-color: var(--card-color);
+  }
+
+  .bg-color {
+    background-color: var(--bg-color) !important;
+  }
+
+  .overflow-hidden {
+    overflow: auto!important;
+  }
+
+  /* buttons and links */
   .btn-app {
     display: inline-block;
     background-color: #fff;
@@ -111,7 +144,114 @@
       border-radius: 3px;
       position: relative;
   }
+  .a-app {
+    color: var(--link-color) !important;
+  }
 
-  /* bread crumbs */
+  .a-app:hover {
+    color: #51d8b6 !important;
+    text-decoration: none !important;
+  }
 
-  
+  /***** bread crumbs ******/
+      .cd-breadcrumb {
+        max-width: 100%;
+        background-color: #edeff0;
+        border-radius: .25em;
+    }
+    .cd-breadcrumb::after {
+        clear: both;
+        content: "";
+        display: table;
+    }
+    .cd-breadcrumb li {
+        display: inline-block;
+    }
+    .cd-breadcrumb li::after {
+        /* this is the separator between items */
+        display: inline-block;
+        content: '\00bb';
+        color: #959fa5;
+    }
+    .cd-breadcrumb li:last-of-type::after {
+        /* hide separator after the last item */
+        display: none;
+    }
+    .cd-breadcrumb li > * {
+        /* single step */
+        display: inline-block;
+        color: #2c3f4c;
+    }
+    .cd-breadcrumb li.current > * {
+        /* selected step */
+        color: #96c03d;
+    }
+
+    .cd-breadcrumb.custom-separator li::after {
+        /* replace the default separator with a custom icon */
+        content: '';
+        background: url(https://codyhouse.co/demo/cd-breadcrumbs-multi-steps-indicator/img/cd-custom-separator.svg) no-repeat center center;
+        vertical-align: middle;
+    }
+    .cd-breadcrumb.custom-icons li > *::before {
+        /* add a custom icon before each item */
+        content: '';
+        display: inline-block;
+        margin-right: .4em;
+        margin-top: -2px;
+        background: url(https://codyhouse.co/demo/cd-breadcrumbs-multi-steps-indicator/img/cd-custom-icons-01.svg) no-repeat 0 0;
+        vertical-align: middle;
+    }
+    .cd-breadcrumb.custom-icons li:not(.current):nth-of-type(2) > *::before {
+        /* change custom icon using image sprites */
+        background-position: -20px 0;
+    }
+    .cd-breadcrumb.custom-icons li:not(.current):nth-of-type(3) > *::before {
+        background-position: -40px 0;
+    }
+    .cd-breadcrumb.custom-icons li:not(.current):nth-of-type(4) > *::before {
+        background-position: -60px 0;
+    }
+    .cd-breadcrumb.custom-icons li.current:first-of-type > *::before {
+        /* change custom icon for the current item */
+        background-position: 0 -20px;
+    }
+    .cd-breadcrumb.custom-icons li.current:nth-of-type(2) > *::before {
+        background-position: -20px -20px;
+    }
+    .cd-breadcrumb.custom-icons li.current:nth-of-type(3) > *::before {
+        background-position: -40px -20px;
+    }
+    .cd-breadcrumb.custom-icons li.current:nth-of-type(4) > *::before {
+        background-position: -60px -20px;
+    }
+
+    @media only screen and (min-width: 768px) {
+
+      .cd-breadcrumb.custom-icons {
+          padding: 0 0.8em;
+      }
+
+      .cd-breadcrumb li {
+        margin: 0.5em 0;
+      }
+
+      .cd-breadcrumb li::after {
+        margin: 0 0.5em;
+      }
+    }
+
+    /*** placement style***/
+
+    .parent-flex {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .child-flex {
+      flex: 1 1 300px;
+    }
+
+    .w-80 {
+      width: 80%;
+    }

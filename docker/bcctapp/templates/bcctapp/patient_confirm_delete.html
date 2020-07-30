@@ -1,11 +1,22 @@
 {% extends "bcctapp/base.html" %}
 {% block content %}
+
+<nav class = "mt-2 mb-4">
+    <ol class="cd-breadcrumb w-100">
+        {% if user.is_authenticated %}
+        <li>Logged in</li>
+        {% endif %}
+        <li><a class = "no-underline" href="{%url 'patient-detail' patient.id %}">Patient</a></li>
+        <li class = "current"><a class = "no-underline" href="#">Delete </a></li>
+    </ol>
+  </nav>
+
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Delete Patient</legend>
-                <h2>Are you sure you want to delete the patient "{{ object.title }}"</h2>
+                <legend class="border-bottom mb-4"> <span class = "text-primary-color">Delete Patient</span> with ID {{object.id}}</legend>
+                <h2 class = "h3">Are you sure you want to delete the patient "{{ object.first_name }} {{object.last_name}}"</h2>
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-danger" type="submit">Yes, delete!</button>

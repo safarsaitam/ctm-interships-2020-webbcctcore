@@ -25,7 +25,8 @@
         margin:0;
     }
 
-    .star-rating ul li:hover {
+    .star-rating ul li:hover
+    {
         color:yellow;
     }
 
@@ -37,7 +38,13 @@
         display: inline-block;
         border-radius: 3px;
         position: relative;
-        padding: 0 5px;
+        padding:0;
+        margin:0;
+    }
+
+    .star-rating label::before {
+        padding:0;
+        margin:0;
     }
     
     .star-rating input[type=radio] {
@@ -67,7 +74,17 @@
 
 {% block content %}
 
+<nav class = "m-2">
+    <ol class="cd-breadcrumb w-100">
+        {% if user.is_authenticated %}
+        <li>Logged in</li>
+        {% endif %}
+        <li class = "current"><a class = "no-underline" href="#">Feedback</a></li>
+    </ol>
+</nav>
+
 <h1 class = "m-2">Give us some feedback</h1>
+
 <form method="POST">
     {% csrf_token %}
     <div class="form-row">
@@ -91,7 +108,7 @@
     </div>
 
 
-    <button type="submit" class="btn btn-primary">Send email</button>
+    <button type="submit" class="btn-app px-2 py-1">Send email</button>
 </form>
 
 {% endblock content %}
@@ -100,7 +117,7 @@
 <script>
 
     'use strict';
-
+    
     const rating = document.querySelector('.star-rating');
     const stars = rating.querySelectorAll('li');
 

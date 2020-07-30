@@ -1,20 +1,58 @@
 {% extends "bcctapp/base.html" %}
 {% load crispy_forms_tags %}
+
+
 {% block content %}
-   <h1>Update Patient: {{ patient.id }}</h1>
 
-       <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <fieldset class="form-group">
+<nav class = "mt-2 mb-4">
+    <ol class="cd-breadcrumb w-100">
+        {% if user.is_authenticated %}
+        <li>Logged in</li>
+        {% endif %}
+        <li><a class = "no-underline" href="{%url 'patient-detail' patient.id %}">Patient</a></li>
+        <li class = "current"><a class = "no-underline" href="#">Update </a></li>
+    </ol>
+</nav>
 
-                    {{ form | crispy}}
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit" multiple>Post</button>
+<h1 class = "h2 mb-4">Update Patient | <small class = "text-primary-color">Identifier: {{ patient.id }}</small></h1>
 
-            </div>
+<form method="POST" enctype="multipart/form-data">
+            <div class="form-row">
+        <div title = "Enter the patient's first name" class="form-group col-md-6 mb-0">
+            {{ form.first_name|as_crispy_field }}
+        </div>
+        <div title = "Enter the patient's last name" class="form-group col-md-6 mb-0">
+            {{ form.last_name|as_crispy_field }}
+        </div>
+    </div>
 
 
-       </form>
+    <div class="form-row">
+        <div title = "Enter the patient's height" class="form-group col-md-6 mb-0">
+            {{ form.patient_height|as_crispy_field }}
+        </div>
+        <div title = "Enter the patient's weight" class="form-group col-md-6 mb-0">
+            {{ form.patient_weight|as_crispy_field }}
+        </div>
+    </div>
+
+    
+    <div class="form-row">
+        <div title = "Enter the patient's bra" class="form-group col-md-6 mb-0">
+            {{ form.bra|as_crispy_field }}
+        </div>
+        <div title = "Enter the patient's type of surgery" class="form-group col-md-6 mb-0">
+            {{ form.surgery_type|as_crispy_field }}
+        </div>
+    </div>
+
+    <div class="w-100 text-right mt-3">
+        <button class="btn-app py-1 px-3" type="submit" multiple>Post</button>
+    </div>
+
+            
+
+</form>
 
 
 {% endblock content %}

@@ -27,88 +27,18 @@
             color: #77A0FF !important; 
         }
 
-    /* generic cd-breadcrumb design*/
-    .cd-breadcrumb {
-        max-width: 100%;
-        background-color: #edeff0;
-        border-radius: .25em;
-    }
-    .cd-breadcrumb::after {
-        clear: both;
-        content: "";
-        display: table;
-    }
-    .cd-breadcrumb li {
-        display: inline-block;
-    }
-    .cd-breadcrumb li::after {
-        /* this is the separator between items */
-        display: inline-block;
-        content: '\00bb';
-        color: #959fa5;
-    }
-    .cd-breadcrumb li:last-of-type::after {
-        /* hide separator after the last item */
-        display: none;
-    }
-    .cd-breadcrumb li > * {
-        /* single step */
-        display: inline-block;
-        color: #2c3f4c;
-    }
-    .cd-breadcrumb li.current > * {
-        /* selected step */
-        color: #96c03d;
-    }
 
-    .cd-breadcrumb.custom-separator li::after {
-        /* replace the default separator with a custom icon */
-        content: '';
-        background: url(https://codyhouse.co/demo/cd-breadcrumbs-multi-steps-indicator/img/cd-custom-separator.svg) no-repeat center center;
-        vertical-align: middle;
-    }
-    .cd-breadcrumb.custom-icons li > *::before {
-        /* add a custom icon before each item */
-        content: '';
-        display: inline-block;
-        margin-right: .4em;
-        margin-top: -2px;
-        background: url(https://codyhouse.co/demo/cd-breadcrumbs-multi-steps-indicator/img/cd-custom-icons-01.svg) no-repeat 0 0;
-        vertical-align: middle;
-    }
-    .cd-breadcrumb.custom-icons li:not(.current):nth-of-type(2) > *::before {
-        /* change custom icon using image sprites */
-        background-position: -20px 0;
-    }
-    .cd-breadcrumb.custom-icons li:not(.current):nth-of-type(3) > *::before {
-        background-position: -40px 0;
-    }
-    .cd-breadcrumb.custom-icons li:not(.current):nth-of-type(4) > *::before {
-        background-position: -60px 0;
-    }
-    .cd-breadcrumb.custom-icons li.current:first-of-type > *::before {
-        /* change custom icon for the current item */
-        background-position: 0 -20px;
-    }
-    .cd-breadcrumb.custom-icons li.current:nth-of-type(2) > *::before {
-        background-position: -20px -20px;
-    }
-    .cd-breadcrumb.custom-icons li.current:nth-of-type(3) > *::before {
-        background-position: -40px -20px;
-    }
-    .cd-breadcrumb.custom-icons li.current:nth-of-type(4) > *::before {
-        background-position: -60px -20px;
-    }
 
-    @media only screen and (min-width: 768px) {
-        .cd-breadcrumb.custom-icons {
-        padding: 0 0.8em;
+    @media only screen and (max-width: 768px) {
+ 
+
+        #filter-search {
+            padding: 0.4rem 0;
+            width: 100%;
         }
-        .cd-breadcrumb li {
-        margin: 0.5em 0;
-        }
-        .cd-breadcrumb li::after {
-        margin: 0 0.5em;
+
+        #filter-search::before {
+            content: "Search";
         }
 
     }
@@ -190,7 +120,7 @@
         <li data-select = "patients" class="active no-underline">
             Patients </span>
         </li>
-        <li data-select="teams" class="no-underline"> <a href="{% url 'my-teams'%}"> Teams</a></span></li>
+        <li data-select="teams" class="no-underline"> <a class = "no-underline text-dark" href="{% url 'my-teams'%}"> Teams</a></span></li>
 
         <div id="add-patient" class="ml-auto">
             <a class="no-underline btn-app no-outline p-1 align-self-center" href="{% url 'patient-new' %}">
@@ -204,24 +134,24 @@
         <form id = "search-patient" class="d-md-flex justify-content-between w-100"  method="GET" >
             <div class="form-group mb-0">
                 <label class = "d-flex align-items-center">
-                    Identifier: {{filter.form.id|addclass:'form-control m-1'}}
+                    <span class = "w-25">Identifier:</span> {{filter.form.id|addclass:'form-control m-1'}}
                 </label>
             </div>
 
             <div class="form-group mb-0">
                 <label class = "d-flex align-items-center">
-                    Name: {{filter.form.first_name__icontains|addclass:'form-control m-1'}}
+                  <span class = "w-25">Name:</span> {{filter.form.first_name__icontains|addclass:'form-control m-1'}}
                 </label>
             </div>
 
             <div class="form-group mb-0">
                 <label class = "d-flex align-items-center">
-                    Age: {{filter.form.age|addclass:'form-control m-1'}}
+                   <span class = "w-25"> Age:</span> {{filter.form.age|addclass:'form-control m-1'}}
                 </label>
             </div>
 
-            <div class="m-1">
-                <button class = "btn-app no-outline h-75 px-3" type="submit">
+            <div class="m-1 d-flex">
+                <button id = "filter-search" class = "btn-app no-outline h-75 px-3 ml-auto" type="submit">
                     <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
             </div>
@@ -287,21 +217,25 @@
 
         {% if is_paginated %}
             {% if page_obj.has_previous %}
-                <a class="btn btn-outline-info mb-4" href="?{% param_replace page=1 %}">First</a>
-                <a class="btn btn-outline-info mb-4" href="?{% param_replace page=page_obj.previous_page_number %}">Previous</a>
+                <a class="btn-app px-3 mb-4" href="?{% param_replace page=1 %}">First</a>
+                <a class="btn-app px-3 mb-4" href="?{% param_replace page=page_obj.previous_page_number %}">Previous</a>
             {% endif %}
 
             {% for num in page_obj.paginator.page_range %}
                 {% if page_obj.number == num %}
+<<<<<<< HEAD
                     <a class="btn-app mb-4 nr-btn" href="?{% param_replace page=num %}">{{ num }}</a>
+=======
+                    <a class="btn-app px-3 mb-4" href="?{% param_replace page=num %}">{{ num }}</a>
+>>>>>>> 4a5ef60... ui fix
                 {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                    <a class="btn btn-outline-info mb-4" href="?{% param_replace page=num %}">{{ num }}</a>
+                    <a class="btn-app px-3 mb-4" href="?{% param_replace page=num %}">{{ num }}</a>
                 {% endif %}
             {% endfor %}
 
             {% if page_obj.has_next %}
-                <a class="btn btn-outline-info mb-4" href="?{% param_replace page=page_obj.next_page_number %}">Next</a>
-                <a class="btn btn-outline-info mb-4" href="?{% param_replace page=paginator.num_pages %}">Last</a>
+                <a class="btn-app px-3 mb-4" href="?{% param_replace page=page_obj.next_page_number %}">Next</a>
+                <a class="btn-app px-3 mb-4" href="?{% param_replace page=paginator.num_pages %}">Last</a>
             {% endif %}
         {% endif %}
 
