@@ -17,16 +17,23 @@ def index(request):
 
 def ShowChatPage(request, room_name):
 
+    user_id = str(request.user.id)
+    teams = []
+    for group in Group.objects.all():
+        users = group.team.users.split()
+        if user_id in users:
+            teams.append(group.team.id)
+
     if room_name is None:
         return render(request, 'chat/room.html', {
-         'groups': Group.objects.all() # que tejam nas equipas
+         'groups': Group.objects.filter(team__in=teams)
         })
 
     elif Group.objects.filter(pk=room_name).exists():
         return render(request, 'chat/room.html', {
         'group': Group.objects.filter(pk=room_name).first(),
         'pk': room_name,
-        'groups': Group.objects.all(), # que tejam nas equipas
+        'groups': Group.objects.filter(team__in=teams),
         'messages' : Message.objects.filter(group=room_name).order_by('-timestamp')[:15]
         })
     else:

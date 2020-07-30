@@ -38,6 +38,7 @@ import os
 import zipfile
 from django.contrib import messages
 from io import BytesIO
+from django_filters.views import FilterView
 
 
 scheduler = sched.scheduler(time.time, time.sleep)
@@ -120,6 +121,7 @@ def get_exif(fn):
 
 
     return infoDict
+
 
 class MyTeamsListView(FormView):
     form_class = TeamsForm
@@ -434,9 +436,13 @@ class TeamListView(ListView):
     filterset_class = TeamFilter
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
-        return self.filterset.qs.distinct()
+        user = self.request.user.id
+        queryset = super().get_queryset().filter(users__regex=r'^(\d*[[:space:]]({0})[[:space:]]\d*)|(({0})[[:space:]]\d*)|\d*[[:space:]]({0})|({0})'.format(user))
+        print('query')
+        print(queryset)
+        # self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        # return self.filterset.qs.distinct()
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -445,8 +451,7 @@ class TeamListView(ListView):
         return context
 
 
-
-class UserPatientListView(ListView):
+class UserPatientListView(FilterView, ListView):
     print("entra aqui")
     model = Patient
     template_name = 'bcctapp/user_patients.html'
@@ -455,9 +460,8 @@ class UserPatientListView(ListView):
     filterset_class = PatientFilter
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
-        return self.filterset.qs.distinct()
+        queryset = super().get_queryset().filter(owner=self.request.user.id)
+        return queryset
 
     
     def get_context_data(self, **kwargs):
@@ -470,7 +474,7 @@ class UserPatientListView(ListView):
     def post(self, request, patients_obj=None, *args, **kwargs):
         current_user = request.user
         shared_id = request.POST.get('share_id')
-        search = request.POST.get('shearch')
+        search = request.POST.get('search')
         name = request.POST.get('name')
         print("name", name)
 
@@ -545,13 +549,16 @@ def days_between(d1, d2):
     return (d2 - d1).days
 
 
-class PatientDetailView(LoginRequiredMixin,DetailView):
+class PatientDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Patient
     form_class = PatientForm
 
     def get_context_data(self, **kwargs):
+        print('the person who is in the system is ' + str(self.request.user.id))
+        user = User.objects.get(pk=self.request.user.id)
         context = super(PatientDetailView, self).get_context_data(**kwargs)
         patient = Patient.objects.get(pk=self.kwargs['pk'])
+        owner = patient.owner
         id = int(self.kwargs['pk'])
         context['patient'] = Patient.objects.get(pk=self.kwargs['pk'])
         for images in ImagesPatient.objects.filter(pk=self.kwargs['pk']):
@@ -595,8 +602,14 @@ class PatientDetailView(LoginRequiredMixin,DetailView):
 
         return redirect('patient-detail',pk=id)
 
+    def test_func(self):
+        patient = self.get_object()
+        if self.request.user == patient.owner:
+            return True
+        return False
 
-class InteractionsDetailView(LoginRequiredMixin,DetailView):
+
+class InteractionsDetailView(LoginRequiredMixin, DetailView):
     model = Patient
     form_class = InteractionsPatientForm
     template_name = 'bcctapp/interaction_form.html'
@@ -630,6 +643,8 @@ class InteractionsDetailView(LoginRequiredMixin,DetailView):
         print("count",x)
         return redirect('interaction-form',pk=id, int=image_id)
 
+
+
 class PatientUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Patient
     fields = ['first_name','last_name','bra','patient_weight','patient_height','surgery_type',]
@@ -645,7 +660,8 @@ class PatientUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
-class ImagePatientUpdateView(LoginRequiredMixin,FormView, RedirectView):
+
+class ImagePatientUpdateView(LoginRequiredMixin, UserPassesTestMixin, FormView, RedirectView):
     form_class = PatientForm
     template_name = 'bcctapp/patient_update_image.html'
 
@@ -728,8 +744,13 @@ class ImagePatientUpdateView(LoginRequiredMixin,FormView, RedirectView):
                                              file_type=file_type, image_width=image_width, image_height=image_height,
                                              number=x)
 
-
         return redirect('patient-detail', pk=id)
+
+    def test_func(self, **kwargs):
+        patient = Patient.objects.get(pk=self.kwargs['pk'])
+        if self.request.user == patient.owner:
+            return True
+        return False
 
 class PatientSharedDetailView(DetailView):
     model = Patient
@@ -877,14 +898,11 @@ def save_kpts(patient_id,number,kpts):
 
 @login_required
 def plot_image_modal(request,**kwargs):
-    # author, image_id
-    # interaction_obj = InteractionsPatient(author=2, image_id=kwargs.get('pk'), interaction_type='Plot')
-    # interaction_obj.save()
     InteractionsPatient.objects.create(author=request.user.id, image_id=kwargs.get('pk'), interaction_type='Plot')
-    # print('interaction has been created for image ' + str(kwargs.get('pk')))
 
     medical_images = ImagesPatient.objects.filter(pk=kwargs.get('pk'), number=kwargs.get('int'))
     patient_id = kwargs.get('pk')
+
     number = kwargs.get('int')
     context = {
         'medical_images': medical_images
@@ -993,6 +1011,8 @@ def medical_image_modal(request,**kwargs):
     InteractionsPatient.objects.create(author=request.user.id, image_id=kwargs.get('pk'), interaction_type='Predict')
     medical_images = ImagesPatient.objects.filter(pk=kwargs.get('pk'), number=kwargs.get('int'))
     patient_id = kwargs.get('pk')
+    if Patient.objects.get(pk=patient_id).owner.id != request.user.id:
+        return redirect('/cinderella/')
     number = kwargs.get('int')
     context = {
         'medical_images': medical_images

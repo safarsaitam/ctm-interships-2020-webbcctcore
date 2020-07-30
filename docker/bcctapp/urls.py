@@ -10,7 +10,7 @@ from django.conf.urls import include
 urlpatterns = [
     path('', views.bcctapphome, name='bcctapp-home'),
     path('contact/', views.contact, name='bcctapp-contact'),
-    #path('chat/', views.chat, name='bcctapp-chat'),
+    # path('chat/', views.chat, name='bcctapp-chat'),
     path('patient/<int:pk>/', PatientDetailView.as_view(), name='patient-detail'),
     path('team/', TeamsCreateView.as_view(), name='teams-detail'),
     path('my_teams/', TeamListView.as_view(), name='my-teams'),

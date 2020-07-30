@@ -1,6 +1,8 @@
 import django_filters
 from .models import Patient, Teams
 from django import forms
+from django.contrib.auth.models import User
+
 
 class PatientFilter(django_filters.FilterSet):
 
@@ -9,11 +11,12 @@ class PatientFilter(django_filters.FilterSet):
 
     class Meta:
         model = Patient
-         
+
         fields = {
             'first_name' : ['icontains'],
             'age' : ['exact'],
             'id' : ['exact']
+
         }
 
 

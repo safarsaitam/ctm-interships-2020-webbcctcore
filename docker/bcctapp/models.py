@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.validators import int_list_validator
 
+
 # Create your models here.
 class Patient(models.Model):
     first_name = models.CharField(max_length=100,null=True)
@@ -191,7 +192,7 @@ class InteractionsPatient(models.Model):
 class Teams(models.Model):
     name = models.CharField(max_length=100)
     number = models.IntegerField(null=True)
-    users =  models.CharField(validators=[int_list_validator],max_length=10000000)
+    users = models.CharField(validators=[int_list_validator],max_length=10000000)
     patients = models.CharField(validators=[int_list_validator],max_length=10000000)
 
     def __str__(self):
