@@ -70,6 +70,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             {
                 'type': 'chat_message',
                 'message':self.person_name+" : "+message,
+                'photo': User.objects.get(username=self.person_name).profile.image.url
             }
         )
 
@@ -80,7 +81,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'message': message,
-            'photo' : User.objects.get(username = self.person_name).profile.image.url
+            'photo': event['photo']
 
         }))
 
