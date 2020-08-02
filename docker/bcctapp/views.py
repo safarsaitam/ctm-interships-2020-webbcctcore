@@ -41,12 +41,13 @@ from django.contrib import messages
 from io import BytesIO
 from django_filters.views import FilterView
 import xlwt
+import csv
 
 
 scheduler = sched.scheduler(time.time, time.sleep)
 
 
-def surgeryTypeConverter(i):
+def surgeryTypeConverterXLSX(i):
     switcher={
         1: "Conservative surgery - unilateral",
         2: "Conservative surgery with bilateral reduction",
@@ -58,6 +59,22 @@ def surgeryTypeConverter(i):
         8: "Mastectomy with unilateral reconstruction with implant and contralateral symmetrization with reduction",
         9: "Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrization with reduction",
         10: "Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrisation with implant(augmentation)",
+    }
+    return switcher.get(i, "NULL")
+
+
+def surgeryTypeConverterCSV(i):
+    switcher = {
+        '1': "Conservative surgery - unilateral",
+        '2': "Conservative surgery with bilateral reduction",
+        '3': "Conservative surgery with LD or LICAP / TDAP ",
+        '4': "Mastectomy with unilateral reconstruction with implant",
+        '5': "Mastectomy with unilateral reconstruction with autologous flap",
+        '6': "Mastectomy with bilateral reconstruction with implants",
+        '7': "Mastectomy with unilateral reconstruction with implant and contralateral symmetrization with implant(augmentation)",
+        '8': "Mastectomy with unilateral reconstruction with implant and contralateral symmetrization with reduction",
+        '9': "Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrization with reduction",
+        '10': "Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrisation with implant(augmentation)",
     }
     return switcher.get(i, "NULL")
 
@@ -96,7 +113,7 @@ def export_users_xls(request):
                 row_num += 1
                 for col_num in range(len(row)):
                     if col_num == 8:
-                        converted_surgery_type = surgeryTypeConverter(row[col_num])
+                        converted_surgery_type = surgeryTypeConverterXLSX(row[col_num])
                         ws.write(row_num, col_num, converted_surgery_type, font_style)
                     else:
                         ws.write(row_num, col_num, row[col_num], font_style)
@@ -104,6 +121,28 @@ def export_users_xls(request):
             wb.save(response)
 
             return response
+
+        elif request.POST.get('export-type') == 'csv':
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="PatientInfo.csv"'
+
+            writer = csv.writer(response)
+
+            columns = ['ID', 'First Name', 'Last Name',
+                       'Age', 'Weight', 'Height', 'Bra', 'Team', 'Surgery Type', ]
+            
+            writer.writerow(columns)
+
+            rows = Patient.objects.filter(pk=patient_id).values_list(
+                'id', 'first_name', 'last_name', 'age', 'patient_weight', 'patient_height', 'bra', 'team', 'surgery_type')
+            conv_rows = np.asarray(rows)
+
+            for row in conv_rows:
+                row[8] = surgeryTypeConverterCSV(row[8])
+                writer.writerow(row)
+
+            return response
+
         return HttpResponseRedirect('/patient/' + patient_id)
 
     return HttpResponseNotFound('<h1>Invalid request</h1>')
