@@ -190,10 +190,7 @@
                             <strong>Owner:</strong>
                             <a class="mr-2 primary-color" href="{% url 'user-patient' patient.owner.username %}">{{ patient.owner }}</a>
                         </span>
-                        <span class = "mx-1">
-                            <strong>surgery date:</strong>
-                            <small class="text-muted">{{patient.surgery_date|date:"F d, Y"}}</small>
-                        </span>
+
                         <span >
                             <strong>posted:</strong>
                             <small class="text-muted">{{ patient.date_posted|date:"F d, Y"}}</small>

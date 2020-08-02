@@ -204,7 +204,7 @@
                                     <img class="rounded-circle chat-img text-center mx-2" src="{{message.author.profile.image.url}}">
                                     <div class="msg-bubble others-message">
                                         <div class="mb-2 d-flex justify-content-between">
-                                            <div class="msg-info-name ml-2">{{user.username}}</div>
+                                            <div class="msg-info-name ml-2">{{message.author.username}}</div>
                                             <div class="mr-3">{{message.timestamp}}</div>
                                         </div>
                                         
@@ -218,7 +218,7 @@
                                     <img class="rounded-circle chat-img text-center mx-2" src="{{user.profile.image.url }}">
                                     <div class="msg-bubble my-message">
                                         <div class="mb-2 d-flex justify-content-between">
-                                            <div class="msg-info-name ml-2">{{message.author.username}}</div>
+                                            <div class="msg-info-name ml-2">{{user.username}}</div>
                                             <div class="mr-3">{{message.timestamp}}</div>
                                         </div>
                                         
@@ -263,6 +263,8 @@
 <script>
     let roomName='{{ pk }}';
     let current_user_id = Number('{{user.id}}');
+    let image_url = '{{user.profile.image.url}}'
+    let username = '{{user.username}}'
 
     const monthNames = ["January", "February", "March", "April", "May", "June",
              "July", "August", "September", "October", "November", "December"
@@ -315,15 +317,16 @@
                                 let date = new Date(message.timestamp);
                                     let date_string = monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear() + ", " + formatAMPM(date);
 
+                                console.log(message)
                                 if (message.author_id === current_user_id) {
-                                  
+
                                     let my_msg = document.createElement('div');
                                     my_msg.classList.add('msg', 'd-flex', 'my-3', 'flex-row-reverse');
                                     my_msg.innerHTML = `
-                                    <img class="rounded-circle chat-img text-center mx-2" src="${usuarios[message.author_id].image}">
+                                    <img class="rounded-circle chat-img text-center mx-2" src="${image_url}">
                                     <div class="msg-bubble my-message">
                                         <div class="mb-2 d-flex justify-content-between">
-                                            <div class="msg-info-name ml-2">${usuarios[message.author_id].username}</div>
+                                            <div class="msg-info-name ml-2">${username}</div>
                                             <div class="mr-3">${date_string}</div>
                                         </div>
                                         
@@ -340,7 +343,7 @@
                                     <img class="rounded-circle chat-img text-center mx-2" src="${usuarios[message.author_id].image}">
                                     <div class="msg-bubble others-message">
                                         <div class="mb-2 d-flex justify-content-between">
-                                            <div class="msg-info-name ml-2">${usuarios[message.author_id].image}</div>
+                                            <div class="msg-info-name ml-2">${usuarios[message.author_id].username}</div>
                                             <div class="mr-3">${date_string}</div>
                                         </div>
                                         
@@ -416,7 +419,11 @@
             let date = new Date();
             let date_string = monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear() + ", " + formatAMPM(date);
 
-            div.innerHTML+= `
+            console.log('{' + "{{user.username}}" + '}')
+            console.log('{' + author + '}')
+            if("{{user.username}}".trim() === author.trim()) {
+                console.log('same author')
+                div.innerHTML += `
             <div class="msg d-flex my-3 flex-row-reverse">
                 <img class="rounded-circle chat-img text-center mx-2" src="${data.photo}">
                 <div class="msg-bubble my-message">
@@ -431,7 +438,25 @@
                 </div>
             </div>
             `;
+            }
+            else{
+                console.log('NOT same author')
+                div.innerHTML += `
+            <div class="msg d-flex my-3">
+                <img class="rounded-circle chat-img text-center mx-2" src="${data.photo}">
+                <div class="msg-bubble others-message">
+                    <div class="mb-2 d-flex justify-content-between">
+                        <div class="msg-info-name ml-2">${author}</div>
+                        <div class="mr-3">${date_string}</div>
+                    </div>
 
+                    <div class="msg-text">
+                        ${message}
+                    </div>
+                </div>
+            </div>
+            `;
+            }
             updateScroll(document.querySelector(".chat-messages"));
 
         }
