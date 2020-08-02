@@ -1404,23 +1404,10 @@ def update_breast_bra(request, **kwargs):
 
 # contact form view
 def contact(request):
-    # [not tested yet]
     if request.method == 'POST':
-        # print(request.POST)
-        # return
-        form = ContactForm(data=request.POST)
+        form = ContactForm(data = request.POST)
 
         if form.is_valid():
-            # template = get_template('bcctapp/contact_form.txt')
-            #
-            # content = {
-            #     'name': request.POST.get('name'),
-            #     'email': request.POST.get('email'),
-            #     'content': request.POST.get('content'),
-            #     'score': request.POST.get('score')
-            # }
-            #
-            # content = template.render(content)
 
             message_name = request.POST.get('name')
             message_email = request.POST.get('email')
@@ -1436,12 +1423,11 @@ def contact(request):
                 [settings.EMAIL_HOST_USER],
             )
 
-        return redirect('/cinderella/')
-    else:
-        if request.user.is_authenticated:
-            form = ContactForm(
-                initial={'email': request.user.email, 'name': request.user.username})
-        else:
+        return redirect('/')
+    else :
+        if request.user.is_authenticated :
+            form = ContactForm(initial = {'email': request.user.email, 'name': request.user.username})
+        else :
             form = ContactForm()
         return render(request, 'bcctapp/contact.html',  {'form': form})
 

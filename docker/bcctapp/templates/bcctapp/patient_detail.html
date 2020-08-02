@@ -525,26 +525,25 @@
 
 
 
-    // Go through all of the images with our custom class
-    for (var i = 0; i < images.length; i++) {
-        var img = images[i];
-        // and attach our click listener for this image.
-        img.onclick = function (evt) {
-            console.log(evt);
-            modal.style.display = "block";
-            modalImg.src = this.src;
-            modalForm1.getElementsByClassName("btn btn-primary")[0].value = this.id;
-            modalForm1.getElementsByClassName("btn btn-danger")[0].value = this.id;
-            modalForm1.getElementsByClassName("btn btn-info")[0].value = this.id;
-        }
-    }
+// Go through all of the images with our custom class
+for (var i = 0; i < images.length; i++) {
+  var img = images[i];
+  // and attach our click listener for this image.
+  img.onclick = function(evt) {
+    console.log(evt);
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    modalForm1.getElementsByClassName("btn btn-primary")[0].value = this.id;
+    modalForm1.getElementsByClassName("btn btn-danger")[0].value = this.id;
+    modalForm1.getElementsByClassName("btn btn-info")[0].value = this.id;
+  }
+}
 
-    /*
-    var span = document.getElementsByClassName("close")[0];
-    
-    span.onclick = function() {
-      modal.style.display = "none";
-    }*/
+/*
+var span = document.getElementsByClassName("close")[0];
+span.onclick = function() {
+  modal.style.display = "none";
+}*/
 
 
 </script>
