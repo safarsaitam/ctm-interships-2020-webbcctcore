@@ -1,3 +1,4 @@
+import tensorflow
 import subprocess
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.contrib.auth.models import User
@@ -32,26 +33,90 @@ from django.template.loader import get_template
 from email.message import EmailMessage
 from django.core.mail import send_mail
 from django.conf import settings
-from .filters import PatientFilter,TeamFilter
+from .filters import PatientFilter, TeamFilter
 from django.http import JsonResponse, HttpResponseNotFound
 import os
 import zipfile
 from django.contrib import messages
 from io import BytesIO
 from django_filters.views import FilterView
+import xlwt
 
 
 scheduler = sched.scheduler(time.time, time.sleep)
+
+
+def surgeryTypeConverter(i):
+    switcher={
+        1: "Conservative surgery - unilateral",
+        2: "Conservative surgery with bilateral reduction",
+        3: "Conservative surgery with LD or LICAP / TDAP ",
+        4: "Mastectomy with unilateral reconstruction with implant",
+        5: "Mastectomy with unilateral reconstruction with autologous flap",
+        6: "Mastectomy with bilateral reconstruction with implants",
+        7: "Mastectomy with unilateral reconstruction with implant and contralateral symmetrization with implant(augmentation)",
+        8: "Mastectomy with unilateral reconstruction with implant and contralateral symmetrization with reduction",
+        9: "Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrization with reduction",
+        10: "Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrisation with implant(augmentation)",
+    }
+    return switcher.get(i, "NULL")
+
+
+def export_users_xls(request):
+
+    if request.method == "POST":
+        patient_id = request.POST.get('patient_id')
+        if request.POST.get('export-type') == 'xlsx':
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename="PatientInfo.xls"'
+
+            wb = xlwt.Workbook(encoding='utf-8')
+        # this will make a sheet named Users Data
+            ws = wb.add_sheet('Patient Data')
+
+        # Sheet header, first row
+            row_num = 0
+
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = ['ID', 'First Name', 'Last Name',
+                    'Age', 'Weight', 'Height', 'Bra', 'Team', 'Surgery Type', ]
+
+            for col_num in range(len(columns)):
+                # at 0 row 0 column
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            # Sheet body, remaining rows
+            font_style = xlwt.XFStyle()
+
+            rows = Patient.objects.filter(pk=patient_id).values_list(
+                'id', 'first_name', 'last_name', 'age', 'patient_weight', 'patient_height', 'bra', 'team', 'surgery_type')
+            for row in rows:
+                row_num += 1
+                for col_num in range(len(row)):
+                    if col_num == 8:
+                        converted_surgery_type = surgeryTypeConverter(row[col_num])
+                        ws.write(row_num, col_num, converted_surgery_type, font_style)
+                    else:
+                        ws.write(row_num, col_num, row[col_num], font_style)
+
+            wb.save(response)
+
+            return response
+        return HttpResponseRedirect('/patient/' + patient_id)
+
+    return HttpResponseNotFound('<h1>Invalid request</h1>')
 
 
 def download_image(request):
     if request.method == "POST":
         patient_id = request.POST.get('patient_id')
 
-        product_images= ImagesPatient.objects.filter(pk=patient_id)
+        product_images = ImagesPatient.objects.filter(pk=patient_id)
 
-        if product_images.count() == 0 :
-            return JsonResponse({"message" : "No images available to download"})
+        if product_images.count() == 0:
+            return JsonResponse({"message": "No images available to download"})
 
         filenames = []
         for product_image in product_images:
@@ -62,12 +127,11 @@ def download_image(request):
             messages.add_message(request, messages.INFO, 'No images available')
             return HttpResponseRedirect('/patient/' + patient_id)
 
-
         # change
         zip_subdir = "patient_" + patient_id + "_images"
         zip_filename = "%s.zip" % zip_subdir
-        
-        s=BytesIO()
+
+        s = BytesIO()
 
         # The zip compressor
         zf = zipfile.ZipFile(s, "w")
@@ -82,32 +146,32 @@ def download_image(request):
 
         # Must close zip for all contents to be written
         zf.close()
-        resp = HttpResponse(s.getvalue(), content_type = "application/x-zip-compressed")
+        resp = HttpResponse(
+            s.getvalue(), content_type="application/x-zip-compressed")
         resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
         return resp
-    
+
     #messages.error(request, 'Invalid request')
     return HttpResponseNotFound('<h1>Invalid request</h1>')
 
 
-    
-
 def print_event(name):
     print('EVENT:', time.time(), name)
 
-import tensorflow
 
 # Create your views here.
+
+
 def bcctapphome(request):
     return render(request, 'bcctapp/about.html')
     # return HttpResponse('<h1>BCCTApp Home</h1>')
+
 
 def get_exif(fn):
     infoDict = {}  # Creating the dict to get the metadata tags
 
     # For mac and linux user it is just
     exifToolPath = "exiftool"
-
 
     imgPath = "/code/media/medical_images4/" + str(fn)
 
@@ -119,7 +183,6 @@ def get_exif(fn):
         line = tag.strip().split(':')
         infoDict[line[0].strip()] = line[-1].strip()
 
-
     return infoDict
 
 
@@ -129,16 +192,16 @@ class MyTeamsListView(FormView):
     success_url = 'my-team'
     print("agora sim")
 
-    def get_context_data(self, request=None,**kwargs):
+    def get_context_data(self, request=None, **kwargs):
         print("kw", **kwargs)
         print("self", self.kwargs.get('name'))
         context = super(MyTeamsListView, self).get_context_data(**kwargs)
         teams = Teams.objects.get(name=self.kwargs.get('name'))
-        print("teams.id",teams.id)
+        print("teams.id", teams.id)
         context['patient'] = Patient.objects.filter(team=teams.id)
         context['team_id'] = teams.id
         #print("list", list)
-        #return render(request, "bcctapp/my_team.html", {'list': list1})
+        # return render(request, "bcctapp/my_team.html", {'list': list1})
         return context
 
     def post(self, request, *args, **kwargs):
@@ -154,15 +217,16 @@ class TeamsCreateView(FormView):
         user_id = request.POST.get('user_id')
         name_team = request.POST.get('name_team')
         name = request.POST.get('name')
-        print("name",name)
+        print("name", name)
         count = Teams.objects.all().count()
         id_string = " " + str(user_id)
         print(type(id_string))
         if name:
             verify = Teams.objects.filter(name=name)
-            print("verify",verify)
+            print("verify", verify)
             if not verify:
-                Teams.objects.create(pk=count,name=name,users=str(request.user.id))
+                Teams.objects.create(pk=count, name=name,
+                                     users=str(request.user.id))
             else:
                 return HttpResponse("This name already exist!")
         else:
@@ -172,10 +236,11 @@ class TeamsCreateView(FormView):
             else:
                 flag = False
                 for patients in Patient.objects.all():
-                    print("owner_id",patients.owner_id, " user_id ", user_id)
+                    print("owner_id", patients.owner_id, " user_id ", user_id)
                     if int(patients.owner_id) == int(user_id):
-                        Patient.objects.filter(owner_id=int(user_id)).update(team=teams.id)
-                        print("patients ",patients.id)
+                        Patient.objects.filter(owner_id=int(
+                            user_id)).update(team=teams.id)
+                        print("patients ", patients.id)
                         patients_id = " " + str(patients.id)
                         teams.patients += patients_id
                         teams.save()
@@ -189,9 +254,10 @@ class TeamsCreateView(FormView):
                     teams.users += id_string
                     teams.save()
 
-        return redirect('user-patient',request.user)
+        return redirect('user-patient', request.user)
 
-def add_patient(files, x,i,id,current_user):
+
+def add_patient(files, x, i, id, current_user):
     for f in files:
         print(i)
         print(files[i])
@@ -204,7 +270,7 @@ def add_patient(files, x,i,id,current_user):
                 date_created = ""
                 try:
                     img = PIL.Image.open("medical_images4/" + files[0])
-                    print("imaes",img._getexif().items())
+                    print("imaes", img._getexif().items())
                     if img._getexif().items() is not None:
                         exif = {
                             PIL.ExifTags.TAGS[k]: v
@@ -397,6 +463,7 @@ def add_patient(files, x,i,id,current_user):
 
         i = i + 1
 
+
 class PatientCreateView(FormView, RedirectView):
     form_class = PatientForm
     template_name = 'bcctapp/patient_form.html'  # Replace with your template.
@@ -412,13 +479,14 @@ class PatientCreateView(FormView, RedirectView):
             form.save()
             id = form.instance.id
             Patient.objects.filter(pk=id).update(owner=current_user.id)
-            i=0
-            x=len(files)
+            i = 0
+            x = len(files)
             Patient.objects.filter(pk=id).update(n_images=x)
-            add_patient(files,x,i,id,current_user.id)
+            add_patient(files, x, i, id, current_user.id)
             return redirect('patient-detail', pk=id)
-            
+
         return redirect('/cinderella/')
+
 
 class PatientListView(ListView):
     model = Patient
@@ -426,7 +494,6 @@ class PatientListView(ListView):
     context_object_name = 'patients'
     ordering = ['-date_posted']
     paginate_by = 5
-
 
 
 class TeamListView(ListView):
@@ -438,7 +505,8 @@ class TeamListView(ListView):
 
     def get_queryset(self):
         user = self.request.user.id
-        queryset = super().get_queryset().filter(users__regex=r'^(\d*[[:space:]]({0})[[:space:]]\d*)|(({0})[[:space:]]\d*)|\d*[[:space:]]({0})|({0})'.format(user))
+        queryset = super().get_queryset().filter(
+            users__regex=r'^(\d*[[:space:]]({0})[[:space:]]\d*)|(({0})[[:space:]]\d*)|\d*[[:space:]]({0})|({0})'.format(user))
         print('query')
         print(queryset)
         # self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
@@ -447,7 +515,8 @@ class TeamListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['filter'] = TeamFilter(self.request.GET, queryset = self.get_queryset())
+        context['filter'] = TeamFilter(
+            self.request.GET, queryset=self.get_queryset())
         context['number_results'] = context['filter'].qs.count()
         return context
 
@@ -464,13 +533,12 @@ class UserPatientListView(FilterView, ListView):
         queryset = super().get_queryset().filter(owner=self.request.user.id)
         return queryset
 
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['filter'] = PatientFilter(self.request.GET, queryset = self.get_queryset())
+        context['filter'] = PatientFilter(
+            self.request.GET, queryset=self.get_queryset())
         context['number_results'] = context['filter'].qs.count()
         return context
-
 
     def post(self, request, patients_obj=None, *args, **kwargs):
         current_user = request.user
@@ -478,7 +546,6 @@ class UserPatientListView(FilterView, ListView):
         search = request.POST.get('search')
         name = request.POST.get('name')
         print("name", name)
-
 
         if name:
             print("here boy")
@@ -490,16 +557,17 @@ class UserPatientListView(FilterView, ListView):
                 patients = team.patients
                 users = team.users
                 for s in users.split():
-                    print("s",s, "int s ", int(s), " user id ",request.user.id )
+                    print("s", s, "int s ", int(s),
+                          " user id ", request.user.id)
                     if s.isdigit() and int(s) == request.user.id:
-                        flag=True
+                        flag = True
                         break
-                print("flag",flag)
+                print("flag", flag)
                 if flag:
-                    return redirect('my-team',name)
+                    return redirect('my-team', name)
                 else:
                     return HttpResponse("You are not member of this team!")
-        patient = get_object_or_404(Patient, pk=shared_id) #verificar o erro
+        patient = get_object_or_404(Patient, pk=shared_id)  # verificar o erro
         if patient:
             print("patient")
             check_id = patient.share
@@ -519,9 +587,11 @@ class UserPatientListView(FilterView, ListView):
             print("else")
             return HttpResponse("This Patient doesn't exist!")
 
+
 def view_update(view_type1, view_type2, view_type3, view_type4, view_type5):
     if view_type1:
-        ImagesPatient.objects.filter(number=1).update(view_type=view_type1)  # first
+        ImagesPatient.objects.filter(number=1).update(
+            view_type=view_type1)  # first
     if view_type2:
         ImagesPatient.objects.filter(number=2).update(view_type=view_type2)
     if view_type3:
@@ -531,9 +601,11 @@ def view_update(view_type1, view_type2, view_type3, view_type4, view_type5):
     if view_type5:
         ImagesPatient.objects.filter(number=5).update(view_type=view_type5)
 
+
 def img_update(img_type1, img_type2, img_type3, img_type4, img_type5):
     if img_type1:
-        ImagesPatient.objects.filter(number=1).update(img_type=img_type1)  # first
+        ImagesPatient.objects.filter(number=1).update(
+            img_type=img_type1)  # first
     if img_type2:
         ImagesPatient.objects.filter(number=2).update(img_type=img_type2)
     if img_type3:
@@ -564,10 +636,13 @@ class PatientDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         context['patient'] = Patient.objects.get(pk=self.kwargs['pk'])
         for images in ImagesPatient.objects.filter(pk=self.kwargs['pk']):
             if images.date_updated:
-                print(patient.surgery_date[:10],images.date_updated)
-                x=days_between(str(patient.surgery_date[:10]),str(images.date_updated))
-                ImagesPatient.objects.filter(pk=id,number=images.number).update(days=x)
-        context['images_patient'] = ImagesPatient.objects.filter(pk=self.kwargs['pk'])
+                print(patient.surgery_date[:10], images.date_updated)
+                x = days_between(
+                    str(patient.surgery_date[:10]), str(images.date_updated))
+                ImagesPatient.objects.filter(
+                    pk=id, number=images.number).update(days=x)
+        context['images_patient'] = ImagesPatient.objects.filter(
+            pk=self.kwargs['pk'])
         return context
 
     def post(self, request, *args, **kwargs):
@@ -588,9 +663,9 @@ class PatientDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         if teamtoshare:
             teamtoshare = int(teamtoshare)
             Patient.objects.filter(pk=id).update(team=teamtoshare)
-         #ir buscar o object id e depois atualizar
-        view_update(view_type1,view_type2,view_type3,view_type4,view_type5)
-        img_update(img_type1,img_type2,img_type3,img_type4,img_type5)
+         # ir buscar o object id e depois atualizar
+        view_update(view_type1, view_type2, view_type3, view_type4, view_type5)
+        img_update(img_type1, img_type2, img_type3, img_type4, img_type5)
 
         char2 = ' '
         if shared_id:
@@ -601,7 +676,7 @@ class PatientDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         if surgery_type:
             Patient.objects.filter(id=id).update(surgery_type=surgery_type)
 
-        return redirect('patient-detail',pk=id)
+        return redirect('patient-detail', pk=id)
 
     def test_func(self):
         patient = self.get_object()
@@ -616,18 +691,21 @@ class InteractionsDetailView(LoginRequiredMixin, DetailView):
     template_name = 'bcctapp/interaction_form.html'
 
     def get_context_data(self, **kwargs):
-        context = super(InteractionsDetailView, self).get_context_data(**kwargs)
+        context = super(InteractionsDetailView,
+                        self).get_context_data(**kwargs)
         print('interaction pk filter used: ' + str(self.kwargs['pk']))
-        context['interactions'] = InteractionsPatient.objects.filter(image_id=self.kwargs['pk'])
+        context['interactions'] = InteractionsPatient.objects.filter(
+            image_id=self.kwargs['pk'])
         context['users'] = User.objects.all()
-        context['images_patient'] = ImagesPatient.objects.filter(pk=self.kwargs['pk'])
+        context['images_patient'] = ImagesPatient.objects.filter(
+            pk=self.kwargs['pk'])
         context['id'] = int(self.kwargs['int'])
         return context
 
-    def post(self, request,*args,**kwargs):
+    def post(self, request, *args, **kwargs):
         interaction_type = request.POST.get('interaction')
         id = self.kwargs['pk']
-        print("args",args)
+        print("args", args)
         image_id = int(self.kwargs['int'])
         print(type(image_id))
         current_user = request.user.id
@@ -640,15 +718,16 @@ class InteractionsDetailView(LoginRequiredMixin, DetailView):
             i = i + 1
         print("imageslist", images_list[0])
         x = InteractionsPatient.objects.filter(pk=id).count()
-        InteractionsPatient.objects.create(pk=id,number=x, image=images_list[image_id-1],image_id=image_id,interaction_type=interaction_type, author=current_user)
-        print("count",x)
-        return redirect('interaction-form',pk=id, int=image_id)
-
+        InteractionsPatient.objects.create(
+            pk=id, number=x, image=images_list[image_id-1], image_id=image_id, interaction_type=interaction_type, author=current_user)
+        print("count", x)
+        return redirect('interaction-form', pk=id, int=image_id)
 
 
 class PatientUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Patient
-    fields = ['first_name','last_name','bra','patient_weight','patient_height','surgery_type',]
+    fields = ['first_name', 'last_name', 'bra',
+              'patient_weight', 'patient_height', 'surgery_type', ]
     template_name = "bcctapp/patient_update.html"
 
     def form_valid(self, form):
@@ -667,9 +746,11 @@ class ImagePatientUpdateView(LoginRequiredMixin, UserPassesTestMixin, FormView, 
     template_name = 'bcctapp/patient_update_image.html'
 
     def get_context_data(self, **kwargs):
-        context = super(ImagePatientUpdateView, self).get_context_data(**kwargs)
+        context = super(ImagePatientUpdateView,
+                        self).get_context_data(**kwargs)
         context['patient'] = Patient.objects.get(pk=self.kwargs['pk'])
-        context['images_patient'] = ImagesPatient.objects.filter(pk=self.kwargs['pk'])
+        context['images_patient'] = ImagesPatient.objects.filter(
+            pk=self.kwargs['pk'])
 
         return context
 
@@ -680,13 +761,14 @@ class ImagePatientUpdateView(LoginRequiredMixin, UserPassesTestMixin, FormView, 
         form_class = self.get_form_class()
         files = request.FILES.getlist('images')
         id = self.kwargs['pk']
-        current_user= request.user.id
+        current_user = request.user.id
         if image1 and date:
-            ImagesPatient.objects.filter(pk=id, number=image1).update(date_updated=date)
+            ImagesPatient.objects.filter(
+                pk=id, number=image1).update(date_updated=date)
         x = ImagesPatient.objects.filter(pk=id).count()
         if files:
             if files[0] and image:
-                ImagesPatient.objects.filter(pk=id,number=image).delete()
+                ImagesPatient.objects.filter(pk=id, number=image).delete()
                 mime_type = ""
                 file_type = ""
                 image_width = ""
@@ -753,16 +835,21 @@ class ImagePatientUpdateView(LoginRequiredMixin, UserPassesTestMixin, FormView, 
             return True
         return False
 
+
 class PatientSharedDetailView(DetailView):
     model = Patient
     form_class = PatientForm
     template_name = "bcctapp/patient_shared.html"
+
     def get_context_data(self, **kwargs):
-        context = super(PatientSharedDetailView, self).get_context_data(**kwargs)
+        context = super(PatientSharedDetailView,
+                        self).get_context_data(**kwargs)
         context['patient'] = Patient.objects.get(pk=self.kwargs['pk'])
-        context['images_patient'] = ImagesPatient.objects.filter(pk=self.kwargs['pk'])
+        context['images_patient'] = ImagesPatient.objects.filter(
+            pk=self.kwargs['pk'])
 
         return context
+
 
 class PatientDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Patient
@@ -774,11 +861,13 @@ class PatientDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+
 def about(request):
     context = {
         'title': 'About'
     }
     return render(request, 'bcctapp/about.html', context)
+
 
 class BasicUploadView(View):
     def get(self, request):
@@ -789,10 +878,12 @@ class BasicUploadView(View):
         form = PhotoForm(self.request.POST, self.request.FILES)
         if form.is_valid():
             photo = form.save()
-            data = {'is_valid': True, 'name': photo.file.name, 'url': photo.file.url}
+            data = {'is_valid': True, 'name': photo.file.name,
+                    'url': photo.file.url}
         else:
             data = {'is_valid': False}
         return JsonResponse(data)
+
 
 def upload(request):
     if request.method == 'POST':
@@ -803,6 +894,8 @@ def upload(request):
         fs.save(uploaded_file.name, uploaded_file)
     return render(request, 'bcctapp/upload.html')
 # File Upload Function
+
+
 @login_required
 def upload_medical_image(request):
     print("funcao print")
@@ -819,103 +912,123 @@ def upload_medical_image(request):
     }
     return render(request, 'bcctapp/upload_medical_images.html', context)
 
-def save_kpts(patient_id,number,kpts):
-    ImagesPatient.objects.filter(id=patient_id,number=number).update(left_endpoint_x=kpts[0], #left_endpoint
-                                                                     left_endpoint_y=kpts[1], #left_endpoint
-                                                                     l_breast_contour_2_x=kpts[2],
-                                                                     l_breast_contour_2_y=kpts[3],
-                                                                     l_breast_contour_3_x=kpts[4],
-                                                                     l_breast_contour_3_y=kpts[5],
-                                                                     l_breast_contour_4_x=kpts[6],
-                                                                     l_breast_contour_4_y=kpts[7],
-                                                                     l_breast_contour_5_x=kpts[8],
-                                                                     l_breast_contour_5_y=kpts[9],
-                                                                     l_breast_contour_6_x=kpts[10],
-                                                                     l_breast_contour_6_y=kpts[11],
-                                                                     l_breast_contour_7_x=kpts[12],
-                                                                     l_breast_contour_7_y=kpts[13],
-                                                                     l_breast_contour_8_x=kpts[14],
-                                                                     l_breast_contour_8_y=kpts[15],
-                                                                     l_breast_contour_9_x=kpts[16],
-                                                                     l_breast_contour_9_y=kpts[17],
-                                                                     l_breast_contour_10_x=kpts[18],
-                                                                     l_breast_contour_10_y=kpts[19],
-                                                                     l_breast_contour_11_x=kpts[20],
-                                                                     l_breast_contour_11_y=kpts[21],
-                                                                     l_breast_contour_12_x=kpts[22],
-                                                                     l_breast_contour_12_y=kpts[23],
-                                                                     l_breast_contour_13_x=kpts[24],
-                                                                     l_breast_contour_13_y=kpts[25],
-                                                                     l_breast_contour_14_x=kpts[26],
-                                                                     l_breast_contour_14_y=kpts[27],
-                                                                     l_breast_contour_15_x=kpts[28],
-                                                                     l_breast_contour_15_y=kpts[29],
-                                                                     l_breast_contour_16_x=kpts[30],
-                                                                     l_breast_contour_16_y=kpts[31],
-                                                                     left_midpoint_x=kpts[32], #left_midpoint
-                                                                     left_midpoint_y=kpts[33], #left_midpoint
-                                                                     right_endpoint_x=kpts[34], #right_endpoint
-                                                                     right_endpoint_y=kpts[35], #right_endpoint
-                                                                     r_breast_contour_19_x=kpts[36],
-                                                                     r_breast_contour_19_y=kpts[37],
-                                                                     r_breast_contour_20_x=kpts[38],
-                                                                     r_breast_contour_20_y=kpts[39],
-                                                                     r_breast_contour_21_x=kpts[40],
-                                                                     r_breast_contour_21_y=kpts[41],
-                                                                     r_breast_contour_22_x=kpts[42],
-                                                                     r_breast_contour_22_y=kpts[43],
-                                                                     r_breast_contour_23_x=kpts[44],
-                                                                     r_breast_contour_23_y=kpts[45],
-                                                                     r_breast_contour_24_x=kpts[46],
-                                                                     r_breast_contour_24_y=kpts[47],
-                                                                     r_breast_contour_25_x=kpts[48],
-                                                                     r_breast_contour_25_y=kpts[49],
-                                                                     r_breast_contour_26_x=kpts[50],
-                                                                     r_breast_contour_26_y=kpts[51],
-                                                                     r_breast_contour_27_x=kpts[52],
-                                                                     r_breast_contour_27_y=kpts[53],
-                                                                     r_breast_contour_28_x=kpts[54],
-                                                                     r_breast_contour_28_y=kpts[55],
-                                                                     r_breast_contour_29_x=kpts[56],
-                                                                     r_breast_contour_29_y=kpts[57],
-                                                                     r_breast_contour_30_x=kpts[58],
-                                                                     r_breast_contour_30_y=kpts[59],
-                                                                     r_breast_contour_31_x=kpts[60],
-                                                                     r_breast_contour_31_y=kpts[61],
-                                                                     r_breast_contour_32_x=kpts[61],
-                                                                     r_breast_contour_32_y=kpts[63],
-                                                                     r_breast_contour_33_x=kpts[64],
-                                                                     r_breast_contour_33_y=kpts[65],
-                                                                     right_midpoint_x=kpts[66], #right_midpoint
-                                                                     right_midpoint_y=kpts[67], #right_midpoint
-                                                                     sternal_notch_x=kpts[68], #sternal_notch
-                                                                     sternal_notch_y=kpts[69], #sternal_notch
-                                                                     left_nipple_x=kpts[70], #left_nipple
-                                                                     left_nipple_y=kpts[71], #left_nipple
-                                                                     right_nipple_x=kpts[72], #right_niple
-                                                                     right_nipple_y=kpts[73]) #right_niple
-    count=InteractionsPatient.objects.filter(pk=patient_id).count()
-    InteractionsPatient.objects.create(pk=patient_id,number=count+1,interaction_type="keypoints_automatic_detection")
+
+def save_kpts(patient_id, number, kpts):
+    ImagesPatient.objects.filter(id=patient_id, number=number).update(left_endpoint_x=kpts[0],  # left_endpoint
+                                                                      # left_endpoint
+                                                                      left_endpoint_y=kpts[1],
+                                                                      l_breast_contour_2_x=kpts[2],
+                                                                      l_breast_contour_2_y=kpts[3],
+                                                                      l_breast_contour_3_x=kpts[4],
+                                                                      l_breast_contour_3_y=kpts[5],
+                                                                      l_breast_contour_4_x=kpts[6],
+                                                                      l_breast_contour_4_y=kpts[7],
+                                                                      l_breast_contour_5_x=kpts[8],
+                                                                      l_breast_contour_5_y=kpts[9],
+                                                                      l_breast_contour_6_x=kpts[10],
+                                                                      l_breast_contour_6_y=kpts[11],
+                                                                      l_breast_contour_7_x=kpts[12],
+                                                                      l_breast_contour_7_y=kpts[13],
+                                                                      l_breast_contour_8_x=kpts[14],
+                                                                      l_breast_contour_8_y=kpts[15],
+                                                                      l_breast_contour_9_x=kpts[16],
+                                                                      l_breast_contour_9_y=kpts[17],
+                                                                      l_breast_contour_10_x=kpts[18],
+                                                                      l_breast_contour_10_y=kpts[19],
+                                                                      l_breast_contour_11_x=kpts[20],
+                                                                      l_breast_contour_11_y=kpts[21],
+                                                                      l_breast_contour_12_x=kpts[22],
+                                                                      l_breast_contour_12_y=kpts[23],
+                                                                      l_breast_contour_13_x=kpts[24],
+                                                                      l_breast_contour_13_y=kpts[25],
+                                                                      l_breast_contour_14_x=kpts[26],
+                                                                      l_breast_contour_14_y=kpts[27],
+                                                                      l_breast_contour_15_x=kpts[28],
+                                                                      l_breast_contour_15_y=kpts[29],
+                                                                      l_breast_contour_16_x=kpts[30],
+                                                                      l_breast_contour_16_y=kpts[31],
+                                                                      # left_midpoint
+                                                                      left_midpoint_x=kpts[32],
+                                                                      # left_midpoint
+                                                                      left_midpoint_y=kpts[33],
+                                                                      # right_endpoint
+                                                                      right_endpoint_x=kpts[34],
+                                                                      # right_endpoint
+                                                                      right_endpoint_y=kpts[35],
+                                                                      r_breast_contour_19_x=kpts[36],
+                                                                      r_breast_contour_19_y=kpts[37],
+                                                                      r_breast_contour_20_x=kpts[38],
+                                                                      r_breast_contour_20_y=kpts[39],
+                                                                      r_breast_contour_21_x=kpts[40],
+                                                                      r_breast_contour_21_y=kpts[41],
+                                                                      r_breast_contour_22_x=kpts[42],
+                                                                      r_breast_contour_22_y=kpts[43],
+                                                                      r_breast_contour_23_x=kpts[44],
+                                                                      r_breast_contour_23_y=kpts[45],
+                                                                      r_breast_contour_24_x=kpts[46],
+                                                                      r_breast_contour_24_y=kpts[47],
+                                                                      r_breast_contour_25_x=kpts[48],
+                                                                      r_breast_contour_25_y=kpts[49],
+                                                                      r_breast_contour_26_x=kpts[50],
+                                                                      r_breast_contour_26_y=kpts[51],
+                                                                      r_breast_contour_27_x=kpts[52],
+                                                                      r_breast_contour_27_y=kpts[53],
+                                                                      r_breast_contour_28_x=kpts[54],
+                                                                      r_breast_contour_28_y=kpts[55],
+                                                                      r_breast_contour_29_x=kpts[56],
+                                                                      r_breast_contour_29_y=kpts[57],
+                                                                      r_breast_contour_30_x=kpts[58],
+                                                                      r_breast_contour_30_y=kpts[59],
+                                                                      r_breast_contour_31_x=kpts[60],
+                                                                      r_breast_contour_31_y=kpts[61],
+                                                                      r_breast_contour_32_x=kpts[61],
+                                                                      r_breast_contour_32_y=kpts[63],
+                                                                      r_breast_contour_33_x=kpts[64],
+                                                                      r_breast_contour_33_y=kpts[65],
+                                                                      # right_midpoint
+                                                                      right_midpoint_x=kpts[66],
+                                                                      # right_midpoint
+                                                                      right_midpoint_y=kpts[67],
+                                                                      # sternal_notch
+                                                                      sternal_notch_x=kpts[68],
+                                                                      # sternal_notch
+                                                                      sternal_notch_y=kpts[69],
+                                                                      # left_nipple
+                                                                      left_nipple_x=kpts[70],
+                                                                      # left_nipple
+                                                                      left_nipple_y=kpts[71],
+                                                                      # right_niple
+                                                                      right_nipple_x=kpts[72],
+                                                                      right_nipple_y=kpts[73])  # right_niple
+    count = InteractionsPatient.objects.filter(pk=patient_id).count()
+    InteractionsPatient.objects.create(
+        pk=patient_id, number=count+1, interaction_type="keypoints_automatic_detection")
+
 
 @login_required
-def plot_image_modal(request,**kwargs):
-    InteractionsPatient.objects.create(author=request.user.id, image_id=kwargs.get('pk'), interaction_type='Plot')
+def plot_image_modal(request, **kwargs):
+    InteractionsPatient.objects.create(
+        author=request.user.id, image_id=kwargs.get('pk'), interaction_type='Plot')
 
-    medical_images = ImagesPatient.objects.filter(pk=kwargs.get('pk'), number=kwargs.get('int'))
+    medical_images = ImagesPatient.objects.filter(
+        pk=kwargs.get('pk'), number=kwargs.get('int'))
     patient_id = kwargs.get('pk')
 
     number = kwargs.get('int')
     context = {
         'medical_images': medical_images
     }
-    print("entra no plot", patient_id,number)
-    img_to_process = get_object_or_404(ImagesPatient, pk=patient_id, number=number)
+    print("entra no plot", patient_id, number)
+    img_to_process = get_object_or_404(
+        ImagesPatient, pk=patient_id, number=number)
     image = img_to_process.image.url
-    print("image",image)
+    print("image", image)
     request.session['image_pk'] = str(patient_id)
     request.session['name'] = image
-    request.session['incisura_jugularis_x'] = str(img_to_process.sternal_notch_x)
-    request.session['incisura_jugularis_y'] = str(img_to_process.sternal_notch_y)
+    request.session['incisura_jugularis_x'] = str(
+        img_to_process.sternal_notch_x)
+    request.session['incisura_jugularis_y'] = str(
+        img_to_process.sternal_notch_y)
     request.session['left_nipple_x'] = str(img_to_process.left_nipple_x)
     request.session['left_nipple_y'] = str(img_to_process.left_nipple_y)
     request.session['right_nipple_x'] = str(img_to_process.right_nipple_x)
@@ -929,88 +1042,154 @@ def plot_image_modal(request,**kwargs):
     request.session['truth_rp_x'] = str(img_to_process.right_endpoint_x)
     request.session['truth_rp_y'] = str(img_to_process.right_endpoint_y)
     # Right Breast Contour
-    request.session['l_breast_contour_1_x'] = str(img_to_process.left_endpoint_x)
-    request.session['l_breast_contour_1_y'] = str(img_to_process.left_endpoint_y)
-    request.session['l_breast_contour_2_x'] = str(img_to_process.l_breast_contour_2_x)
-    request.session['l_breast_contour_2_y'] = str(img_to_process.l_breast_contour_2_y)
-    request.session['l_breast_contour_3_x'] = str(img_to_process.l_breast_contour_3_x)
-    request.session['l_breast_contour_3_y'] = str(img_to_process.l_breast_contour_3_y)
-    request.session['l_breast_contour_4_x'] = str(img_to_process.l_breast_contour_4_x)
-    request.session['l_breast_contour_4_y'] = str(img_to_process.l_breast_contour_4_y)
-    request.session['l_breast_contour_5_x'] = str(img_to_process.l_breast_contour_5_x)
-    request.session['l_breast_contour_5_y'] = str(img_to_process.l_breast_contour_5_y)
-    request.session['l_breast_contour_6_x'] = str(img_to_process.l_breast_contour_6_x)
-    request.session['l_breast_contour_6_y'] = str(img_to_process.l_breast_contour_6_y)
-    request.session['l_breast_contour_7_x'] = str(img_to_process.l_breast_contour_7_x)
-    request.session['l_breast_contour_7_y'] = str(img_to_process.l_breast_contour_7_y)
-    request.session['l_breast_contour_8_x'] = str(img_to_process.l_breast_contour_8_x)
-    request.session['l_breast_contour_8_y'] = str(img_to_process.l_breast_contour_8_y)
-    request.session['l_breast_contour_9_x'] = str(img_to_process.l_breast_contour_9_x)
-    request.session['l_breast_contour_9_y'] = str(img_to_process.l_breast_contour_9_y)
-    request.session['l_breast_contour_10_x'] = str(img_to_process.l_breast_contour_10_x)
-    request.session['l_breast_contour_10_y'] = str(img_to_process.l_breast_contour_10_y)
-    request.session['l_breast_contour_11_x'] = str(img_to_process.l_breast_contour_11_x)
-    request.session['l_breast_contour_11_y'] = str(img_to_process.l_breast_contour_11_y)
-    request.session['l_breast_contour_12_x'] = str(img_to_process.l_breast_contour_12_x)
-    request.session['l_breast_contour_12_y'] = str(img_to_process.l_breast_contour_12_y)
-    request.session['l_breast_contour_13_x'] = str(img_to_process.l_breast_contour_13_x)
-    request.session['l_breast_contour_13_y'] = str(img_to_process.l_breast_contour_13_y)
-    request.session['l_breast_contour_14_x'] = str(img_to_process.l_breast_contour_14_x)
-    request.session['l_breast_contour_14_y'] = str(img_to_process.l_breast_contour_14_y)
-    request.session['l_breast_contour_15_x'] = str(img_to_process.l_breast_contour_15_x)
-    request.session['l_breast_contour_15_y'] = str(img_to_process.l_breast_contour_15_y)
+    request.session['l_breast_contour_1_x'] = str(
+        img_to_process.left_endpoint_x)
+    request.session['l_breast_contour_1_y'] = str(
+        img_to_process.left_endpoint_y)
+    request.session['l_breast_contour_2_x'] = str(
+        img_to_process.l_breast_contour_2_x)
+    request.session['l_breast_contour_2_y'] = str(
+        img_to_process.l_breast_contour_2_y)
+    request.session['l_breast_contour_3_x'] = str(
+        img_to_process.l_breast_contour_3_x)
+    request.session['l_breast_contour_3_y'] = str(
+        img_to_process.l_breast_contour_3_y)
+    request.session['l_breast_contour_4_x'] = str(
+        img_to_process.l_breast_contour_4_x)
+    request.session['l_breast_contour_4_y'] = str(
+        img_to_process.l_breast_contour_4_y)
+    request.session['l_breast_contour_5_x'] = str(
+        img_to_process.l_breast_contour_5_x)
+    request.session['l_breast_contour_5_y'] = str(
+        img_to_process.l_breast_contour_5_y)
+    request.session['l_breast_contour_6_x'] = str(
+        img_to_process.l_breast_contour_6_x)
+    request.session['l_breast_contour_6_y'] = str(
+        img_to_process.l_breast_contour_6_y)
+    request.session['l_breast_contour_7_x'] = str(
+        img_to_process.l_breast_contour_7_x)
+    request.session['l_breast_contour_7_y'] = str(
+        img_to_process.l_breast_contour_7_y)
+    request.session['l_breast_contour_8_x'] = str(
+        img_to_process.l_breast_contour_8_x)
+    request.session['l_breast_contour_8_y'] = str(
+        img_to_process.l_breast_contour_8_y)
+    request.session['l_breast_contour_9_x'] = str(
+        img_to_process.l_breast_contour_9_x)
+    request.session['l_breast_contour_9_y'] = str(
+        img_to_process.l_breast_contour_9_y)
+    request.session['l_breast_contour_10_x'] = str(
+        img_to_process.l_breast_contour_10_x)
+    request.session['l_breast_contour_10_y'] = str(
+        img_to_process.l_breast_contour_10_y)
+    request.session['l_breast_contour_11_x'] = str(
+        img_to_process.l_breast_contour_11_x)
+    request.session['l_breast_contour_11_y'] = str(
+        img_to_process.l_breast_contour_11_y)
+    request.session['l_breast_contour_12_x'] = str(
+        img_to_process.l_breast_contour_12_x)
+    request.session['l_breast_contour_12_y'] = str(
+        img_to_process.l_breast_contour_12_y)
+    request.session['l_breast_contour_13_x'] = str(
+        img_to_process.l_breast_contour_13_x)
+    request.session['l_breast_contour_13_y'] = str(
+        img_to_process.l_breast_contour_13_y)
+    request.session['l_breast_contour_14_x'] = str(
+        img_to_process.l_breast_contour_14_x)
+    request.session['l_breast_contour_14_y'] = str(
+        img_to_process.l_breast_contour_14_y)
+    request.session['l_breast_contour_15_x'] = str(
+        img_to_process.l_breast_contour_15_x)
+    request.session['l_breast_contour_15_y'] = str(
+        img_to_process.l_breast_contour_15_y)
     # Left Breast Contour
-    request.session['r_breast_contour_1_x'] = str(img_to_process.right_midpoint_x)
-    request.session['r_breast_contour_1_y'] = str(img_to_process.right_midpoint_y)
-    request.session['r_breast_contour_2_x'] = str(img_to_process.r_breast_contour_32_x)
-    request.session['r_breast_contour_2_y'] = str(img_to_process.r_breast_contour_32_y)
-    request.session['r_breast_contour_3_x'] = str(img_to_process.r_breast_contour_31_x)
-    request.session['r_breast_contour_3_y'] = str(img_to_process.r_breast_contour_31_y)
-    request.session['r_breast_contour_4_x'] = str(img_to_process.r_breast_contour_30_x)
-    request.session['r_breast_contour_4_y'] = str(img_to_process.r_breast_contour_30_y)
-    request.session['r_breast_contour_5_x'] = str(img_to_process.r_breast_contour_29_x)
-    request.session['r_breast_contour_5_y'] = str(img_to_process.r_breast_contour_29_y)
-    request.session['r_breast_contour_6_x'] = str(img_to_process.r_breast_contour_28_x)
-    request.session['r_breast_contour_6_y'] = str(img_to_process.r_breast_contour_28_y)
-    request.session['r_breast_contour_7_x'] = str(img_to_process.r_breast_contour_27_x)
-    request.session['r_breast_contour_7_y'] = str(img_to_process.r_breast_contour_27_y)
-    request.session['r_breast_contour_8_x'] = str(img_to_process.r_breast_contour_26_x)
-    request.session['r_breast_contour_8_y'] = str(img_to_process.r_breast_contour_26_y)
-    request.session['r_breast_contour_9_x'] = str(img_to_process.r_breast_contour_25_x)
-    request.session['r_breast_contour_9_y'] = str(img_to_process.r_breast_contour_25_y)
-    request.session['r_breast_contour_10_x'] = str(img_to_process.r_breast_contour_24_x)
-    request.session['r_breast_contour_10_y'] = str(img_to_process.r_breast_contour_24_y)
-    request.session['r_breast_contour_11_x'] = str(img_to_process.r_breast_contour_23_x)
-    request.session['r_breast_contour_11_y'] = str(img_to_process.r_breast_contour_23_y)
-    request.session['r_breast_contour_12_x'] = str(img_to_process.r_breast_contour_22_x)
-    request.session['r_breast_contour_12_y'] = str(img_to_process.r_breast_contour_22_y)
-    request.session['r_breast_contour_13_x'] = str(img_to_process.r_breast_contour_21_x)
-    request.session['r_breast_contour_13_y'] = str(img_to_process.r_breast_contour_21_y)
-    request.session['r_breast_contour_14_x'] = str(img_to_process.r_breast_contour_20_x)
-    request.session['r_breast_contour_14_y'] = str(img_to_process.r_breast_contour_20_y)
-    request.session['r_breast_contour_15_x'] = str(img_to_process.r_breast_contour_19_x)
-    request.session['r_breast_contour_15_y'] = str(img_to_process.r_breast_contour_19_y)
-    #bcctcore(request)
+    request.session['r_breast_contour_1_x'] = str(
+        img_to_process.right_midpoint_x)
+    request.session['r_breast_contour_1_y'] = str(
+        img_to_process.right_midpoint_y)
+    request.session['r_breast_contour_2_x'] = str(
+        img_to_process.r_breast_contour_32_x)
+    request.session['r_breast_contour_2_y'] = str(
+        img_to_process.r_breast_contour_32_y)
+    request.session['r_breast_contour_3_x'] = str(
+        img_to_process.r_breast_contour_31_x)
+    request.session['r_breast_contour_3_y'] = str(
+        img_to_process.r_breast_contour_31_y)
+    request.session['r_breast_contour_4_x'] = str(
+        img_to_process.r_breast_contour_30_x)
+    request.session['r_breast_contour_4_y'] = str(
+        img_to_process.r_breast_contour_30_y)
+    request.session['r_breast_contour_5_x'] = str(
+        img_to_process.r_breast_contour_29_x)
+    request.session['r_breast_contour_5_y'] = str(
+        img_to_process.r_breast_contour_29_y)
+    request.session['r_breast_contour_6_x'] = str(
+        img_to_process.r_breast_contour_28_x)
+    request.session['r_breast_contour_6_y'] = str(
+        img_to_process.r_breast_contour_28_y)
+    request.session['r_breast_contour_7_x'] = str(
+        img_to_process.r_breast_contour_27_x)
+    request.session['r_breast_contour_7_y'] = str(
+        img_to_process.r_breast_contour_27_y)
+    request.session['r_breast_contour_8_x'] = str(
+        img_to_process.r_breast_contour_26_x)
+    request.session['r_breast_contour_8_y'] = str(
+        img_to_process.r_breast_contour_26_y)
+    request.session['r_breast_contour_9_x'] = str(
+        img_to_process.r_breast_contour_25_x)
+    request.session['r_breast_contour_9_y'] = str(
+        img_to_process.r_breast_contour_25_y)
+    request.session['r_breast_contour_10_x'] = str(
+        img_to_process.r_breast_contour_24_x)
+    request.session['r_breast_contour_10_y'] = str(
+        img_to_process.r_breast_contour_24_y)
+    request.session['r_breast_contour_11_x'] = str(
+        img_to_process.r_breast_contour_23_x)
+    request.session['r_breast_contour_11_y'] = str(
+        img_to_process.r_breast_contour_23_y)
+    request.session['r_breast_contour_12_x'] = str(
+        img_to_process.r_breast_contour_22_x)
+    request.session['r_breast_contour_12_y'] = str(
+        img_to_process.r_breast_contour_22_y)
+    request.session['r_breast_contour_13_x'] = str(
+        img_to_process.r_breast_contour_21_x)
+    request.session['r_breast_contour_13_y'] = str(
+        img_to_process.r_breast_contour_21_y)
+    request.session['r_breast_contour_14_x'] = str(
+        img_to_process.r_breast_contour_20_x)
+    request.session['r_breast_contour_14_y'] = str(
+        img_to_process.r_breast_contour_20_y)
+    request.session['r_breast_contour_15_x'] = str(
+        img_to_process.r_breast_contour_19_x)
+    request.session['r_breast_contour_15_y'] = str(
+        img_to_process.r_breast_contour_19_y)
+    # bcctcore(request)
     #response = HttpResponseRedirect('')
-    #return response
+    # return response
     #img = Image.open(img_to_process.image.path)
     #img = cv2.imread(img_to_process.image.path)
-    #print(img.shape)
-    return redirect('bcctcore',patient_id,number)
+    # print(img.shape)
+    return redirect('bcctcore', patient_id, number)
 
     #kpts = keypoint_prediction(img)
-    #save_kpts(patient_id,number,kpts)
+    # save_kpts(patient_id,number,kpts)
     #print("kpts", kpts[0], kpts[1])
 
 #    return render(request, 'bcctapp/medical_image_modal.html', context)
+
+
 def eventFunction0(message):
 
-    print("Executing %s"%message)
-#Medical Image List & Predict Keypoints, Plot Keypoints and Delete Image Functions
+    print("Executing %s" % message)
+# Medical Image List & Predict Keypoints, Plot Keypoints and Delete Image Functions
+
+
 @login_required
-def medical_image_modal(request,**kwargs):
-    InteractionsPatient.objects.create(author=request.user.id, image_id=kwargs.get('pk'), interaction_type='Predict')
-    medical_images = ImagesPatient.objects.filter(pk=kwargs.get('pk'), number=kwargs.get('int'))
+def medical_image_modal(request, **kwargs):
+    InteractionsPatient.objects.create(
+        author=request.user.id, image_id=kwargs.get('pk'), interaction_type='Predict')
+    medical_images = ImagesPatient.objects.filter(
+        pk=kwargs.get('pk'), number=kwargs.get('int'))
     patient_id = kwargs.get('pk')
     if Patient.objects.get(pk=patient_id).owner.id != request.user.id:
         return redirect('/cinderella/')
@@ -1018,8 +1197,9 @@ def medical_image_modal(request,**kwargs):
     context = {
         'medical_images': medical_images
     }
-    print("entra no post2", patient_id,number)
-    img_to_process = get_object_or_404(ImagesPatient, pk=patient_id, number=number)
+    print("entra no post2", patient_id, number)
+    img_to_process = get_object_or_404(
+        ImagesPatient, pk=patient_id, number=number)
     #img = Image.open(img_to_process.image.path)
     img = cv2.imread(img_to_process.image.path)
     print(img.shape)
@@ -1028,18 +1208,19 @@ def medical_image_modal(request,**kwargs):
     print('START:', now)
     kpts = keypoint_prediction(img)
 
-    #print(kpts)
-    #scheduler.run()
+    # print(kpts)
+    # scheduler.run()
     print("--- %s seconds ---" % (time.time() - start_time))
-    save_kpts(patient_id,number,kpts)
+    save_kpts(patient_id, number, kpts)
 
-            #response = HttpResponseRedirect('bcctcore/')
-            #return response
-            #bcctcore(request)
+    #response = HttpResponseRedirect('bcctcore/')
+    # return response
+    # bcctcore(request)
     return render(request, 'bcctapp/medical_image_modal.html', context)
 
+
 @login_required
-def bcctcore(request,**kwargs):
+def bcctcore(request, **kwargs):
     print("entra aqui bcctcore")
     # storage = get_messages(request)
     # storage = list(storage)
@@ -1122,7 +1303,7 @@ def bcctcore(request,**kwargs):
     r_breast_contour_14_y = float(request.session['r_breast_contour_14_y'])
     r_breast_contour_15_x = float(request.session['r_breast_contour_15_x'])
     r_breast_contour_15_y = float(request.session['r_breast_contour_15_y'])
-    print("r_breast_contour_15_y",r_breast_contour_15_y)
+    print("r_breast_contour_15_y", r_breast_contour_15_y)
     context = {
         'image_pk': image_pk,
         'name': name,
@@ -1205,10 +1386,11 @@ def bcctcore(request,**kwargs):
     # return render(request, 'general/other_view.html', {'name:name})
     return render(request, 'bcctapp/bcctCore.html', context)
 
-def update_breast_bra(request,**kwargs):
+
+def update_breast_bra(request, **kwargs):
     if request.method == 'POST':
         if 'BRA' in request.POST and 'image_pk' in request.POST:
-            print("kwargs",kwargs)
+            print("kwargs", kwargs)
             braValue = request.POST['BRA']
             imgID = request.POST['image_pk']
             print(braValue, imgID)
@@ -1226,7 +1408,7 @@ def contact(request):
     if request.method == 'POST':
         # print(request.POST)
         # return
-        form = ContactForm(data = request.POST)
+        form = ContactForm(data=request.POST)
 
         if form.is_valid():
             # template = get_template('bcctapp/contact_form.txt')
@@ -1243,7 +1425,9 @@ def contact(request):
             message_name = request.POST.get('name')
             message_email = request.POST.get('email')
 
-            content = 'Name: ' + message_name + '\nEmail: ' + message_email + '\nContent: ' + request.POST.get('content') + '\nScore: ' + request.POST.get('score')
+            content = 'Name: ' + message_name + '\nEmail: ' + message_email + '\nContent: ' + \
+                request.POST.get('content') + '\nScore: ' + \
+                request.POST.get('score')
 
             send_mail(
                 'You got new feedback from ' + message_name,  # subject
@@ -1253,20 +1437,18 @@ def contact(request):
             )
 
         return redirect('/cinderella/')
-    else :
-        if request.user.is_authenticated :
-            form = ContactForm(initial = {'email': request.user.email, 'name': request.user.username})
-        else :
+    else:
+        if request.user.is_authenticated:
+            form = ContactForm(
+                initial={'email': request.user.email, 'name': request.user.username})
+        else:
             form = ContactForm()
-        return render(request,'bcctapp/contact.html',  {'form': form})
+        return render(request, 'bcctapp/contact.html',  {'form': form})
 
 # interactions
 
 
+# chat
 
-
-#chat
-
-def chat(request) :
+def chat(request):
     return render(request, 'bcctapp/chat.html')
-

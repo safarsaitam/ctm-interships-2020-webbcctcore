@@ -2,210 +2,214 @@
 {% load mathfilters %}
 {% block extra_style %}
 <style>
-  .myImages {
-    /*border-radius: 5px;*/
-    cursor: pointer;
-    transition: 0.3s;
-    margin-top: 5px;
-    text-align: center;
-  }
-  
-  .myImages:hover {
-    /*opacity: 0.7;*/
-    transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-  }
-  
-  .modal {
-    display: none;
-    /* Hidden by default */
-    position: fixed;
-    /* Stay in place */
-    z-index: 1;
-    /* Sit on top */
-    padding-top: 100px;
-    /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%;
-    /* Full width */
-    height: 100%;
-    /* Full height */
-    overflow: auto;
-    /* Enable scroll if needed */
-    background-color: rgb(0, 0, 0);
-    /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.9);
-    /* Black w/ opacity */
-  }
-  
-  .modal-content {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
-  }
-  
-  #form01 {
-   margin-top: 5px;
-   display: block;
-   text-align: center;
-  }
-  
-  #caption {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
-    text-align: center;
-    color: #ccc;
-    padding: 10px 0;
-    height: 150px;
-  }
-  
-  .modal-content,
-  #caption {
-    animation-name: zoom;
-    animation-duration: 0.6s;
-  }
-  
-  @keyframes zoom {
-    from {
-      transform: scale(0)
+    .myImages {
+        /*border-radius: 5px;*/
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 5px;
+        text-align: center;
     }
-    to {
-      transform: scale(1)
+
+    .myImages:hover {
+        /*opacity: 0.7;*/
+        transform: scale(1.2);
+        /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
     }
-  }
-  
-  .close {
-    position: relative;
-    top: 15px;
-    right: 35px;
-    color: #f1f1f1;
-    font-size: 40px;
-    font-weight: bold;
-    transition: 0.3s;
-  }
-  
-  .close:hover,
-  .close:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  
-  @media only screen and (max-width: 700px) {
+
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        padding-top: 100px;
+        /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.9);
+        /* Black w/ opacity */
+    }
+
     .modal-content {
-      width: 100%;
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
     }
-  }
+
+    #form01 {
+        margin-top: 5px;
+        display: block;
+        text-align: center;
+    }
+
+    #caption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+    }
+
+    .modal-content,
+    #caption {
+        animation-name: zoom;
+        animation-duration: 0.6s;
+    }
+
+    @keyframes zoom {
+        from {
+            transform: scale(0)
+        }
+
+        to {
+            transform: scale(1)
+        }
+    }
+
+    .close {
+        position: relative;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    @media only screen and (max-width: 700px) {
+        .modal-content {
+            width: 100%;
+        }
+    }
 
 
-  h1 {
-    text-align: left;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
+    h1 {
+        text-align: left;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
 
-  #patient-info {
-    text-align: left;
-  }
+    #patient-info {
+        text-align: left;
+    }
 
-  #patient-update {
-    text-align: left;
-  }
+    #patient-update {
+        text-align: left;
+    }
 
-  hr {
-    border: none;
-    height: 3px;
-    background-color: #aaaaaa;
-  }
+    hr {
+        border: none;
+        height: 3px;
+        background-color: #aaaaaa;
+    }
 
-  .image-types {
-    font-size: larger;
-    text-align: left;
-    margin-top: 20px;
-  }
+    .image-types {
+        font-size: larger;
+        text-align: left;
+        margin-top: 20px;
+    }
 
-  #update-picture-button {
-    width: 300px;
-    border-radius: 0 !important;
-    margin-bottom: 20px;
-  }
+    #update-picture-button {
+        width: 300px;
+        border-radius: 0 !important;
+        margin-bottom: 20px;
+    }
 
-  .action-button {
-    width: 95px;
-    height: 30px;
-    text-align: center;
-  }
+    .action-button {
+        width: 95px;
+        height: 30px;
+        text-align: center;
+    }
 
-  .update-button {
-    width: 95px;
-    height: 40px;
-    text-align: center;
-  }
+    .update-button {
+        width: 95px;
+        height: 40px;
+        text-align: center;
+    }
 
-  option:hover {
-    background-color: #aaaaaa !important;
-  }
+    option:hover {
+        background-color: #aaaaaa !important;
+    }
 
-  .form-check {
-    margin: 5px;
-    margin-top: 20px;
-    margin-right: 20px;
-  }
+    .form-check {
+        margin: 5px;
+        margin-top: 20px;
+        margin-right: 20px;
+    }
 
 
-  #export-button {
-    width: 140px;
-    
-  }
+    #export-button {
+        width: 140px;
+
+    }
 
     .sharing-options {
         text-align: end;
     }
-
-
-  </style>
-  {% endblock extra_style %}
+</style>
+{% endblock extra_style %}
 
 
 {% block content %}
-<nav class = "mt-2 mb-4 text-left">
-  <ol class="cd-breadcrumb w-100">
-    {% if user.is_authenticated %}
-    <li>Logged in</li>
-    {% endif %}
-    <li ><a class = "no-underline" href="{% url 'user-patient' user.username %}">Patients</a></li>
-    <li class = "current"><a class = "no-underline" href="#">Patient {{patient.first_name}}</a></li>
+<nav class="mt-2 mb-4 text-left">
+    <ol class="cd-breadcrumb w-100">
+        {% if user.is_authenticated %}
+        <li>Logged in</li>
+        {% endif %}
+        <li><a class="no-underline" href="{% url 'user-patient' user.username %}">Patients</a></li>
+        <li class="current"><a class="no-underline" href="#">Patient {{patient.first_name}}</a></li>
 
-  </ol>
-  </nav>
+    </ol>
+</nav>
 <h1 class="mb-4 class = h2 ml-5">Patient: {{patient.first_name}} {{patient.last_name}}</h1>
-<div class="container">  
-<div class="row">
-  <div class="col-4">
-    {% for images_patient in images_patient %}
-            
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            {% for images_patient in images_patient %}
+
             <figure>
-              <img class="myImages" src="{{ images_patient.image.url }}" width="300" height="200">
-              <a id="update-picture-button" class="btn-app2 btn-sm" href="{% url 'patient-update-image' patient.id%}">Update image</a>
-              <figcaption>Last updated on Mar 3rd, 2020</figcaption>
-            </figure>              
+                <img class="myImages" src="{{ images_patient.image.url }}" width="300" height="200">
+                <a id="update-picture-button" class="btn-app2 btn-sm"
+                    href="{% url 'patient-update-image' patient.id%}">Update image</a>
+                <figcaption>Last updated on Mar 3rd, 2020</figcaption>
+            </figure>
 
             <div class="mb-5 mt-2">
-              <a class="btn-app btn-sm mt-1 mb-1 btn-patient-size" href="{% url 'interaction-form' patient.id images_patient.number%}">Interactions</a>
-              <a class="btn-app btn-sm mt-1 mb-1 btn-patient-size" href="{% url 'model' patient.id images_patient.number %}">Predict</a>
-              <a class="btn-app btn-sm mt-1 mb-1 btn-patient-size" href="{% url 'plot' patient.id images_patient.number %}">Plot</a>
-            </div>       
+                <a class="btn-app btn-sm mt-1 mb-1 btn-patient-size"
+                    href="{% url 'interaction-form' patient.id images_patient.number%}">Interactions</a>
+                <a class="btn-app btn-sm mt-1 mb-1 btn-patient-size"
+                    href="{% url 'model' patient.id images_patient.number %}">Predict</a>
+                <a class="btn-app btn-sm mt-1 mb-1 btn-patient-size"
+                    href="{% url 'plot' patient.id images_patient.number %}">Plot</a>
+            </div>
 
             {% if images_patient.days < 0 %}
-                <h2> {{ images_patient.days|mul:-1 }} days before operation</h2>
+            <h2> {{ images_patient.days|mul:-1 }} days before operation</h2>
             {% elif images_patient.days > 0 %}
-                <h2> {{images_patient.days}} after before operation</h2>
+            <h2> {{images_patient.days}} after before operation</h2>
             {% endif %}
             {% if images_patient.view_type != 0 %}
-              <div class="image-types">
+            <div class="image-types">
                 <p>Image details</p>
                 <hr color="#aaa">
                 {% if images_patient.view_type == 1 %} <p>View type: Anterior Posterior</p>{% endif %}
@@ -213,253 +217,271 @@
                 {% if images_patient.view_type == 3 %} <p>View type: Lateral Direita</p>{% endif %}
                 {% if images_patient.img_type == 1 %} <p>Image type: Classificação Estética</p>{% endif %}
                 {% if images_patient.img_type == 2 %} <p>Image type: Mamografia</p>{% endif %}
-              </div>
+            </div>
 
-              <div id = "patients-search" class="row mt-5">
-                <form class="d-md-flex justify-content-between w-100"  method="POST" enctype="multipart/form-data">
+            <div id="patients-search" class="row mt-5">
+                <form action="{% url 'export-excel' %}" class="d-md-flex justify-content-between w-100" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-        
+                    <input type="hidden" name="patient_id" value="{{patient.id}}" />
+
                     <div class="form-group mb-0 flex-grow-1">
-                    <label class = "mt-2">
-                        Export details as...
-                    </label>
+                        <label class="mt-2">
+                            Export details as...
+                        </label>
                     </div>
-        
+
                     <div class="px-1">
-                    <label for="search_type"> </label>
-                    <select class = "h-100 no-outline primary-color px-2" id="search_type">
-                        <option value="identifier">.xlsx</option>
-                        <option value="name">.csv</option>
-                    </select>
+                        <label for="search_type"> </label>
+                        <select class="h-100 no-outline primary-color px-2" name="export-type" id="search_type">
+                            <option value="xlsx">.xlsx</option>
+                            <option value="csv">.csv</option>
+                        </select>
                     </div>
-        
+
                     <div class="px-1 d-flex justify-content-end">
-                      <input type="submit" value="Export" id="export-button" class="btn-app btn-sm mt-1 mb-1">
+                        <button id="export-excel" title="export" type="submit" class="btn-app btn-sm mt-1 mb-1"> Export </button>
                     </div>
                 </form>
             </div>
-                <div class="row">
-                  <form action = "{% url 'download-images' %}" class="d-md-flex justify-content-between w-100"  method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <form action="{% url 'download-images' %}" class="d-md-flex justify-content-between w-100" method="POST"
+                    enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="hidden" name="patient_id" value="{{patient.id}}" />
                     <div class="form-group mb-0 p-0 ml-2">
-                    <label class = "mt-2 m-0 p-0">
-                        Export images
-                    </label>
+                        <label class="mt-2 m-0 p-0">
+                            Export images
+                        </label>
                     </div>
-        
+
                     <div class="px-1 d-flex justify-content-end">
-                      <button id="export-images" title = "export" type="submit" class="btn-app btn-patient-size">Export </button>
+                        <button id="export-images" title="export" type="submit" class="btn-app btn-patient-size">Export
+                        </button>
                     </div>
                 </form>
-                </div>
-                
+            </div>
+
 
             {% elif  images_patient.number == 1 %}
-                  <form method="POST" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <div class="image-types">
-                                  <p>Image details</p>
-                                  <hr color="#aaa">
-                                  <small class="text-danger">Types have yet to be chosen</small><br>
-                                <label for="view_type1">View type:</label>
-                                  <select id="view_type1" name="view_type1">
-                                    <option value="1">Anterior Posterior</option>
-                                    <option value="2">Lateral Esquerda</option>
-                                    <option value="3">Lateral Direita</option>
-                                  </select>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="image-types">
+                    <p>Image details</p>
+                    <hr color="#aaa">
+                    <small class="text-danger">Types have yet to be chosen</small><br>
+                    <label for="view_type1">View type:</label>
+                    <select id="view_type1" name="view_type1">
+                        <option value="1">Anterior Posterior</option>
+                        <option value="2">Lateral Esquerda</option>
+                        <option value="3">Lateral Direita</option>
+                    </select>
 
-                                <label for="img_type1">Image type:</label>
-                                  <select id="img_type1" name="img_type1">
-                                    <option value="1">Classificação Estética</option>
-                                    <option value="2">Mamografia</option>
-                                  </select>
-                                </div>
+                    <label for="img_type1">Image type:</label>
+                    <select id="img_type1" name="img_type1">
+                        <option value="1">Classificação Estética</option>
+                        <option value="2">Mamografia</option>
+                    </select>
+                </div>
 
-                      <input type="submit" value="Submit" class="btn btn-secondary btn-sm mt-1 mb-1 action-button">
-                 </form>
+                <input type="submit" value="Submit" class="btn btn-secondary btn-sm mt-1 mb-1 action-button">
+            </form>
             {% elif  images_patient.number == 2 %}
 
-                   <form method="POST" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <label for="view_type2">Choose a view type:</label>
-                                  <select id="view_type2" name="view_type2">
-                                    <option value="1">Anterior Posterior</option>
-                                    <option value="2">Lateral Esquerda</option>
-                                    <option value="3">Lateral Direita</option>
-                                  </select>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="view_type2">Choose a view type:</label>
+                <select id="view_type2" name="view_type2">
+                    <option value="1">Anterior Posterior</option>
+                    <option value="2">Lateral Esquerda</option>
+                    <option value="3">Lateral Direita</option>
+                </select>
 
-                                <label for="img_type2">Choose a image type:</label>
-                                  <select id="img_type2" name="img_type2">
-                                    <option value="1">Classificação Estética</option>
-                                    <option value="2">Mamografia</option>
-                                  </select>
+                <label for="img_type2">Choose a image type:</label>
+                <select id="img_type2" name="img_type2">
+                    <option value="1">Classificação Estética</option>
+                    <option value="2">Mamografia</option>
+                </select>
 
-                      <input type="submit" value="Submit">
-                   </form>
+                <input type="submit" value="Submit">
+            </form>
             {% elif  images_patient.number == 3 %}
-                  <form method="POST" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <label for="view_type3">Choose a view type:</label>
-                                  <select id="view_type3" name="view_type3">
-                                    <option value="1">Anterior Posterior</option>
-                                    <option value="2">Lateral Esquerda</option>
-                                    <option value="3">Lateral Direita</option>
-                                  </select>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="view_type3">Choose a view type:</label>
+                <select id="view_type3" name="view_type3">
+                    <option value="1">Anterior Posterior</option>
+                    <option value="2">Lateral Esquerda</option>
+                    <option value="3">Lateral Direita</option>
+                </select>
 
-                                <label for="img_type3">Choose a image type:</label>
-                                  <select id="img_type3" name="img_type3">
-                                    <option value="1">Classificação Estética</option>
-                                    <option value="2">Mamografia</option>
-                                  </select>
+                <label for="img_type3">Choose a image type:</label>
+                <select id="img_type3" name="img_type3">
+                    <option value="1">Classificação Estética</option>
+                    <option value="2">Mamografia</option>
+                </select>
 
-                      <input type="submit" value="Submit">
-                  </form>
-                <div id="myModa2" class="modal">
+                <input type="submit" value="Submit">
+            </form>
+            <div id="myModa2" class="modal">
                 <span class="close">&times;</span>
                 <img class="modal-content" id="img03">
-                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'model' patient.id 3 %}">Predict</a>
-                  <button type="submit" class="btn btn-danger" value=" " name="medical_image_to_delete">Delete!</button>
-                  <button type="submit" class="btn btn-info" value=" " name="view_kpts">Plot Keypoints!</button>
-                </div>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'model' patient.id 3 %}">Predict</a>
+                <button type="submit" class="btn btn-danger" value=" " name="medical_image_to_delete">Delete!</button>
+                <button type="submit" class="btn btn-info" value=" " name="view_kpts">Plot Keypoints!</button>
+            </div>
             {% elif  images_patient.number == 4 %}
-                   <form method="POST" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <label for="view_type4">Choose a view type:</label>
-                                  <select id="view_type4" name="view_type4">
-                                    <option value="1">Anterior Posterior</option>
-                                    <option value="2">Lateral Esquerda</option>
-                                    <option value="3">Lateral Direita</option>
-                                  </select>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="view_type4">Choose a view type:</label>
+                <select id="view_type4" name="view_type4">
+                    <option value="1">Anterior Posterior</option>
+                    <option value="2">Lateral Esquerda</option>
+                    <option value="3">Lateral Direita</option>
+                </select>
 
-                                <label for="img_type4">Choose a image type:</label>
-                                  <select id="img_type4" name="img_type4">
-                                    <option value="1">Classificação Estética</option>
-                                    <option value="2">Mamografia</option>
-                                  </select>
+                <label for="img_type4">Choose a image type:</label>
+                <select id="img_type4" name="img_type4">
+                    <option value="1">Classificação Estética</option>
+                    <option value="2">Mamografia</option>
+                </select>
 
-                      <input type="submit" value="Submit">
-                  </form>
+                <input type="submit" value="Submit">
+            </form>
             <div id="myModal4" class="modal">
                 <span class="close">&times;</span>
                 <img class="modal-content" id="img04">
-                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'model' patient.id images_patient.number %}">Predict</a>
-                  <button type="submit" class="btn btn-danger" value=" " name="medical_image_to_delete">Delete!</button>
-                  <button type="submit" class="btn btn-info" value=" " name="view_kpts">Plot Keypoints!</button>
-                </div>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                    href="{% url 'model' patient.id images_patient.number %}">Predict</a>
+                <button type="submit" class="btn btn-danger" value=" " name="medical_image_to_delete">Delete!</button>
+                <button type="submit" class="btn btn-info" value=" " name="view_kpts">Plot Keypoints!</button>
+            </div>
             {% elif  images_patient.number == 5 %}
-                   <form method="POST" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <label for="view_type5">Choose a view type:</label>
-                                  <select id="view_type5" name="view_type5">
-                                    <option value="1">Anterior Posterior</option>
-                                    <option value="2">Lateral Esquerda</option>
-                                    <option value="3">Lateral Direita</option>
-                                  </select>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="view_type5">Choose a view type:</label>
+                <select id="view_type5" name="view_type5">
+                    <option value="1">Anterior Posterior</option>
+                    <option value="2">Lateral Esquerda</option>
+                    <option value="3">Lateral Direita</option>
+                </select>
 
-                                <label for="img_type5">Choose a image type:</label>
-                                  <select id="img_type5" name="img_type5">
-                                    <option value="1">Classificação Estética</option>
-                                    <option value="2">Mamografia</option>
-                                  </select>
+                <label for="img_type5">Choose a image type:</label>
+                <select id="img_type5" name="img_type5">
+                    <option value="1">Classificação Estética</option>
+                    <option value="2">Mamografia</option>
+                </select>
 
-                      <input type="submit" value="Submit">
-                  </form>
+                <input type="submit" value="Submit">
+            </form>
             <div id="myModal5" class="modal">
                 <span class="close">&times;</span>
                 <img class="modal-content" id="img05">
-                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'model' patient.id images_patient.number %}">Predict</a>
-                  <button type="submit" class="btn btn-danger" value=" " name="medical_image_to_delete">Delete!</button>
-                  <button type="submit" class="btn btn-info" value=" " name="view_kpts">Plot Keypoints!</button>
-                </div>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                    href="{% url 'model' patient.id images_patient.number %}">Predict</a>
+                <button type="submit" class="btn btn-danger" value=" " name="medical_image_to_delete">Delete!</button>
+                <button type="submit" class="btn btn-info" value=" " name="view_kpts">Plot Keypoints!</button>
+            </div>
             {% endif %}
 
 
-    {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col-8" id="patient-info">
+
+
+            <div class="d-flex justify-content-between">
+
+                <h2><strong>Personal Information</strong></h2>
+
+                <a class="btn-app btn-sm mt-1 mb-1 update-button" href="{% url 'patient-update' patient.id%}">Update</a>
+
+            </div>
+            <hr color="#aaa">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h4><strong>ID:</strong> {{patient.id}}</h4>
+                    </div>
+                    <div class="col">
+                        <h4><strong>Age:</strong> {{patient.age}}</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h4><strong>Weight:</strong> {{patient.patient_weight}} kg</h4>
+                    </div>
+                    <div class="col">
+                        <h4><strong>Height:</strong> {{patient.patient_height }} cm </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h4><strong>Bra:</strong> {{patient.bra}} </h3>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="mt-5"><strong>Additional Information {{patient.content}} </strong></h2>
+            <hr color="#aaa">
+            <div class="mb-5">
+
+
+                {% if patient.surgery_type %}
+                {% if patient.surgery_type == 1  %} <h4><strong>Surgery type:</strong> Conservative surgery - unilateral
+                </h4> {% endif %}
+                {% if patient.surgery_type == 2  %} <h4><strong>Surgery type:</strong> Conservative surgery with
+                    bilateral reduction</h4> {% endif %}
+                {% if patient.surgery_type == 3  %} <h4><strong>Surgery type:</strong> Conservative surgery with LD or
+                    LICAP / TDAP </h4>{% endif %}
+                {% if patient.surgery_type == 4  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral
+                    reconstruction with implant</h4> {% endif %}
+                {% if patient.surgery_type == 5  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral
+                    reconstruction with autologous flap</h4> {% endif %}
+                {% if patient.surgery_type == 6  %} <h4><strong>Surgery type:</strong> Mastectomy with bilateral
+                    reconstruction with implants</h4>{% endif %}
+                {% if patient.surgery_type == 7  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral
+                    reconstruction with implant and contralateral symmetrization with implant (augmentation)</h4>
+                {% endif %}
+                {% if patient.surgery_type == 8  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral
+                    reconstruction with implant and contralateral symmetrization with reduction</h4> {% endif %}
+                {% if patient.surgery_type == 9  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral
+                    reconstruction with autologous flap and contralateral symmetrization with reduction</h4>{% endif %}
+                {% if patient.surgery_type == 10 %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral
+                    reconstruction with autologous flap and contralateral symmetrisation with implant (augmentation)
+                </h4>{% endif %}
+                {% endif %}
+
+                <h3 class="mt-5"><strong>Share</strong></h3>
+                <hr color="#aaa">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="shareteam">Share with team:</label>
+                    <input type="text" id="shareteam" name="shareteam" value="Team ID">
+                    <button type="submit" class="btn-app btn-sm mt-1 mb-1 btn-patient-size">Share</button>
+                </form>
+                {% if patient.owner_id == view.request.user.id %}
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="share">Share with:</label>
+                    <input type="text" id="share" name="share" value="User ID">
+                    <button type="submit" class="btn-app btn-sm mt-1 mb-1 btn-patient-size">Submit</button>
+                </form>
+                {% endif %}
+
+
+
+
+            </div>
+
+
+            <div class="row d-flex justify-content-end">
+                <a class="btn btn-secondary btn-sm btn-danger px-4 mt-5" id="delete-btn"
+                    href="{% url 'patient-delete' patient.id%}">Delete</a>
+            </div>
+        </div>
+
     </div>
-<div class="col-8" id="patient-info">
-
-
-  <div class="d-flex justify-content-between">
-      
-    <h2><strong>Personal Information</strong></h2>
-
-    <a class="btn-app btn-sm mt-1 mb-1 update-button" href="{% url 'patient-update' patient.id%}">Update</a>
-  
-  </div>
-  <hr color="#aaa">
-    
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <h4><strong>ID:</strong> {{patient.id}}</h4>
-      </div>
-      <div class="col">
-        <h4><strong>Age:</strong> {{patient.age}}</h4>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <h4><strong>Weight:</strong> {{patient.patient_weight}} kg</h4>
-      </div>
-      <div class="col">
-        <h4><strong>Height:</strong> {{patient.patient_height }} cm </h4>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <h4><strong>Bra:</strong> {{patient.bra}} </h3>
-      </div>
-    </div> 
-  </div>
-    
-    <h2 class="mt-5"><strong>Additional Information {{patient.content}} </strong></h2>
-    <hr color="#aaa">
-    <div class="mb-5">
-
-    
-    {% if patient.surgery_type %}
-                {% if patient.surgery_type == 1  %} <h4><strong>Surgery type:</strong> Conservative surgery - unilateral </h4> {% endif %}
-                {% if patient.surgery_type == 2  %} <h4><strong>Surgery type:</strong> Conservative surgery with bilateral reduction</h4> {% endif %}
-                {% if patient.surgery_type == 3  %} <h4><strong>Surgery type:</strong> Conservative surgery with LD or LICAP / TDAP </h4>{% endif %}
-                {% if patient.surgery_type == 4  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with implant</h4> {% endif %}
-                {% if patient.surgery_type == 5  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with autologous flap</h4> {% endif %}
-                {% if patient.surgery_type == 6  %} <h4><strong>Surgery type:</strong> Mastectomy with bilateral reconstruction with implants</h4>{% endif %}
-                {% if patient.surgery_type == 7  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with implant and contralateral symmetrization with implant (augmentation)</h4> {% endif %}
-                {% if patient.surgery_type == 8  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with implant and contralateral symmetrization with reduction</h4> {% endif %}
-                {% if patient.surgery_type == 9  %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrization with reduction</h4>{% endif %}
-                {% if patient.surgery_type == 10 %} <h4><strong>Surgery type:</strong> Mastectomy with unilateral reconstruction with autologous flap and contralateral symmetrisation with implant (augmentation)</h4>{% endif %}
-    {% endif %}
-    
-    <h3 class="mt-5"><strong>Share</strong></h3>
-    <hr color="#aaa">
-    <form method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      <label for="shareteam">Share with team:</label>
-      <input type="text" id="shareteam" name="shareteam" value="Team ID">
-      <button type="submit" class="btn-app btn-sm mt-1 mb-1 btn-patient-size">Share</button>
-      </form>
-      {% if patient.owner_id == view.request.user.id %}
-      <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-      <label for="share">Share with:</label>
-      <input type="text" id="share" name="share" value="User ID">
-      <button type="submit" class="btn-app btn-sm mt-1 mb-1 btn-patient-size">Submit</button>
-      </form>
-      {% endif %}
-    
-
-
-
-    </div>
-
-
-    <div class="row d-flex justify-content-end">
-      <a class="btn btn-secondary btn-sm btn-danger px-4 mt-5" id="delete-btn" href="{% url 'patient-delete' patient.id%}">Delete</a>  
-    </div>
-</div>
-  
-</div>
 
 
 
@@ -472,7 +494,7 @@
 
 {% endblock content %}
 {% block extra_js %}
-	<script type='text/javascript'>
+<script type='text/javascript'>
     // create references to the modal...
     var modal = document.getElementById('myModal');
     // to all images -- note I'm using a class!
@@ -503,27 +525,27 @@
 
 
 
-// Go through all of the images with our custom class
-for (var i = 0; i < images.length; i++) {
-  var img = images[i];
-  // and attach our click listener for this image.
-  img.onclick = function(evt) {
-    console.log(evt);
-    modal.style.display = "block";
-    modalImg.src = this.src;
-    modalForm1.getElementsByClassName("btn btn-primary")[0].value = this.id;
-    modalForm1.getElementsByClassName("btn btn-danger")[0].value = this.id;
-    modalForm1.getElementsByClassName("btn btn-info")[0].value = this.id;
-  }
-}
+    // Go through all of the images with our custom class
+    for (var i = 0; i < images.length; i++) {
+        var img = images[i];
+        // and attach our click listener for this image.
+        img.onclick = function (evt) {
+            console.log(evt);
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            modalForm1.getElementsByClassName("btn btn-primary")[0].value = this.id;
+            modalForm1.getElementsByClassName("btn btn-danger")[0].value = this.id;
+            modalForm1.getElementsByClassName("btn btn-info")[0].value = this.id;
+        }
+    }
 
-/*
-var span = document.getElementsByClassName("close")[0];
+    /*
+    var span = document.getElementsByClassName("close")[0];
+    
+    span.onclick = function() {
+      modal.style.display = "none";
+    }*/
 
-span.onclick = function() {
-  modal.style.display = "none";
-}*/
 
-
-	</script>
+</script>
 {% endblock extra_js %}
